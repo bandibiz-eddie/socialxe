@@ -1,0 +1,49 @@
+<ul>
+<!--@foreach($comment_list as $comment)-->
+<li>
+    <div>
+        <span class="name">
+            <!--@if ($comment->provider)-->
+                <img src="./images/{$comment->provider}_small.gif" alt="{$lang->provider[$comment->provider]}" />
+            <!--@end-->
+            
+            <!--@if ($comment->link)-->
+                <a href="{$comment->link}" target="_blank">
+            <!--@end-->
+            {$comment->nick_name}
+            <!--@if ($comment->link)-->
+                </a>
+            <!--@end-->
+        </span>
+        <span class="date">{getTimeGap($comment->regdate, "Y.m.d H:i:s")}</span>
+        <span class="write_comment" onclick="writeSubSubComment(this, '{addslashes($comment->reply_prefix)}')">{$lang->write_comment}</span>
+    </div>
+    <div class="content">{$comment->content}</div>
+</li>
+<!--@end-->
+</ul>
+
+<!--@if($page_navigation->total_page > 1)-->
+<div class="pagination">
+    <a href="#" onclick="viewSubComment('{$skin}', {$document_srl}, {$comment_srl}, '{$content_link}', 1, true); return false;" class="prevEnd"><<</a>
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page_navigation->cur_page == $page_no)-->
+            <strong>{$page_no}</strong> 
+        <!--@else-->
+            <a href="#" onclick="viewSubComment('{$skin}', {$document_srl}, {$comment_srl}, '{$content_link}', {$page_no}, true); return false;">{$page_no}</a>
+        <!--@end-->
+    <!--@end-->
+    <a href="#" onclick="viewSubComment('{$skin}', {$document_srl}, {$comment_srl}, '{$content_link}', {$page_navigation->last_page}, true); return false;" class="nextEnd">>></a>
+</div>
+<!--@end-->
+
+<div class="sub_comment_input">
+    <form action="./" method="post" onsubmit="return procFilter(this, insert_sub_comment);">
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="comment_srl" value="{$comment_srl}" />
+    <input type="hidden" name="content_link" value="{$content_link}" />
+    <input type="hidden" name="skin" value="{$skin}" />
+        <div class="left"><input type="text" name="content" class="inputTypeText" /></div>
+        <div class="right"><span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span></div>
+    </form>
+</div>

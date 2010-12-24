@@ -1,0 +1,6 @@
+<table name="socialxeserver_member">
+    <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="client_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="client_token" type="varchar" size="64" notnull="notnull" primary_key="primary_key" />
+    <column name="domain" type="varchar" size="255" notnull="notnull" />
+</table>

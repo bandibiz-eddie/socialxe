@@ -1,0 +1,170 @@
+<?php
+
+    class socialxeModel extends socialxe {
+
+        /**
+         * @brief 초기화
+         **/
+        function init() {
+        }
+        
+        // 환경설정
+        function getConfig(){
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('socialxe');
+            
+            if (!$config->server_hostname) $config->server_hostname = $this->hostname;
+            if (!$config->server_query) $config->server_query = $this->query;
+            if (!$config->use_ssl) $config->use_ssl = 'Y';
+            if (!$config->hashtag) $config->hashtag = 'socialxe';
+            
+            return $config;
+        }
+        
+        // 제공 서비스
+        function getProviderList(){
+            return $this->providerManager->provider_list;
+        }
+        
+        // 로그인한 서비스 목록
+        function loggedProviderList(){
+            return $this->providerManager->getLoggedProviderList();
+        }
+        
+        // 서비스 로그인 확인
+        function isLogged($provider){
+            return $this->providerManager->isLogged($provider);
+        }
+        
+        // 대표 계정의 아이디
+        function getID(){
+            return $this->providerManager->getMasterProviderId();
+        }
+        
+        // 대표 계정의 닉네임
+        function getNickName(){
+            return $this->providerManager->getMasterProviderNickName();
+        }
+        
+        // 대표 계정의 프로필 이미지
+        function getProfileImage(){
+            return $this->providerManager->getMasterProviderProfileImage();
+        }
+        
+        // 대표 계정
+        function getMasterProvider(){
+            return $this->providerManager->getMasterProvider();
+        }
+        
+        // 소셜 서비스 페이지 링크
+        function getAuthorLink($provider, $id){
+            return $this->providerManager->getAuthorLink($provider, $id);
+        }
+        
+        // 아이디를 받아 소셜 서비스의 리플 형식으로 반환
+        function getReplyPrefix($provider, $id, $nick_name){
+            return $this->providerManager->getReplyPrefix($provider, $id, $nick_name);
+        }
+        
+        // 자동 로그인 키
+        function getAutoLoginKey(){
+            return $this->session->getSession('auto_login_key');
+        }
+        
+        // 자동 로그인 키 요청 URL
+        function getAutoLoginKeyUrl(){
+            return $this->communicator->getAutoLoginKeyUrl();
+        }
+        
+        // 댓글을 가져온다.
+        function getCommentList($document_srl, $last_comment_srl = 0, $count = 10) {
+            if (!$count) $count = 10;
+
+            $args->document_srl = $document_srl;
+            $args->list_count = $count;
+            
+            // 전체 개수
+            if (!$last_comment_srl){
+                $output = executeQuery('socialxe.getCommentCount', $args);
+                if (!$output->toBool()) return;
+                $total = $output->data->count;
+            }
+            
+            // 정해진 수에 따라 목록을 구해옴
+            if ($last_comment_srl){
+                $args->last_comment_srl = $last_comment_srl;
+            }
+            $output = executeQueryArray('socialxe.getCommentPageList', $args);
+
+            // 쿼리 결과에서 오류가 생기면 그냥 return
+            if(!$output->toBool()) return;
+
+            $output->add('total', $total);
+            return $output;
+        }
+        
+        // 대댓글을 가져온다.
+        function getSubCommentList($parent_srl, $page = 0, $count = 20) {
+            if (!$count) $count = 20;
+            
+            $args->parent_srl = $parent_srl;
+            
+            // 페이지가 없으면 제일 뒤 페이지를 구한다.
+            if (!$page){
+                $output = executeQuery('socialxe.getSubCommentCount', $args);
+                if (!$output->toBool()) return;
+                $comment_count = $output->data->count;
+                $page = (int)( ($comment_count-1) / $count) + 1;
+            }
+            
+            // 정해진 수에 따라 목록을 구해옴
+            $args->page = $page;
+            $args->list_count = $count;
+            $output = executeQueryArray('socialxe.getSubCommentPageList', $args);
+
+            // 쿼리 결과에서 오류가 생기면 그냥 return
+            if(!$output->toBool()) $output;
+
+            // 대댓글 개수 세팅을 위해
+            // 부모 댓글의 정보를 가져온다.
+            unset($args);
+            $args->comment_srl = $parent_srl;
+            $output2 = executeQuery('socialxe.getSocialxe', $args);
+            
+            // 대댓글 개수가 다르면 업데이트한다.
+            if ($output2->data && $output2->data->sub_comment_count != $output->total_count){
+                $args->sub_comment_count = $output->total_count;
+                executeQueryArray('socialxe.updateSubCommentCount', $args);
+            }
+            
+            return $output;
+        }
+        
+        // 하나의 특정 댓글을 가져온다.
+        function getComment($document_srl, $comment_srl) {
+            $args->comment_srl = $comment_srl;
+            $args->document_srl = $document_srl;
+            
+            // 전체 개수
+            $output = executeQuery('socialxe.getCommentCount', $args);
+            if (!$output->toBool()) return;
+            $total = $output->data->count;
+            
+            // 댓글을 가져온다
+            $output = executeQueryArray('socialxe.getComment', $args);
+
+            // 쿼리 결과에서 오류가 생기면 그냥 return
+            if(!$output->toBool()) $output;
+
+            $output->add('total', $total);
+            $output->add('use_comment_srl', true);
+            
+            // 결과가 없으면 그냥 전체 댓글 리스트를 반환한다.
+            if (!$output->data)
+                return $this->getCommentList($document_srl);
+            else
+                return $output;
+        }
+    }
+?>

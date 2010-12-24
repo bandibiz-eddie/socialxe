@@ -1,0 +1,62 @@
+<!--@if ($total)-->
+<div class="info">Total : {$total}</div>
+<!--@end-->
+
+<ul>
+{@$c = 0}
+<!--@foreach($comment_list as $comment)-->
+{@$c++}
+<li>
+    <div class="profile_image">
+        <!--@if ($comment->link)-->
+            <a href="{$comment->link}" target="_blank">
+        <!--@end-->
+        
+        <!--@if($comment->profile_image)-->
+            <img src="{$comment->profile_image}" alt="profile image" />
+        <!--@else-->
+            <img src="./images/anonymous.png" alt="profile image" />
+        <!--@end-->
+            
+        <!--@if ($comment->link)-->
+            </a>
+        <!--@end-->
+    </div>
+    <div class="right">
+        <div class="name">
+            <!--@if ($comment->provider)-->
+                <img src="./images/{$comment->provider}_small.gif" alt="{$lang->provider[$comment->provider]}" />
+            <!--@end-->
+            
+            <!--@if ($comment->link)-->
+                <a href="{$comment->link}" target="_blank">
+            <!--@end-->
+            {$comment->nick_name}
+            <!--@if ($comment->link)-->
+                </a>
+            <!--@end-->
+        </div>
+        <div class="content">{$comment->content}</div>
+        <div class="date">{getTimeGap($comment->regdate, "Y.m.d H:i:s")}</div>
+        <div class="command">
+            <span id="socialxe_write_comment_{$comment->comment_srl}" class="write_comment" onclick="viewSubComment('{$skin}', {$document_srl}, {$comment->comment_srl}, '{$content_link}')">
+                {$lang->comment} {$comment->sub_comment_count}
+            </span>
+        </div>
+        <div id="socialxe_comment_{$comment->comment_srl}" class="sub_comment" style="display: none;"></div>
+        <!--@if ($use_comment_srl)-->
+            <script type="text/javascript">
+            viewSubComment('{$skin}', {$document_srl}, {$comment->comment_srl}, '{$content_link}')
+            </script>
+        <!--@end-->
+    </div>
+</li>
+{@$last_comment_srl = $comment->comment_srl}
+<!--@end-->
+</ul>
+<!--@if ($c && $c == $list_count)-->
+    <div class="more" onclick="moreComment('{$skin}', {$document_srl}, {$last_comment_srl}, {$list_count}, '{$content_link}');">{$lang->more}</div>
+<!--@end-->
+<!--@if ($use_comment_srl)-->
+    <div class="more" onclick="replaceComment('{$skin}', {$document_srl}, {$list_count}, '{$content_link}');">{$lang->viewComment}</div>
+<!--@end-->

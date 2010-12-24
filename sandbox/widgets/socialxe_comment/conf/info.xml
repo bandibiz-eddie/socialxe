@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+    <title xml:lang="ko">소셜XE 댓글</title>
+    <description xml:lang="ko">소셜XE </description>
+    <version>0.9</version>
+    <date>2010-12-24</date>
+    <license link="http://www.opensource.org/licenses/mit-license.php">MIT</license>
+
+    <author email_address="sinsy200@gmail.com" link="http://socialxe.net">
+        <name xml:lang="ko">난다날아</name>
+    </author>
+
+    <extra_vars>
+        <var id="document_srl">
+            <type>text</type>
+            <name xml:lang="ko">댓글이 등록될 문서번호</name>
+        </var>
+        <var id="content_title">
+            <type>text</type>
+            <name xml:lang="ko">소셜 서비스에 등록될 제목</name>
+        </var>
+        <var id="content_link">
+            <type>text</type>
+            <name xml:lang="ko">소셜 서비스에 등록될 주소</name>
+        </var>
+        <var id="list_count">
+            <type>text</type>
+            <name xml:lang="ko">한번에 보여질 댓글 개수(기본값: 10)</name>
+        </var>
+    </extra_vars>
+</widget>
