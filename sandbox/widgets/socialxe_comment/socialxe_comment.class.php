@@ -92,6 +92,7 @@
             }
 
             // 댓글 목록에 추가 정보를 붙인다.
+            if (!is_array($comment_list)) $comment_list = array();
             foreach($comment_list as &$val){
                 $val->link = $oSocialxeModel->getAuthorLink($val->provider, $val->id);
             }
