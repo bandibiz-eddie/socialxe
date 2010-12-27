@@ -28,7 +28,7 @@
                         <script type="text/javascript">
                         // 대표 계정 리스트 숨기기
                         jQuery(".master_change_list").hide();
-                        
+
                         // 대표 계정 변경 누르면 리스트 토글
                         jQuery(".master_change").bind("click", function(e){
                             jQuery(".master_change_list").toggle();
@@ -39,7 +39,7 @@
                     {$lang->msg_login}
                 <!--@end-->
             </div>
-            
+
             <div class="wrap">
                 <div class="left">
                     <!--@if($profile_image)-->
@@ -47,7 +47,7 @@
                     <!--@else-->
                         <div class="profile_image"><img src="./images/anonymous.png" alt="profile image" /></div>
                     <!--@end-->
-                    
+
                     <div class="content_input">
                         <!--// IE6 textarea width 100% 버그 fix -->
                         <fieldset><div>
@@ -58,7 +58,7 @@
                 <div class="submit"><input type="submit" value="{$lang->cmd_submit}" /></div>
             </div>
         </fieldset>
-        
+
         <div class="poweredby">
             <a href="http://socialxe.net/" target="_blank"><img src="./images/poweredby.gif" alt="powered by SocialXE" /></a>
         </div>
