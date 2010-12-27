@@ -111,7 +111,7 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
             $reply_id = $comment->parent->comment_id;
 
             try{
-                $output = $fb->api($comment->parent->id . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link));
+                $output = $fb->api($comment->parent->id . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => 'http://socialxe.xpressengine.net/files/attach/project_logo/19351736.jpg'));
                 //$output = $fb->api($reply_id . '/comments', 'POST', array('message' => $content));
                 //$fb->api($comment->parent->id . '/notes', 'POST', array('subject' => '[SocialXE] 댓글이 달렸습니다.', 'message' => $content));
             }catch(FacebookApiException $e){
@@ -123,7 +123,7 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
         // 댓글 전송
         else{
             try{
-                $output = $fb->api($fb->getUser() . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link));
+                $output = $fb->api($fb->getUser() . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => 'http://socialxe.xpressengine.net/files/attach/project_logo/19351736.jpg'));
             }catch(FacebookApiException $e){
                 $output->error = $e->__toString();
             }
