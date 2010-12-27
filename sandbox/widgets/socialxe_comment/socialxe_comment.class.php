@@ -51,10 +51,10 @@
             Context::set('document_srl', $args->document_srl);
 
             // 소셜 서비스에 등록될 주소
-            Context::set('content_link', $args->content_link);
+            Context::set('content_link', htmlspecialchars($args->content_link));
 
             // 소셜 서비스에 등록될 제목
-            Context::set('content_title', $args->content_title);
+            Context::set('content_title', htmlspecialchars($args->content_title));
 
             // 자동 로그인 키
             $auto_login_key = $oSocialxeModel->getAutoLoginKey();
@@ -62,7 +62,7 @@
 
             // 자동 로그인 키 요청 주소
             $auto_login_key_url = $oSocialxeModel->getAutoLoginKeyUrl();
-            Context::set('auto_login_key_url', $auto_login_key_url);
+            Context::set('auto_login_key_url', htmlspecialchars($auto_login_key_url));
 
             // 한번에 볼 댓글 개수
             $list_count = $args->list_count;
