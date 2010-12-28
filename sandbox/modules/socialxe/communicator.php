@@ -1,5 +1,5 @@
 <?php
-if (!class_exists("Services_JSON")){
+if (!class_exists("Services_JSON_SocialXE")){
     require_once(_XE_PATH_.'modules/socialxe/JSON.php');
 }
 
@@ -174,7 +174,7 @@ class socialxeCommunicator{
         }
 
         // JSON 디코딩
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
         if (!$output){
             return new Object(-1, $content);
@@ -221,7 +221,7 @@ class socialxeCommunicator{
         $content = FileHandler::getRemoteResource($url);
 
         //JSON 디코딩
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
 
         return $output->request_token;
@@ -242,7 +242,7 @@ class socialxeCommunicator{
 
 
         //JSON 디코딩
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
         return $output->access_token;
     }
@@ -272,7 +272,7 @@ class socialxeCommunicator{
 
 
         //JSON 디코딩
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
 
         // 세션 세팅
