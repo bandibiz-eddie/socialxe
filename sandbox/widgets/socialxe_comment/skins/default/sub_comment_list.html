@@ -1,24 +1,26 @@
 <ul>
-<!--@foreach($comment_list as $comment)-->
-<li>
+<!--@foreach($comment_list as $oComment)-->
+<li id="comment_{$oComment->get('comment_srl')}">
     <div>
         <span class="name">
-            <!--@if ($comment->provider)-->
-                <img src="./images/{$comment->provider}_small.gif" alt="{$lang->provider[$comment->provider]}" />
+            <!--@if ($provider = $oComment->get('provider'))-->
+                <img src="./images/{$provider}_small.gif" alt="{$lang->provider[$provider]}" />
             <!--@end-->
-            
-            <!--@if ($comment->link)-->
-                <a href="{$comment->link}" target="_blank">
-            <!--@end-->
-            {$comment->nick_name}
-            <!--@if ($comment->link)-->
-                </a>
+
+            <!--@if ($oComment->get('member_srl'))-->
+                <a href="#popup_menu_area" class="member_{$oComment->get('member_srl')}" onclick="return false">{$oComment->getNickName()}</a>
+            <!--@else-->
+                <!--@if ($oComment->get('link'))-->
+                    <a href="{$oComment->get('link')}" target="_blank">{$oComment->getNickName()}</a>
+                <!--@else-->
+                    {$oComment->getNickName()}
+                <!--@end-->
             <!--@end-->
         </span>
-        <span class="date">{getTimeGap($comment->regdate, "Y.m.d H:i:s")}</span>
-        <span class="write_comment" onclick="writeSubSubComment(this, '{addslashes($comment->reply_prefix)}')">{$lang->write_comment}</span>
+        <span class="date">{getTimeGap($oComment->get('regdate'), "Y.m.d H:i:s")}</span>
+        <span class="write_comment" onclick="writeSubSubComment(this, '{addslashes($oComment->get('reply_prefix'))}')">{$lang->write_comment}</span>
     </div>
-    <div class="content">{$comment->content}</div>
+    <div class="content">{$oComment->getContent(false)}</div>
 </li>
 <!--@end-->
 </ul>
@@ -28,7 +30,7 @@
     <a href="#" onclick="viewSubComment('{$skin}', {$document_srl}, {$comment_srl}, '{$content_link}', 1, true); return false;" class="prevEnd"><<</a>
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page_navigation->cur_page == $page_no)-->
-            <strong>{$page_no}</strong> 
+            <strong>{$page_no}</strong>
         <!--@else-->
             <a href="#" onclick="viewSubComment('{$skin}', {$document_srl}, {$comment_srl}, '{$content_link}', {$page_no}, true); return false;">{$page_no}</a>
         <!--@end-->

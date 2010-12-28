@@ -74,29 +74,18 @@
             // comment_srl이 있으면 해당 댓글을 가져온다.
             $comment_srl = Context::get('comment_srl');
             if ($comment_srl){
-                $output = $oSocialxeModel->getComment($args->document_srl, $comment_srl);
+                $comment_list = $oSocialxeModel->getComment($args->document_srl, $comment_srl);
                 Context::set('comment_srl', null, true);
-                Context::set('use_comment_srl', $output->get('use_comment_srl'));
+                Context::set('use_comment_srl', $comment_list->get('use_comment_srl'));
             }
 
             // 댓글 목록을 가져온다.
             else {
-                $output = $oSocialxeModel->getCommentList($args->document_srl, 0, $list_count);
+                $comment_list = $oSocialxeModel->getCommentList($args->document_srl, 0, $list_count);
             }
 
-            if (!$output){
-                $comment_list = array();
-            }else{
-                $comment_list = $output->data;
-                Context::set('total', $output->get('total'));
-            }
-
-            // 댓글 목록에 추가 정보를 붙인다.
-            if (!is_array($comment_list)) $comment_list = array();
-            foreach($comment_list as &$val){
-                $val->link = $oSocialxeModel->getAuthorLink($val->provider, $val->id);
-            }
-            Context::set('comment_list', $comment_list);
+            Context::set('comment_list', $comment_list->get('list'));
+            Context::set('total', $comment_list->get('total'));
 
             // 사용하는 필터 등록
             Context::addJsFilter($this->widget_path.'filter', 'insert_social_comment.xml');
@@ -172,22 +161,9 @@
             Context::loadLang($this->widget_path . 'lang');
 
             // 댓글 목록을 가져온다.
-            $output = $oSocialxeModel->getCommentList($document_srl, $last_comment_srl, $list_count);
-            if (!output){
-                $comment_list = array();
-            }else{
-                $comment_list = $output->data;
-                if (!$last_comment_srl){
-                    Context::set('total', $output->get('total'));
-                }
-            }
-
-            // 댓글 목록에 추가 정보를 붙인다.
-            if (!is_array($comment_list)) $comment_list = array();
-            foreach($comment_list as &$val){
-                $val->link = $oSocialxeModel->getAuthorLink($val->provider, $val->id);
-            }
-            Context::set('comment_list', $comment_list);
+            $comment_list = $oSocialxeModel->getCommentList($document_srl, $last_comment_srl, $list_count);
+            Context::set('total', $comment_list->get('total'));
+            Context::set('comment_list', $comment_list->get('list'));
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $skin);
@@ -213,27 +189,13 @@
             Context::loadLang($this->widget_path . 'lang');
 
             // 대댓글 목록을 가져온다.
-            $output = $oSocialxeModel->getSubCommentList($comment_srl, $page);
-
-            if (!output){
-                $comment_list = array();
-            }else{
-                $comment_list = $output->data;
-            }
-            if (!$comment_list) $comment_list = array();
-
-            Context::set('comment_list', $comment_list);
-
-            // 댓글 목록에 추가 정보를 붙인다.
-            foreach($comment_list as &$val){
-                $val->link = $oSocialxeModel->getAuthorLink($val->provider, $val->id);
-                $val->reply_prefix = $oSocialxeModel->getReplyPrefix($val->provider, $val->id, $val->nick_name);
-            }
-            Context::set('comment_list', $comment_list);
+            $comment_list = $oSocialxeModel->getSubCommentList($comment_srl, $page);
+            Context::set('comment_list', $comment_list->get('list'));
 
             // 페이지
-            Context::set('page_navigation', $output->page_navigation);
-            $result->add('total', $output->page_navigation->total_count);
+            $page_navigation = $comment_list->get('page_navigation');
+            Context::set('page_navigation', $page_navigation);
+            $result->add('total', $page_navigation->total_count);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $skin);

@@ -152,7 +152,9 @@ function changeMaster(provider, skin){
 function writeSubSubComment(obj, reply_prefix){
     var input = jQuery(obj).parents(".sub_comment").find('input[name="content"]');
 
-    input.val(reply_prefix + ' ' + input.val());
+    if (reply_prefix != '')
+        input.val(reply_prefix + ' ' + input.val());
+
     input.focus();
 }
 
