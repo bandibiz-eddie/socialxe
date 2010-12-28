@@ -12,7 +12,10 @@
         function dispSocialxeLogin(){
             // 크롤러면 실행하지 않는다...
             // 소셜XE 서버에 쓸데없는 요청이 들어올까봐...
-            if (isCrawler()) return;
+            if (isCrawler()){
+                Context::close();
+                exit;
+            }
 
             $use_js = Context::get('js'); // JS 사용 여부
             $widget_skin = Context::get('skin'); // 위젯의 스킨명
