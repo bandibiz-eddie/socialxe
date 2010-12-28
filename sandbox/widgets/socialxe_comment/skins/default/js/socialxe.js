@@ -187,7 +187,7 @@ function socialSend(obj, filter){
     if (sending) return false;
 
     sending = true;
-    return procFilter(obj, insert_social_comment);
+    return procFilter(obj, filter);
 }
 
 // 댓글 삭제
