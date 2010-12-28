@@ -38,6 +38,8 @@ function replaceInput(ret_obj){
 
 // 댓글 작성 후
 function completeInsertSocialComment(ret_obj){
+    sending = false;
+
     if (ret_obj['msg']){
         alert(ret_obj['msg']);
     }
@@ -124,6 +126,8 @@ function _viewSubComment(ret_obj){
 
 // 대댓글 삽입 후
 function completeInsertSubComment(ret_obj){
+    sending = false;
+
     if (ret_obj['msg']){
         alert(ret_obj['msg']);
     }
@@ -168,3 +172,22 @@ function getAutoLoginKey(url, skin){
         exec_xml('socialxe', 'procSocialxeSetAutoLoginKey', params, replaceInput, response_tags);
     });
 }
+
+// 등록 시작하면 등록 비활성
+var sending = false;
+function socialSend(obj, filter){
+    if (sending) return false;
+
+    sending = true;
+    return procFilter(obj, insert_social_comment);
+}
+
+jQuery(function($){
+    // textarea 엔터로 등록하기
+    $(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
+        if (e.keyCode != 13) return true;
+
+        $(this).parents('form').submit();
+        return false;
+    });
+});

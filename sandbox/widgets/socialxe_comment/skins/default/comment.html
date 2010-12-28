@@ -9,7 +9,7 @@
 <!--%import("js/socialxe.js")-->
 
 <div class="socialxe_comment">
-    <form action="./" method="post" onsubmit="return procFilter(this, insert_social_comment);">
+    <form action="./" method="post" onsubmit="return socialSend(this, insert_social_comment);">
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="content_link" value="{$content_link}" />
     <input type="hidden" name="skin" value="{$skin}" />

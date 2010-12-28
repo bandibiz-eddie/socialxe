@@ -40,7 +40,7 @@
 <!--@end-->
 
 <div class="sub_comment_input">
-    <form action="./" method="post" onsubmit="return procFilter(this, insert_sub_comment);">
+    <form action="./" method="post" onsubmit="return socialSend(this, insert_sub_comment);">
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="comment_srl" value="{$comment_srl}" />
     <input type="hidden" name="content_link" value="{$content_link}" />
