@@ -40,13 +40,14 @@
 .socialxe_comment .name img { vertical-align: middle; }
 .socialxe_comment .comment_list .more { text-align: center; padding: 5px; font-weight: bold; border: 1px #ddd solid; margin: 10px 0; cursor: pointer;}
 
-.socialxe_comment .comment_list .command { text-align: right; font-size: 90%; }
+.socialxe_comment .comment_list .command { text-align: right; font-size: 90%; font-weight: normal; }
 .socialxe_comment .comment_list .command .write_comment { cursor: pointer; }
 
 .socialxe_comment .sub_comment { padding: 10px 0; }
 .socialxe_comment .sub_comment li { padding: 5px 0; }
 .socialxe_comment .sub_comment .name img { vertical-align: middle; }
-.socialxe_comment .sub_comment .write_comment { cursor: pointer; font-size: 90%;}
+.socialxe_comment .sub_comment .command { font-size: 90%; font-weight: normal; }
+.socialxe_comment .sub_comment .write_comment { cursor: pointer; }
 .socialxe_comment .sub_comment .content { padding-top: 5px; }
 
 .socialxe_comment .sub_comment_input { position: relative; margin: 5px 0; }

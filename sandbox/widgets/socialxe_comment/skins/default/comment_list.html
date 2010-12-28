@@ -6,7 +6,7 @@
 {@$c = 0}
 <!--@foreach($comment_list as $oComment)-->
 {@$c++}
-<li id="comment_{$oComment->get('comment_srl')}">
+<li id="social_comment_{$oComment->get('comment_srl')}">
     <div class="profile_image">
         <!--@if ($oComment->get('link'))-->
             <a href="{$oComment->get('link')}" target="_blank">
@@ -41,6 +41,10 @@
         <div class="content">{$oComment->getContent(false)}</div>
         <div class="date">{getTimeGap($oComment->get('regdate'), "Y.m.d H:i:s")}</div>
         <div class="command">
+            <!--@if($oComment->isGranted())-->
+                <span onclick="deleteSocialComment({$oComment->get('comment_srl')})" style="cursor: pointer">{$lang->cmd_delete}</span>,
+            <!--@end-->
+
             <span id="socialxe_write_comment_{$oComment->get('comment_srl')}" class="write_comment" onclick="viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}')">
                 {$lang->comment} {$oComment->get('sub_comment_count')}
             </span>

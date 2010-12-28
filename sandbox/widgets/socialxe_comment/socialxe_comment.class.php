@@ -89,6 +89,7 @@
 
             // 사용하는 필터 등록
             Context::addJsFilter($this->widget_path.'filter', 'insert_social_comment.xml');
+            Context::addJsFilter($this->widget_path.'filter', 'delete_social_comment.xml');
             Context::addJsFilter($this->widget_path.'filter', 'insert_sub_comment.xml');
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
