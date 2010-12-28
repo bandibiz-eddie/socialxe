@@ -1,100 +1,100 @@
 <?php
 
-if (!class_exists("Services_JSON")){
+if (!class_exists("Services_JSON_SocialXE")){
     require_once (_XE_PATH_.'modules/socialxeserver/JSON.php');
 }
 
 
 class me2day{
-    
+
     var $api_url = 'http://me2day.net/api/'; // 미투데이 api 경로
-    
+
     function me2day($api_key){
         $this->api_key = $api_key;
     }
-    
+
     // 인증토큰 주소 요청
     function getAuthUrl(){
         $url = $this->api_url . 'get_auth_url.json?akey=' . $this->api_key;
-        
+
         $content = $this->getRemoteResource($url);
-        
+
         // XML 파싱
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
-        
+
         return $output;
     }
-    
+
     // 사용자 정보
     function getPerson($id){
         $url = $this->api_url . 'get_person/' . $id . '.json';
-        
+
         $content = $this->getRemoteResource($url);
-        
+
         // XML 파싱
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
-        
+
         return $output;
     }
-    
+
     // 글 등록
     function createPost($post, $tag, $id, $user_key){
         $url = $this->api_url . 'create_post/' . $id . '.json';
-        
+
         $post_data['post[body]'] = $post;
         $post_data['post[tags]'] = $tag;
         $post_data['akey'] = $this->api_key;
         $post_data['ukey'] = $this->createUserKey($user_key);
         $post_data['uid'] = $id;
-        
+
         $content = $this->getRemoteResource($url, null, 3, 'POST', 'application/x-www-form-urlencoded', array(), array(), $post_data);
-        
+
         // JSON 디코딩
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
-        
+
         if ($output){
             return $output;
         }else{
             $result->error = $content;
             return $result;
         }
-        
+
     }
-    
+
     // 댓글 등록
     function createComment($comment, $post_id, $id, $user_key){
         $url = $this->api_url . 'create_comment.json';
-        
+
         $post_data['post_id'] = $post_id;
         $post_data['body'] = $comment;
         $post_data['akey'] = $this->api_key;
         $post_data['ukey'] = $this->createUserKey($user_key);
         $post_data['uid'] = $id;
-        
+
         $content = $this->getRemoteResource($url, null, 3, 'POST', 'application/x-www-form-urlencoded', array(), array(), $post_data);
-        
+
         // JSON 디코딩
-        $json = new Services_JSON();
+        $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
-        
+
         if ($output){
             return $output;
         }else{
             $result->error = $content;
             return $result;
         }
-        
+
     }
-    
+
     // 유저키 생성
     function createUserKey($user_key){
         $rand_str = substr(uniqid(), 0, 8);
         return $rand_str . md5($rand_str . $user_key);
     }
-    
+
     function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
         requirePear();
         require_once('HTTP/Request.php');

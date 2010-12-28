@@ -113,7 +113,7 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  * $value = $json->decode($input);
  * </code>
  */
-class Services_JSON
+class Services_JSON_SocialXE
 {
    /**
     * constructs a new JSON instance
@@ -419,7 +419,7 @@ class Services_JSON
             default:
                 return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS)
                     ? 'null'
-                    : new Services_JSON_Error(gettype($var)." can not be encoded as JSON string");
+                    : new Services_JSON_Error_SocialXE(gettype($var)." can not be encoded as JSON string");
         }
     }
 
@@ -667,7 +667,7 @@ class Services_JSON
                                 // element in an associative array,
                                 // for now
                                 $parts = array();
-                                
+
                                 if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
                                     // "name":value pair
                                     $key = $this->decode($parts[1]);
@@ -768,8 +768,8 @@ class Services_JSON
     {
         if (class_exists('pear')) {
             return PEAR::isError($data, $code);
-        } elseif (is_object($data) && (get_class($data) == 'services_json_error' ||
-                                 is_subclass_of($data, 'services_json_error'))) {
+        } elseif (is_object($data) && (get_class($data) == 'services_json_error_socialxe' ||
+                                 is_subclass_of($data, 'services_json_error_socialxe'))) {
             return true;
         }
 
@@ -779,9 +779,9 @@ class Services_JSON
 
 if (class_exists('PEAR_Error')) {
 
-    class Services_JSON_Error extends PEAR_Error
+    class Services_JSON_Error_SocialXE extends PEAR_Error
     {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
+        function Services_JSON_Error_SocialXE($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
             parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
@@ -793,9 +793,9 @@ if (class_exists('PEAR_Error')) {
     /**
      * @todo Ultimately, this class shall be descended from PEAR_Error
      */
-    class Services_JSON_Error
+    class Services_JSON_Error_SocialXE
     {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
+        function Services_JSON_Error_SocialXE($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
 
@@ -803,5 +803,5 @@ if (class_exists('PEAR_Error')) {
     }
 
 }
-    
+
 ?>
