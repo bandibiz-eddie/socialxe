@@ -15,6 +15,16 @@
             // 언어 로드
             Context::loadLang($this->widget_path . 'lang');
 
+            // 페이지 수정일 때는 실제 모습은 보이지 않도록
+            if (in_array(Context::get('act'), array("procWidgetGenerateCodeInPage", "dispPageAdminContentModify"))){
+                $tpl_path = sprintf('%stpl', $this->widget_path);
+                debugPrint($tpl_path);
+                $tpl_file = 'pageedit';
+                $oTemplate = &TemplateHandler::getInstance();
+                return $oTemplate->compile($tpl_path, $tpl_file);
+            }
+
+
             // 서비스 목록
             $provider_list = $oSocialxeModel->getProviderList();
             Context::set('provider_list', $provider_list);
