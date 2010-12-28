@@ -62,7 +62,7 @@
 
             // 자동 로그인 키 요청 주소
             $auto_login_key_url = $oSocialxeModel->getAutoLoginKeyUrl();
-            Context::set('auto_login_key_url', htmlspecialchars($auto_login_key_url));
+            Context::set('auto_login_key_url', $auto_login_key_url);
 
             // 한번에 볼 댓글 개수
             $list_count = $args->list_count;
