@@ -45,7 +45,8 @@ class socialxeProviderYozm extends socialxeProvider{
 
     // 리플 형식이 포함되었는지 확인
     function isContainReply($content){
-        $pattern = '/@.+@/';
+        // '\S' : any none-whitespace
+        $pattern = '/@\S+@/';
         if (preg_match($pattern, $content))
             return true;
         else
