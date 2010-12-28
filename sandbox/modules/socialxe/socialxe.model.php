@@ -37,6 +37,11 @@
             return $this->providerManager->isLogged($provider);
         }
 
+        // 해당 서비스의 로그인 아이디
+        function getProviderID($provider){
+            return $this->providerManager->getProviderID($provider);
+        }
+
         // 대표 계정의 아이디
         function getID(){
             return $this->providerManager->getMasterProviderId();

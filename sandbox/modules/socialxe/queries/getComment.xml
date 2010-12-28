@@ -19,7 +19,7 @@
         <column name="comments.comment_srl" alias="comment_srl" />
     </columns>
     <conditions>
-        <condition operation="equal" column="comments.document_srl" var="document_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="comments.document_srl" var="document_srl" pipe="and" />
         <condition operation="equal" column="comments.comment_srl" var="comment_srl" notnull="notnull" pipe="and" />
         <condition operation="more" column="comments_list.head" default="0" pipe="and" />
         <condition operation="more" column="comments_list.arrange" default="0" pipe="and" />
