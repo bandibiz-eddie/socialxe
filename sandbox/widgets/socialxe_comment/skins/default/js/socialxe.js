@@ -68,6 +68,9 @@ function replaceList(ret_obj){
     if (!ret_obj['output']) return;
 
     jQuery('.socialxe_comment .comment_list').html(ret_obj['output']);
+
+    // 오토링크
+    runAutoLink();
 }
 
 // 목록 더보기
@@ -99,6 +102,9 @@ function moreList(ret_obj){
 
     jQuery('.socialxe_comment .comment_list .more').remove();
     jQuery('.socialxe_comment .comment_list').append(ret_obj['output']);
+
+    // 오토링크
+    runAutoLink();
 }
 
 // 대댓글보기
@@ -130,6 +136,9 @@ function _viewSubComment(ret_obj){
     target.html(ret_obj['output']);
     target.attr('opened', 'true');
     target.slideDown('fast');
+
+    // 오토링크
+    runAutoLink();
 }
 
 // 대댓글 삽입 후
@@ -207,6 +216,15 @@ function completeDeleteSocialComment(ret_obj){
     });
 }
 
+// 오토링크 적용
+function runAutoLink(){
+    var oAutoLink = xe.getPlugin('autolink');
+    if (!oAutoLink) return;
+    oAutoLink = oAutoLink[0];
+    if (!oAutoLink) return;
+    oAutoLink.cast('ONREADY');
+}
+
 $(window).ready(function($){
     // textarea 엔터로 등록하기
     $(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
@@ -230,7 +248,7 @@ $(window).ready(function($){
             sending = false;
         }
     });
-    oValidator = xe.getApp('Validator')[0]
+    var oValidator = xe.getApp('Validator')[0];
     if (oValidator){
         oValidator.registerPlugin(new AlertStub);
     }
