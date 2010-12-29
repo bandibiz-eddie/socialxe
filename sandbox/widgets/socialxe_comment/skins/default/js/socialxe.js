@@ -207,7 +207,7 @@ function completeDeleteSocialComment(ret_obj){
     });
 }
 
-jQuery(function($){
+$(window).ready(function($){
     // textarea 엔터로 등록하기
     $(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
         if (e.keyCode != 13) return true;
@@ -215,4 +215,23 @@ jQuery(function($){
         $(this).parents('form').submit();
         return false;
     });
+
+    // exec_xml의 onerror 지정
+    exec_xml.onerror = function(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj){
+        sending = false;
+        alert(ret['message'] || 'error!');
+        return null;
+    }
+
+    // validator의 alert 앞에 sending = false를 위한 플러그인을 등록한다.
+    // 호환성을 위해 추가한 플러그인 - 에디터에서 컨텐트를 가져와서 설정한다.
+    var AlertStub = xe.createPlugin('alert_stub', {
+        API_BEFORE_SHOW_ALERT : function() {
+            sending = false;
+        }
+    });
+    oValidator = xe.getApp('Validator')[0]
+    if (oValidator){
+        oValidator.registerPlugin(new AlertStub);
+    }
 });
