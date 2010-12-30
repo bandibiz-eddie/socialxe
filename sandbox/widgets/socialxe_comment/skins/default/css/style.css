@@ -58,7 +58,7 @@
 .socialxe_comment .comment_list .content { padding-top: 5px; margin-bottom: 5px; line-height: 160%; }
 .socialxe_comment .comment_list .date { font-size: 9pt; color: #666 }
 .socialxe_comment .comment_list .name { font-weight: bold; }
-.socialxe_comment .comment_list .name a { text-decoration: none; color: inherit; }
+.socialxe_comment .comment_list .name a { text-decoration: none; color: black; }
 .socialxe_comment .name img { vertical-align: middle; }
 .socialxe_comment .comment_list .more { text-align: center; padding: 5px; font-weight: bold; border: 1px #ddd solid; margin: 10px 0; cursor: pointer;}
 
@@ -77,3 +77,30 @@
 .socialxe_comment .sub_comment_input .socialxe_left input { width: 100%; }
 .socialxe_comment .sub_comment_input .socialxe_right { margin: 0; position: absolute; top: 0; right: 5px; }
 .socialxe_comment .sub_comment_input .socialxe_right input { width: 50px;  }
+
+/* IE6 css fixer v0.95: Thu, 30 Dec 2010 03:08:58 +0100 */
+
+/* ============================================= */
+/* safe settings                                 */
+
+/* add display:inline to floated elements */
+.socialxe_comment .service li,
+.socialxe_comment .comment_list .profile_image {display:inline;}
+
+/* add zoom:1 to overflow:hidden */
+.socialxe_comment legend {zoom:1;}
+
+/* add zoom:1 to pos:relative elements */
+.socialxe_comment span.socialxe_button,
+.socialxe_comment span.socialxe_button button,
+.socialxe_comment span.socialxe_button input,
+.socialxe_comment .content_input,
+.socialxe_comment .sub_comment_input,
+.socialxe_comment .comment_input,
+.socialxe_comment .input .socialxe_wrap {zoom:1;}
+
+/* add zoom:1; display:inline; to inline-block elements */
+.socialxe_comment span.socialxe_button,.socialxe_comment span.socialxe_button button,.socialxe_comment span.socialxe_button input {zoom:1; display:inline;}
+
+/* add overflow:visible to (submit) buttons */
+ input, button {overflow:visible;}
