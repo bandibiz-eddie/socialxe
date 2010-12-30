@@ -14,6 +14,8 @@
     $lang->yozm_access_token = '요즘 Access Token';
     $lang->yozm_access_token_secret = '요즘 Access Token Secret';
     $lang->get_yozm_access_token ='요즘 Access Token 얻기';
+    $lang->bitly_username = 'bit.ly Username';
+    $lang->bitly_api_key = 'bit.ly API Key';
 
     $lang->msg_invalid_provider = '올바른 서비스 제공자가 아닙니다.';
     $lang->msg_old_token = '올바른 토큰값이 아닙니다.';

@@ -93,6 +93,21 @@
         <p><span class="button"><input type="button" onclick="providerLogin('{getUrl('', 'module', 'socialxeserver', 'act', 'dispSocialxeserverAdminGetYozmAccessToken')}')" value="{$lang->get_yozm_access_token}" /></span></p>
     </td>
 </tr>
+</table>
+
+<table cellspacing="0" class="rowTable">
+<tr>
+    <th scope="col" class="w200"><div>{$lang->bitly_username}</div></th>
+    <td>
+        <input type="text" name="bitly_username" value="{htmlspecialchars($config->bitly_username)}" class="inputTypeText w400" />
+    </td>
+</tr>
+<tr>
+    <th scope="col" class="w200"><div>{$lang->bitly_api_key}</div></th>
+    <td>
+        <input type="text" name="bitly_api_key" value="{htmlspecialchars($config->bitly_api_key)}" class="inputTypeText w400" />
+    </td>
+</tr>
 <tr class="row2">
     <th colspan="2" class="button">
         <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>

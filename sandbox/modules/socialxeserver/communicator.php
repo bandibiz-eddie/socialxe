@@ -1,7 +1,7 @@
 <?php
 
-// goo.gl 라이브러리 로드
-require_once(_XE_PATH_.'modules/socialxeserver/googl.php');
+// bit.ly 라이브러리 로드
+require_once(_XE_PATH_.'modules/socialxeserver/bitly.php');
 
 // 클라이언트와 통신을 위한 클래스
 class socialxeServerCommunicator {
@@ -292,12 +292,12 @@ class socialxeServerCommunicator {
         $send_result = array();
         $reply = false;
 
+        // 링크 주소
+        $bitly = new bitly($this->config->bitly_username, $this->config->bitly_api_key);
+        $comment->content_link = $bitly->shorten($this->_getCommentUrl($content_link, $comment->parent->comment_srl));
+
         // 댓글이면 모두 등록
         if (!$comment->parent){
-            // 링크 준비
-            $googl = new goo_gl($comment->content_link);
-            $comment->content_link = $googl->result();
-
             foreach($logged_provider_list as $provider){
                 $output = $this->providerManager->send($provider, $comment, $access[$provider]);
                 $send_result[$provider] = $output->get('result');
@@ -308,10 +308,6 @@ class socialxeServerCommunicator {
         else if (in_array($comment->parent->provider, $logged_provider_list)){
             // 근데 페이스북은 제외
             if ($comment->parent->provider != 'facebook'){
-                // 링크 준비
-                $googl = new goo_gl($this->_getCommentUrl($comment->content_link, $comment->parent->comment_srl));
-                $comment->content_link = $googl->result();
-
                 $output = $this->providerManager->send($comment->parent->provider, $comment, $access[$comment->parent->provider]);
                 $send_result[$comment->parent->provider] = $output->get('result');
                 $reply = true;
@@ -321,10 +317,6 @@ class socialxeServerCommunicator {
         // 대댓글인데 리플 처리가 안 됐으면 소셜XE 계정을 이용하여 리플을 보낸다.
         if ($comment->parent && !$reply){
             $comment->content_title = "댓글이 달렸습니다";
-
-            // 링크 준비
-            $googl = new goo_gl($this->_getCommentUrl($comment->content_link, $comment->parent->comment_srl));
-            $comment->content_link = $googl->result();
 
             $output = $this->providerManager->send($comment->parent->provider, $comment, $this->access[$comment->parent->provider]);
             $send_result[$comment->parent->provider] = $output->get('result');
@@ -336,8 +328,6 @@ class socialxeServerCommunicator {
 
         // 내용 준비
         $comment->content_title = "댓글이 달렸습니다";
-        $googl = new goo_gl($this->_getCommentUrl($content_link, $comment->parent->comment_srl));
-        $comment->content_link = $googl->result();
 
         if (!is_array($reply_provider_list)) $reply_provider_list = Array();
         foreach($reply_provider_list as $provider){
@@ -354,6 +344,8 @@ class socialxeServerCommunicator {
 
     // comment_srl이 붙은 주소를 만든다.
     function _getCommentUrl($content_link, $comment_srl){
+        if (!$comment_srl) return $content_link;
+
         $url_info = parse_url($content_link);
         $url = $url_info[scheme] . '://' . $url_info[host] . $url_info[path];
         if ($url_info[query])
