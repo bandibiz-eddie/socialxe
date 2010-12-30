@@ -189,7 +189,7 @@
 
             // 소셜 정보가 없으면 기존 댓글이다. 소셜 정보를 추가해준다.
             if (!$output2->data){
-                $output = executeQuery('socialxe.insertSocialxe', $args);
+                executeQuery('socialxe.insertSocialxe', $args);
             }
 
             // 대댓글 개수가 다르면 업데이트한다.
