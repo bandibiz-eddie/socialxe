@@ -2,12 +2,34 @@
 .socialxe_comment fieldset:after{ content:""; display:block; float:none; clear:both;}
 .socialxe_comment legend { position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 
+.socialxe_comment .inputTypeText { border: 1px #ccc solid; }
+
+/* Control Button + Submit Button */
+.socialxe_comment span.socialxe_button,
+.socialxe_comment span.socialxe_button button,
+.socialxe_comment span.socialxe_button input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../../../common/tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
+.socialxe_comment span.socialxe_button { padding:0; background-position:left top;}
+.socialxe_comment span.socialxe_button button,
+.socialxe_comment span.socialxe_button input { height:23px; left:2px; *vertical-align:top; padding:0 10px 0 8px; line-height:24px; background-position:right top; cursor:pointer; *overflow:visible;}
+/* Large Size */
+.socialxe_comment span.socialxe_button.large { background-position:left -30px;}
+.socialxe_comment span.socialxe_button.large button,
+.socialxe_comment span.socialxe_button.large input { height:30px; padding:0 10px 0 8px; font:16px/30px Sans-serif; background-position:right -30px;}
+/* xLarge Size */
+.socialxe_comment span.socialxe_button.xLarge { background-position:left -65px;}
+.socialxe_comment span.socialxe_button.xLarge button,
+.socialxe_comment span.socialxe_button.xLarge input { height:35px; padding:0 10px 0 8px; font:20px/36px Sans-serif; background-position:right -65px;}
+/* Small Size */
+.socialxe_comment span.socialxe_button.small { background-position:left -107px;}
+.socialxe_comment span.socialxe_button.small button,
+.socialxe_comment span.socialxe_button.small input { height:18px; padding:0 6px 0 4px; font:11px/18px Sans-serif; background-position:right -107px;}
+
 .socialxe_comment .comment_input { position: relative; }
 .socialxe_comment .comment_input .poweredby { position: absolute; top: 10px; right: 10px; }
 
 .socialxe_comment .service { margin: 0; padding: 10px 10px 5px 10px; border-width: 1px 1px 0 1px; border-style: solid; border-color: #eee; background: #f6f6f6; border-bottom: 1px #eee solid;}
 .socialxe_comment ul { margin: 0; padding: 0; list-style: none; }
-.socialxe_comment .service li { float: left; margin-right: 5px; }
+.socialxe_comment .service li { float: left; margin: 0 5px 0 0; padding: 0; border: 0; }
 
 .socialxe_comment .input { margin: 0; padding: 5px 10px 10px 10px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #eee; background: #f6f6f6;}
 .socialxe_comment .input .name { margin: 5px 0; font-weight: bold; }
@@ -53,5 +75,5 @@
 .socialxe_comment .sub_comment_input { position: relative; margin: 5px 0; }
 .socialxe_comment .sub_comment_input .socialxe_left { margin-right: 70px; }
 .socialxe_comment .sub_comment_input .socialxe_left input { width: 100%; }
-.socialxe_comment .sub_comment_input .socialxe_right { margin: 0; position: absolute; top: 0; right: 0; }
+.socialxe_comment .sub_comment_input .socialxe_right { margin: 0; position: absolute; top: 0; right: 5px; }
 .socialxe_comment .sub_comment_input .socialxe_right input { width: 50px;  }
