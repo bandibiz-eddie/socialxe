@@ -58,6 +58,11 @@
             if (!$output->toBool()) return $output;
             $msg = $output->get('msg');
 
+            // 댓글의 moduel_srl
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByDocumentSrl($args->document_srl);
+            $args->module_srl = $module_info->module_srl;
+
             // 댓글 삽입
             $result = $oCommentController->insertComment($args, true);
             if (!$result->toBool()) return $result;
