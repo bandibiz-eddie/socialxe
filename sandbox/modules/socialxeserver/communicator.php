@@ -347,7 +347,12 @@ class socialxeServerCommunicator {
         if (!$comment_srl) return $content_link;
 
         $url_info = parse_url($content_link);
-        $url = $url_info[scheme] . '://' . $url_info[host] . $url_info[path];
+        $url = $url_info[scheme] . '://' . $url_info[host];
+
+        if ($url_info[path])
+            $url .= $url_info[path];
+        else
+            $url .= '/';
         if ($url_info[query])
             $url .= '?' . $url_info[query] . '&comment_srl=' . $comment_srl;
         else
