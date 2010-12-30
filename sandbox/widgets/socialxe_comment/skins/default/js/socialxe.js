@@ -225,7 +225,7 @@ function runAutoLink(){
     oAutoLink.cast('ONREADY');
 }
 
-$(window).ready(function($){
+jQuery(window).ready(function($){
     // textarea 엔터로 등록하기
     $(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
         if (e.keyCode != 13) return true;
