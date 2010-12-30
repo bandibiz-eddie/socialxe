@@ -100,7 +100,7 @@
 .socialxe_comment .input .socialxe_wrap {zoom:1;}
 
 /* add zoom:1; display:inline; to inline-block elements */
-.socialxe_comment span.socialxe_button,.socialxe_comment span.socialxe_button button,.socialxe_comment span.socialxe_button input {zoom:1; display:inline;}
+.socialxe_comment span.socialxe_button,.socialxe_comment span.socialxe_button button,.socialxe_comment span.socialxe_button input {zoom:1;}
 
 /* add overflow:visible to (submit) buttons */
  input, button {overflow:visible;}
