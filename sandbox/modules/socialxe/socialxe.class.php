@@ -4,6 +4,7 @@
     require_once(_XE_PATH_.'modules/socialxe/providerManager.php');
     require_once(_XE_PATH_.'modules/socialxe/communicator.php');
     require_once(_XE_PATH_.'modules/socialxe/provider.class.php');
+    require_once(_XE_PATH_.'modules/socialxe/provider.xe.php');
     require_once(_XE_PATH_.'modules/socialxe/provider.twitter.php');
     require_once(_XE_PATH_.'modules/socialxe/provider.me2day.php');
     require_once(_XE_PATH_.'modules/socialxe/provider.facebook.php');

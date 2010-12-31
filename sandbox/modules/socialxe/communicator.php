@@ -121,6 +121,11 @@ class socialxeCommunicator{
         $master_provider = $this->providerManager->getMasterProvider();
         $config = $this->config;
 
+        // $logged_provider_list에서 xe 제외
+        if ($logged_provider_list[0] == 'xe'){
+            array_shift($logged_provider_list);
+        }
+
         // 데이터 준비
         $comment->content = $args->content;
         $comment->content_link = $args->content_link;

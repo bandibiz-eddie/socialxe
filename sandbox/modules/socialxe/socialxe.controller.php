@@ -64,7 +64,14 @@
             $args->module_srl = $module_info->module_srl;
 
             // 댓글 삽입
-            $result = $oCommentController->insertComment($args, true);
+
+            // XE가 대표 계정이면 XE 회원 정보를 이용하여 댓글을 등록
+            if ($this->providerManager->getMasterProvider() == 'xe')
+                $manual_inserted = false;
+            else
+                $manual_inserted = true;
+
+            $result = $oCommentController->insertComment($args, $manual_inserted);
             if (!$result->toBool()) return $result;
 
             // 삽입된 댓글의 번호

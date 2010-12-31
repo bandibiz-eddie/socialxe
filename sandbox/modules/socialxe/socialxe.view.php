@@ -17,6 +17,7 @@
                 exit;
             }
 
+            $provider = Context::get('provider'); // 서비스
             $use_js = Context::get('js'); // JS 사용 여부
             $widget_skin = Context::get('skin'); // 위젯의 스킨명
 
@@ -24,6 +25,8 @@
             $template_path = sprintf("%stpl/",$this->module_path);
             $this->setLayoutPath($template_path);
             $this->setLayoutFile("popup_layout");
+
+            if ($provider == 'xe') return $this->stop('msg_invalid_request');
 
             // JS 사용 여부 확인
             if ($use_js){
@@ -42,7 +45,6 @@
             }
 
             $callback_query = Context::get('query'); // 인증 후 돌아갈 페이지 쿼리
-            $provider = Context::get('provider'); // 서비스
 
             $this->session->setSession('callback_query', $callback_query);
 
@@ -82,6 +84,13 @@
             $query = urldecode(Context::get('query')); // 로그아웃 후 돌아갈 페이지 쿼리
             $provider = Context::get('provider'); // 서비스
             $oSocialxeController = &getController('socialxe');
+
+            // 아무 것도 없는 레이아웃 적용
+            $template_path = sprintf("%stpl/",$this->module_path);
+            $this->setLayoutPath($template_path);
+            $this->setLayoutFile("popup_layout");
+
+            if ($provider == 'xe') return $this->stop('msg_invalid_request');
 
             $output = $this->providerManager->doLogout($provider);
             $this->communicator->sendSession();

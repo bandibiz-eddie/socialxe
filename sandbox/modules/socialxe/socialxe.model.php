@@ -28,6 +28,11 @@
             return $this->providerManager->getProviderID($provider);
         }
 
+        // 해당 서비스의 로그인 닉네임
+        function getProviderNickName($provider){
+            return $this->providerManager->getProviderNickName($provider);
+        }
+
         // 대표 계정의 아이디
         function getID(){
             return $this->providerManager->getMasterProviderId();

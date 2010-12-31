@@ -19,6 +19,7 @@
     $lang->msg_invalid_request_domain = '사용이 허용된 도메인이 아닙니다.';
     $lang->msg_send_failed = '%s에 전송이 실패했습니다. (%s)';
 
+    $lang->provider['xe'] = 'XE';
     $lang->provider['twitter'] = '트위터';
     $lang->provider['me2day'] = '미투데이';
     $lang->provider['facebook'] = '페이스북';

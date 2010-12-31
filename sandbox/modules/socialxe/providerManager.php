@@ -17,9 +17,10 @@ class socialxeProviderManager{
         $this->session = $sessionManager;
 
         // 제공하는 서비스
-        $this->provider_list = array('twitter', 'me2day', 'facebook', 'yozm');
+        $this->provider_list = array('xe', 'twitter', 'me2day', 'facebook', 'yozm');
 
         // 각 서비스 클래스
+        $this->provider['xe'] = &socialxeProviderXE::getInstance($this->session);
         $this->provider['twitter'] = &socialxeProviderTwitter::getInstance($this->session);
         $this->provider['me2day'] = &socialxeProviderMe2day::getInstance($this->session);
         $this->provider['facebook'] = &socialxeProviderFacebook::getInstance($this->session);
@@ -138,6 +139,19 @@ class socialxeProviderManager{
             return $result->setMessage('msg_invalid_provider');
         }
 
+        if ($this->inProvider('xe')){
+            // XE가 로그인되어 있으면 따지지 말고 XE를 대표계정으로 만든다.
+            if ($this->provider['xe']->isLogged()){
+                $provider = 'xe';
+            }
+
+            // XE 로그인 상태가 아닌데 세션에 XE로 되어 있으면 다음 대표계정 설정
+            else if ($provider == 'xe'){
+                $this->setNextMasterProvider();
+                return $result;
+            }
+        }
+
         // 대표계정 설정
         $this->master_provider = $provider;
         $this->session->setSession('master', $provider);
@@ -166,6 +180,12 @@ class socialxeProviderManager{
     function getProviderID($provider){
         if (!$this->inProvider($provider)) return;
         return $this->provider[$provider]->getId();
+    }
+
+    // 해당 서비스의 현재 로그인 닉네임
+    function getProviderNickName($provider){
+        if (!$this->inProvider($provider)) return;
+        return $this->provider[$provider]->getNickName();
     }
 
     // 대표계정의 아이디
