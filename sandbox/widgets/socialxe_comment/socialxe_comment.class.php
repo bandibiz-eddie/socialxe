@@ -197,7 +197,7 @@
 
             // 댓글 목록을 가져온다.
             else {
-                $comment_list = $oSocialxeModel->getCommentList($document_srl, 0, $list_count);
+                $comment_list = $oSocialxeModel->getCommentList($document_srl, $last_comment_srl, $list_count);
             }
 
             Context::set('total', $comment_list->get('total'));
