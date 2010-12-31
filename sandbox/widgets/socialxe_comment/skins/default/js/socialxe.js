@@ -225,15 +225,17 @@ function runAutoLink(){
     oAutoLink.cast('ONREADY');
 }
 
-jQuery(window).ready(function($){
-    // textarea 엔터로 등록하기
+// textarea 엔터로 등록하기
+function enterSend(){
     $(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
         if (e.keyCode != 13) return true;
 
         $(this).parents('form').submit();
         return false;
     });
+}
 
+jQuery(window).ready(function($){
     // exec_xml의 onerror 지정
     exec_xml.onerror = function(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj){
         sending = false;
