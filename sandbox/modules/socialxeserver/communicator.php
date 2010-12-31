@@ -268,6 +268,7 @@ class socialxeServerCommunicator {
         $logged_provider_list = unserialize(Context::get('logged_provider_list')); // 로그인한 서비스 목록
         $reply_provider_list = unserialize(Context::get('reply_provider_list')); // 리플 서비스 목록
         $client_token = Context::get('client'); // 클라이언트 키
+        $uselang = Context::get('uselang'); // 언어
 
         // 원본 주소를 저장해 둔다.
         $content_link = $comment->content_link;
@@ -299,7 +300,7 @@ class socialxeServerCommunicator {
         // 댓글이면 모두 등록
         if (!$comment->parent){
             foreach($logged_provider_list as $provider){
-                $output = $this->providerManager->send($provider, $comment, $access[$provider]);
+                $output = $this->providerManager->send($provider, $comment, $access[$provider], $uselang);
                 $send_result[$provider] = $output->get('result');
             }
         }
@@ -308,7 +309,7 @@ class socialxeServerCommunicator {
         else if (in_array($comment->parent->provider, $logged_provider_list)){
             // 근데 페이스북은 제외
             if ($comment->parent->provider != 'facebook'){
-                $output = $this->providerManager->send($comment->parent->provider, $comment, $access[$comment->parent->provider]);
+                $output = $this->providerManager->send($comment->parent->provider, $comment, $access[$comment->parent->provider], $uselang);
                 $send_result[$comment->parent->provider] = $output->get('result');
                 $reply = true;
             }
@@ -316,23 +317,26 @@ class socialxeServerCommunicator {
 
         // 대댓글인데 리플 처리가 안 됐으면 소셜XE 계정을 이용하여 리플을 보낸다.
         if ($comment->parent && !$reply){
-            $comment->content_title = "댓글이 달렸습니다";
-
-            $output = $this->providerManager->send($comment->parent->provider, $comment, $this->access[$comment->parent->provider]);
+            $output = $this->providerManager->send($comment->parent->provider, $comment, $this->access[$comment->parent->provider], $uselang, true);
             $send_result[$comment->parent->provider] = $output->get('result');
         }
 
-        // 리플 리스트 중 보내지 않은 서비스가 있으면 소셜XE 계정을 이용하여 보낸다.
+        // 리플 리스트 중 보내지 않은 서비스가 있으면 보낸다.
         if (!is_array($send_result)) $send_result = Array();
         $sended_provider_list = array_keys($send_result);
 
-        // 내용 준비
-        $comment->content_title = "댓글이 달렸습니다";
-
-        if (!is_array($reply_provider_list)) $reply_provider_list = Array();
         foreach($reply_provider_list as $provider){
-            if (!in_array($provider, $sended_provider_list)){
-                $output = $this->providerManager->send($provider, $comment, $this->access[$provider]);
+            if (in_array($provider, $sended_provider_list)) continue;
+
+            // 먼저 사용자의 계정으로 등록을 시도
+            if (in_array($provider, $logged_provider_list)){
+                $output = $this->providerManager->send($provider, $comment, $access[$provider], $uselang);
+                $send_result[$comment->parent->provider] = $output->get('result');
+            }
+
+            // 사용자 계정이 없으면 소셜 XE 계정으로 시도
+            else{
+                $output = $this->providerManager->send($provider, $comment, $this->access[$provider], $uselang, true);
                 $send_result[$comment->parent->provider] = $output->get('result');
             }
         }

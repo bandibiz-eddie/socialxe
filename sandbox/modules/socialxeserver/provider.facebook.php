@@ -74,8 +74,14 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
     }
 
     // 댓글 전송
-    function send($comment, $access){
+    function send($comment, $access, $uselang = 'en', $use_socialxe = false){
         $result = new Object();
+
+        // 머리글
+        $lang->comment = $this->lang->comment[$uselang];
+        if (!$lang->comment) $lang->comment = $this->lang->comment['en'];
+        $lang->notify = $this->lang->notify[$uselang];
+        if (!$lang->notify) $lang->notify = $this->lang->notify['en'];
 
         // 페이스북 객체 생성
         $fb = new Facebook(array(
@@ -93,10 +99,14 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
         $max_length = 420;
 
         // 실제 내용을 준비
-        $content2 = $comment->content;
         if ($comment->content_title){
-            $content2 = '「' . $comment->content_title . '」' . $content2;
+            $title = $comment->content_title;
+        }else if ($use_socialxe){
+            $title = $lang->notify;
+        }else{
+            $title = $lang->comment;
         }
+        $content2 = '「' . $title . '」 ' . $comment->content;
 
         // 내용 길이가 최대 길이를 넘는지 확인
         if (mb_strlen($content2, 'UTF-8') > $max_length){
@@ -112,8 +122,6 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
 
             try{
                 $output = $fb->api($comment->parent->id . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => 'http://socialxe.xpressengine.net/files/attach/project_logo/19351736.jpg'));
-                //$output = $fb->api($reply_id . '/comments', 'POST', array('message' => $content));
-                //$fb->api($comment->parent->id . '/notes', 'POST', array('subject' => '[SocialXE] 댓글이 달렸습니다.', 'message' => $content));
             }catch(FacebookApiException $e){
                 $output->error = $e->__toString();
             }

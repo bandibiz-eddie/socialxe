@@ -96,8 +96,14 @@ class socialxeServerProviderYozm extends socialxeServerProvider{
     }
 
     // 댓글 전송
-    function send($comment, $access){
+    function send($comment, $access, $uselang = 'en', $use_socialxe = false){
         $result = new Object();
+
+        // 머리글
+        $lang->comment = $this->lang->comment[$uselang];
+        if (!$lang->comment) $lang->comment = $this->lang->comment['en'];
+        $lang->notify = $this->lang->notify[$uselang];
+        if (!$lang->notify) $lang->notify = $this->lang->notify['en'];
 
         // 요즘 객체 생성
         $connection = new yozm($this->consumer_key, $this->consumer_secret, $access->oauth_token, $access->oauth_token_secret);
@@ -109,12 +115,14 @@ class socialxeServerProviderYozm extends socialxeServerProvider{
         $max_length = 150 - mb_strlen($content, 'UTF-8');
 
         // 실제 내용을 준비
-        $content2 = $comment->content;
         if ($comment->content_title){
-            $content2 = '「' . $comment->content_title . '」' . $content2;
+            $title = $comment->content_title;
+        }else if ($use_socialxe){
+            $title = $lang->notify;
         }else{
-            $content2 = '「이곳의 댓글」 ' . $content2;
+            $title = $lang->comment;
         }
+        $content2 = '「' . $title . '」 ' . $comment->content;
 
         // 내용 길이가 최대 길이를 넘는지 확인
         if (mb_strlen($content2, 'UTF-8') > $max_length){

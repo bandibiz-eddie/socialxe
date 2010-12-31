@@ -48,10 +48,10 @@ class socialxeServerProviderManager{
     }
 
     // 댓글 전송
-    function send($provider, $comment, $access){
+    function send($provider, $comment, $access, $uselang = 'en', $use_socialxe = false){
         if (!$this->inProvider($provider)) return new Object(-1, 'msg_invalid_provider');
 
-        return $this->provider[$provider]->send($comment, $access);
+        return $this->provider[$provider]->send($comment, $access, $uselang, $use_socialxe);
     }
 }
 
