@@ -149,7 +149,8 @@ class socialxeCommunicator{
                         'comment' => urlencode(serialize($comment)),
                         'logged_provider_list' => serialize($logged_provider_list),
                         'reply_provider_list' => serialize($reply_provider_list),
-                        'master_provider' => $master_provider
+                        'master_provider' => $master_provider,
+                        'uselang' => Context::getLangType()
                       );
 
         // 소셜 서비스 액세스 정보 준비
