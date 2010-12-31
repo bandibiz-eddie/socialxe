@@ -176,5 +176,14 @@
             $this->add('comment_srl', $comment_srl);
             $this->add('total', $output->get('total'));
         }
+
+        // 댓글 삭제 트리거
+        function triggerDeleteComment(&$comment){
+            if (!$comment->comment_srl) return new Object();
+
+            $args->comment_srl = $comment->comment_srl;
+            $output = executeQuery('socialxe.deleteSocialxe', $args);
+            return $output;
+        }
     }
 ?>

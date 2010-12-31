@@ -15,6 +15,10 @@
         var $hostname = 'socialxe.net';
         var $query = '/?module=socialxeserver&act=procSocialxeserverAPI';
 
+        var $add_triggers = array(
+            array('comment.deleteComment', 'socialxe', 'controller', 'triggerDeleteComment', 'after')
+        );
+
         function socialxe(){
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
@@ -40,13 +44,25 @@
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
-            return new Object();
+            $oModuleController = &getController('module');
+
+            // $this->add_triggers 트리거 일괄 추가
+            foreach($this->add_triggers as $trigger) {
+                $oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+            }
         }
 
         /**
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oModuleModel = &getModel('module');
+
+            // $this->add_triggers 트리거 일괄 검사
+            foreach($this->add_triggers as $trigger) {
+                if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
+            }
+
             return false;
         }
 
@@ -54,7 +70,17 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            return new Object();
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+
+            // $this->add_triggers 트리거 일괄 업데이트
+            foreach($this->add_triggers as $trigger) {
+                if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) {
+                    $oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+                }
+            }
+
+            return new Object(0, 'success_updated');
         }
 
         /**
