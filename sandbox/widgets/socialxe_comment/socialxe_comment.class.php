@@ -43,6 +43,12 @@
             Context::set('logged_provider', $logged_provider);
             Context::set('logged_count', $logged_count);
 
+            // 로그인한 서비스의 닉네임들
+            foreach($logged_provider as $provider){
+                $nick_names[$provider] = $oSocialxeModel->getProviderNickName($provider);
+            }
+            Context::set('nick_names', $nick_names);
+
             // 대표 계정
             $master_provider = $oSocialxeModel->getMasterProvider();
             Context::set('master_provider', $master_provider);
@@ -137,6 +143,12 @@
             Context::set('provider_is_logged', $provider_is_logged);
             Context::set('logged_provider', $logged_provider);
             Context::set('logged_count', $logged_count);
+
+            // 로그인한 서비스의 닉네임들
+            foreach($logged_provider as $provider){
+                $nick_names[$provider] = $oSocialxeModel->getProviderNickName($provider);
+            }
+            Context::set('nick_names', $nick_names);
 
             // 대표 계정
             $master_provider = $oSocialxeModel->getMasterProvider();

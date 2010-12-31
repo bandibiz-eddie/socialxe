@@ -26,6 +26,8 @@
         <div class="name">
             <!--@if ($oComment->get('provider'))-->
                 <img src="./images/{$oComment->get('provider')}_small.png" alt="{$lang->provider[$oComment->get('provider')]}" class="iePngFix"/>
+            <!--@else-->
+                <img src="./images/xe_small.png" alt="XE" class="iePngFix"/>
             <!--@end-->
 
             <!--@if ($oComment->get('member_srl'))-->
@@ -52,7 +54,9 @@
         <div id="socialxe_comment_{$oComment->get('comment_srl')}" class="sub_comment" style="display: none;"></div>
         <!--@if ($use_comment_srl)-->
             <script type="text/javascript">
-            viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}')
+            <!--
+                viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}')
+            -->
             </script>
         <!--@end-->
     </div>

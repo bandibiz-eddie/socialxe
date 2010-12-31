@@ -227,10 +227,10 @@ function runAutoLink(){
 
 // textarea 엔터로 등록하기
 function enterSend(){
-    $(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
+    jQuery(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
         if (e.keyCode != 13) return true;
 
-        $(this).parents('form').submit();
+        jQuery(this).parents('form').submit();
         return false;
     });
 }

@@ -4,9 +4,21 @@
                 <!--@foreach($provider_list as $provider)-->
                 <li>
                     <!--@if ($provider_is_logged[$provider])-->
-                        <a href="{getUrl('', 'module', 'socialxe', 'act', 'dispSocialxeLogout', 'provider', $provider, 'query', $query)}" onclick="providerLogout('{$provider}', '{$skin}'); return false;"><img src="./images/{$provider}_on.png" title="{$lang->provider[$provider]} Logout" alt="{$lang->provider[$provider]} Logout" class="iePngFix"/></a>
+                        <!--@if ($provider != 'xe')-->
+                            <a href="{getUrl('', 'module', 'socialxe', 'act', 'dispSocialxeLogout', 'provider', $provider, 'query', $query)}" onclick="providerLogout('{$provider}', '{$skin}'); return false;">
+                        <!--@end-->
+                        <img src="./images/{$provider}_on.png" title="{$lang->provider[$provider]}({$nick_names[$provider]})<!--@if ($provider != 'xe')--> Logout<!--@end-->" alt="{$lang->provider[$provider]}({$nick_names[$provider]})<!--@if ($provider != 'xe')--> Logout<!--@end-->" class="iePngFix"/>
+                        <!--@if ($provider != 'xe')-->
+                            </a>
+                        <!--@end-->
                     <!--@else-->
-                        <a href="{getUrl('', 'module', 'socialxe', 'act', 'dispSocialxeLogin', 'provider', $provider, 'query', $query)}" onclick="providerLogin(this.href, '{$skin}'); return false;"><img src="./images/{$provider}_off.png" title="{$lang->provider[$provider]} Login" alt="{$lang->provider[$provider]} Login" class="iePngFix"/></a>
+                        <!--@if ($provider != 'xe')-->
+                            <a href="{getUrl('', 'module', 'socialxe', 'act', 'dispSocialxeLogin', 'provider', $provider, 'query', $query)}" onclick="providerLogin(this.href, '{$skin}'); return false;">
+                        <!--@end-->
+                        <img src="./images/{$provider}_off.png" title="{$lang->provider[$provider]}<!--@if ($provider != 'xe')--> Login<!--@end-->" alt="{$lang->provider[$provider]}<!--@if ($provider != 'xe')--> Login<!--@end-->" class="iePngFix"/>
+                        <!--@if ($provider != 'xe')-->
+                            </a>
+                        <!--@end-->
                     <!--@end-->
                 </li>
                 <!--@end-->
@@ -18,7 +30,7 @@
             <div class="name">
                 <!--@if($nick_name)-->
                     <img src="./images/{$master_provider}_small.png" alt="{$lang->provider[$master_provider]}" class="iePngFix"/> {$nick_name}
-                    <!--@if($logged_count > 1)-->
+                    <!--@if($logged_count > 1 && !in_array('xe', $logged_provider))-->
                         <span class="master_change">{$lang->cmd_master}</span>
                         <span class="master_change_list">
                             <!--@foreach($logged_provider as $provider)-->
