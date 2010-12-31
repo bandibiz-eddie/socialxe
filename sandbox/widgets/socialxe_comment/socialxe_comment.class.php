@@ -95,6 +95,7 @@
                 $comment_list = $oSocialxeModel->getComment($args->document_srl, $comment_srl);
                 Context::set('comment_srl', null, true);
                 Context::set('use_comment_srl', $comment_list->get('use_comment_srl'));
+                Context::set('socialxe_comment_srl', $comment_srl);
             }
 
             // 댓글 목록을 가져온다.
@@ -185,10 +186,26 @@
             // 언어 로드
             Context::loadLang($this->widget_path . 'lang');
 
+            // comment_srl이 있으면 해당 댓글을 가져온다.
+            $comment_srl = Context::get('comment_srl');
+            if ($comment_srl){
+                $comment_list = $oSocialxeModel->getComment($document_srl, $comment_srl);
+                Context::set('comment_srl', null, true);
+                Context::set('use_comment_srl', $comment_list->get('use_comment_srl'));
+                Context::set('socialxe_comment_srl', $comment_srl);
+            }
+
             // 댓글 목록을 가져온다.
-            $comment_list = $oSocialxeModel->getCommentList($document_srl, $last_comment_srl, $list_count);
+            else {
+                $comment_list = $oSocialxeModel->getCommentList($document_srl, 0, $list_count);
+            }
+
             Context::set('total', $comment_list->get('total'));
             Context::set('comment_list', $comment_list->get('list'));
+
+            // 자동 로그인 키
+            $auto_login_key = $oSocialxeModel->getAutoLoginKey();
+            Context::set('auto_login_key', $auto_login_key);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $skin);

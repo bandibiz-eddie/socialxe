@@ -40,6 +40,7 @@ function replaceInput(ret_obj){
     params['document_srl'] = socialxe_document_srl;
     params['list_count'] = socialxe_list_count;
     params['content_link'] = socialxe_content_link;
+    params['comment_srl'] = socialxe_comment_srl;
     var response_tags = new Array('error','message','output');
     exec_xml('socialxe', 'procCompileList', params, replaceList, response_tags);
 }
@@ -87,6 +88,8 @@ function moreComment(skin, document_srl, last_comment_srl, list_count, content_l
 
 // 전체 댓글보기
 function replaceComment(skin, document_srl, list_count, content_link){
+    socialxe_comment_srl = null;
+
     var params = new Array();
     params['skin'] = skin;
     params['document_srl'] = document_srl;

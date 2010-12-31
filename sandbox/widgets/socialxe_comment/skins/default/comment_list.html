@@ -52,7 +52,7 @@
             </span>
         </div>
         <div id="socialxe_comment_{$oComment->get('comment_srl')}" class="sub_comment" style="display: none;"></div>
-        <!--@if ($use_comment_srl)-->
+        <!--@if ($use_comment_srl && $auto_login_key)-->
             <script type="text/javascript">
             <!--
                 viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}')
