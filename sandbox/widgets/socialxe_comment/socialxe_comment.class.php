@@ -12,6 +12,8 @@
         function proc($args) {
             $oSocialxeModel = &getModel('socialxe');
 
+            Context::set('colorset', $args->colorset);
+
             // 언어 로드
             Context::loadLang($this->widget_path . 'lang');
 

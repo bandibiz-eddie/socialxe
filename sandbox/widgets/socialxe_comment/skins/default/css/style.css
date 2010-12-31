@@ -2,7 +2,7 @@
 .socialxe_comment fieldset:after{ content:""; display:block; float:none; clear:both;}
 .socialxe_comment legend { position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 
-.socialxe_comment .inputTypeText { border: 1px #ccc solid; }
+.socialxe_comment .inputTypeText { border: 1px #ccc solid; outline-style: none;}
 
 /* Control Button + Submit Button */
 .socialxe_comment span.socialxe_button,
