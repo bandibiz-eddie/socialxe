@@ -20,21 +20,17 @@
         );
 
         function socialxe(){
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('socialxe');
-
-            if (!$config->server_hostname) $config->server_hostname = $this->hostname;
-            if (!$config->server_query) $config->server_query = $this->query;
-            if (!$config->use_ssl) $config->use_ssl = 'Y';
-            if (!$config->hashtag) $config->hashtag = 'socialxe';
-            $this->config = $config;
-
             // 세션 관리자
             $this->session = &socialxeSessionManager::getInstance();
 
             // 서비스 관리 클래스
             $this->providerManager = &socialxeProviderManager::getInstance($this->session);
+
+            // 환경 설정
+            $this->config = $this->getConfig();
+
+            // 환경 설정값을 서비스 관리 클래스에 세팅
+            $this->providerManager->setConfig($this->config);
 
             // 커뮤니케이터
             $this->communicator = &socialxeCommunicator::getInstance($this->session, $this->providerManager, $this->config);
@@ -87,6 +83,26 @@
          * @brief 캐시 파일 재생성
          **/
         function recompileCache() {
+        }
+
+        // 환경설정
+        function getConfig(){
+            // 설정 정보를 받아옴 (module model 객체를 이용)
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('socialxe');
+
+            if (!$config->server_hostname) $config->server_hostname = $this->hostname;
+            if (!$config->server_query) $config->server_query = $this->query;
+            if (!$config->use_ssl) $config->use_ssl = 'Y';
+            if (!$config->hashtag) $config->hashtag = 'socialxe';
+
+            $provider_list = $this->providerManager->getFullProviderList();
+            foreach($provider_list as $provider){
+                if (!$config->select_service[$provider])
+                    $config->select_service[$provider] = 'Y';
+            }
+
+            return $config;
         }
 
         function getNotEncodedFullUrl() {

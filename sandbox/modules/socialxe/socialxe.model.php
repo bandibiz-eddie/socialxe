@@ -8,23 +8,9 @@
         function init() {
         }
 
-        // 환경설정
-        function getConfig(){
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('socialxe');
-
-            if (!$config->server_hostname) $config->server_hostname = $this->hostname;
-            if (!$config->server_query) $config->server_query = $this->query;
-            if (!$config->use_ssl) $config->use_ssl = 'Y';
-            if (!$config->hashtag) $config->hashtag = 'socialxe';
-
-            return $config;
-        }
-
         // 제공 서비스
         function getProviderList(){
-            return $this->providerManager->provider_list;
+            return $this->providerManager->getProviderList();
         }
 
         // 로그인한 서비스 목록

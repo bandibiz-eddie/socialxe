@@ -190,7 +190,7 @@ class socialxeCommunicator{
         // 전송 결과를 체크
         $msg = array();
         $lang_provider = Context::getLang('provider');
-        foreach($this->providerManager->provider_list as $provider){
+        foreach($this->providerManager->getProviderList() as $provider){
             if ($output->result->{$provider}->error){
                 $msg[] = sprintf(Context::getLang('msg_send_failed'), $lang_provider[$provider], $output->result->{$provider}->error);
             }

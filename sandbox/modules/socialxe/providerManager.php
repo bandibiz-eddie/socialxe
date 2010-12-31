@@ -24,15 +24,38 @@ class socialxeProviderManager{
         $this->provider['me2day'] = &socialxeProviderMe2day::getInstance($this->session);
         $this->provider['facebook'] = &socialxeProviderFacebook::getInstance($this->session);
         $this->provider['yozm'] = &socialxeProviderYozm::getInstance($this->session);
+    }
+
+    // 환경 설정 값 세팅
+    function setConfig($config){
+        $this->config = $config;
 
         // 대표계정 설정
         $master_provider = $this->session->getSession('master');
         $this->setMasterProvider($master_provider);
     }
 
+    // 제공하는 전체 서비스 목록
+    function getFullProviderList(){
+        return $this->provider_list;
+    }
+
+    // 제공하는 서비스 목록(환경설정에서 선택한 것만)
+    function getProviderList(){
+        $provider_list = $this->getFullProviderList();
+        $result = array();
+        foreach($provider_list as $provider){
+            if ($this->config->select_service[$provider] == 'Y'){
+                $result[] = $provider;
+            }
+        }
+
+        return $result;
+    }
+
     // 제공하는 서비스 여부 확인
     function inProvider($provider){
-        return in_array($provider, $this->provider_list);
+        return in_array($provider, $this->getProviderList());
     }
 
     // 로그인
@@ -77,7 +100,7 @@ class socialxeProviderManager{
 
     // 로그인 여부 싱크
     function syncLogin(){
-        foreach($this->provider_list as $provider){
+        foreach($this->getProviderList() as $provider){
             $this->provider[$provider]->syncLogin();
         }
 
@@ -95,7 +118,7 @@ class socialxeProviderManager{
     function getLoggedProviderList(){
         $result = array();
 
-        foreach($this->provider_list as $provider){
+        foreach($this->getProviderList() as $provider){
             if ($this->provider[$provider]->isLogged()){
                 $result[] = $provider;
             }
@@ -110,6 +133,7 @@ class socialxeProviderManager{
 
         // 제공하는 서비스인지 확인
         if (!$this->inProvider($provider)){
+            $this->setNextMasterProvider();
             $result->setError(-1);
             return $result->setMessage('msg_invalid_provider');
         }

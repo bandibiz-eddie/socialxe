@@ -13,9 +13,11 @@
          **/
         function dispSocialxeAdminConfig() {
             // 설정 정보를 받아옴
-            $oSocialxeModel = &getModel('socialxe');
-            $config = $oSocialxeModel->getConfig();
-            Context::set('config',$config);
+            Context::set('config',$this->config);
+
+            // 서비스 목록
+            $provider_list = $this->providerManager->getFullProviderList();
+            Context::set('provider_list', $provider_list);
 
             // 템플릿 파일 지정
             $this->setTemplatePath($this->module_path.'tpl');
