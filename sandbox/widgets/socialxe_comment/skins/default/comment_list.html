@@ -13,7 +13,7 @@
         <!--@end-->
 
         <!--@if($profile_image = $oComment->getProfileImage())-->
-            <img src="{$profile_image}" alt="profile image" />
+            <img src="{$profile_image}" alt="profile image" class="iePngFix"/>
         <!--@else-->
             <img src="./images/anonymous.png" alt="profile image" />
         <!--@end-->
@@ -25,7 +25,7 @@
     <div class="socialxe_right">
         <div class="name">
             <!--@if ($oComment->get('provider'))-->
-                <img src="./images/{$oComment->get('provider')}_small.gif" alt="{$lang->provider[$oComment->get('provider')]}" />
+                <img src="./images/{$oComment->get('provider')}_small.png" alt="{$lang->provider[$oComment->get('provider')]}" class="iePngFix"/>
             <!--@end-->
 
             <!--@if ($oComment->get('member_srl'))-->
