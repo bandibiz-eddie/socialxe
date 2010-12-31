@@ -66,12 +66,13 @@
             // 댓글 삽입
 
             // XE가 대표 계정이면 XE 회원 정보를 이용하여 댓글을 등록
-            if ($this->providerManager->getMasterProvider() == 'xe')
+            if ($this->providerManager->getMasterProvider() == 'xe'){
                 $manual_inserted = false;
                 // 알림 설정
                 $args->notify_message = "Y";
-            else
+            }else{
                 $manual_inserted = true;
+            }
 
             $result = $oCommentController->insertComment($args, $manual_inserted);
             if (!$result->toBool()) return $result;
