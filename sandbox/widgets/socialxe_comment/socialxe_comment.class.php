@@ -20,7 +20,6 @@
             // 페이지 수정일 때는 실제 모습은 보이지 않도록
             if (in_array(Context::get('act'), array("procWidgetGenerateCodeInPage", "dispPageAdminContentModify"))){
                 $tpl_path = sprintf('%stpl', $this->widget_path);
-                debugPrint($tpl_path);
                 $tpl_file = 'pageedit';
                 $oTemplate = &TemplateHandler::getInstance();
                 return $oTemplate->compile($tpl_path, $tpl_file);
@@ -60,6 +59,18 @@
             // 대표 계정의 닉네임
             $nick_name = $oSocialxeModel->getNickName();
             Context::set('nick_name', $nick_name);
+
+            // 부계정
+            $slave_provider = $oSocialxeModel->getSlaveProvider();
+            Context::set('slave_provider', $slave_provider);
+
+            // 부계정의 프로필 이미지
+            $slave_profile_image = $oSocialxeModel->getSlaveProfileImage();
+            Context::set('slave_profile_image', $slave_profile_image);
+
+            // 부계정의 닉네임
+            $slave_nick_name = $oSocialxeModel->getSlaveNickName();
+            Context::set('slave_nick_name', $slave_nick_name);
 
             // 현재 페이지 주소의 쿼리 정보를 세팅
             $url_info = parse_url(Context::getRequestUrl());
@@ -162,6 +173,18 @@
             // 대표 계정의 닉네임
             $nick_name = $oSocialxeModel->getNickName();
             Context::set('nick_name', $nick_name);
+
+            // 부계정
+            $slave_provider = $oSocialxeModel->getSlaveProvider();
+            Context::set('slave_provider', $slave_provider);
+
+            // 부계정의 프로필 이미지
+            $slave_profile_image = $oSocialxeModel->getSlaveProfileImage();
+            Context::set('slave_profile_image', $slave_profile_image);
+
+            // 부계정의 닉네임
+            $slave_nick_name = $oSocialxeModel->getSlaveNickName();
+            Context::set('slave_nick_name', $slave_nick_name);
 
             // 현재 페이지 주소의 쿼리 정보를 세팅
             Context::set('query', $query);

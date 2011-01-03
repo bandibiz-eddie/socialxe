@@ -3,18 +3,23 @@
 <li id="social_comment_{$oComment->get('comment_srl')}">
     <div>
         <span class="name">
-            <!--@if ($provider = $oComment->get('provider'))-->
-                <img src="./images/{$provider}_small.png" alt="{$lang->provider[$provider]}" class="iePngFix"/>
-            <!--@end-->
-
             <!--@if ($oComment->get('member_srl'))-->
+                <img src="./images/xe_small.png" alt="XE" class="iePngFix"/>
                 <a href="#popup_menu_area" class="member_{$oComment->get('member_srl')}" onclick="return false">{$oComment->getNickName()}</a>
-            <!--@else-->
+            <!--@end-->
+            <!--@if ($oComment->get('member_srl') && $oComment->getSocialNickName())-->
+                (
+            <!--@end-->
+            <!--@if ($oComment->getSocialNickName())-->
+                <img src="./images/{$oComment->get('provider')}_small.png" alt="{$lang->provider[$oComment->get('provider')]}" class="iePngFix"/>
                 <!--@if ($oComment->get('link'))-->
-                    <a href="{$oComment->get('link')}" target="_blank">{$oComment->getNickName()}</a>
+                    <a href="{$oComment->get('link')}" target="_blank">{$oComment->getSocialNickName()}</a>
                 <!--@else-->
-                    {$oComment->getNickName()}
+                    {$oComment->getSocialNickName()}
                 <!--@end-->
+            <!--@end-->
+            <!--@if ($oComment->get('member_srl') && $oComment->getSocialNickName())-->
+                )
             <!--@end-->
         </span>
         <span class="date">{getTimeGap($oComment->get('regdate'), "Y.m.d H:i:s")}</span>
