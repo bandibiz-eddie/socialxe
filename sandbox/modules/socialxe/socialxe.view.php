@@ -96,6 +96,9 @@
             $this->communicator->sendSession();
             if (!$output->toBool()) return $output;
 
+            // 댓글 권한을 초기화한다...
+            unset($_SESSION['own_comment']);
+
             // JS 사용이면 XMLRPC 응답
             if ($use_js){
                 Context::setRequestMethod('XMLRPC');

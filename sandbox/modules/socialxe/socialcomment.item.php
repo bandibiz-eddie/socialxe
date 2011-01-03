@@ -37,6 +37,21 @@
                 $this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->get('nick_name')));
             else
                 $this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->getSocialNickName()));
+
+            // 권한 설정
+
+            // 우선 부모 함수 먼저
+            $grant = $this->isGranted();
+
+            // 권한이 없으면 소셜 권한이 있는지 확인
+            $provider = $this->get('provider');
+            $id = $this->get('id');
+            if (!$grant && $id){
+                $oSocialxeModel = &getModel('socialxe');
+                $logged_id = $oSocialxeModel->getProviderID($provider);
+
+                if ($id == $logged_id) $this->setGrant();
+            }
         }
 
         // 프로필 이미지
@@ -63,27 +78,6 @@
             }
 
             return $nick_name;
-        }
-
-        // 댓글 권한 체크
-        function isGranted(){
-            // 우선 부모 함수 먼저
-            $grant = parent::isGranted();
-
-            // 권한 있으면 리턴~
-            if ($grant) return true;
-
-            // 소셜 권한이 있는지 확인
-            $provider = $this->get('provider');
-            $id = $this->get('id');
-
-            if (!$id) return false;
-
-            $oMemberModel = &getModel('socialxe');
-            $logged_id = $oMemberModel->getProviderID($provider);
-
-            if ($id == $logged_id) return true;
-            return false;
         }
 
     }
