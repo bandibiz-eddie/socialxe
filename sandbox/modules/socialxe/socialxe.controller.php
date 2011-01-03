@@ -78,7 +78,10 @@
 
             // 소셜 서비스로 댓글 전송
             $output = $this->communicator->sendComment($args);
-            if (!$output->toBool()) return $output;
+            if (!$output->toBool()){
+                $oCommentController->deleteComment($comment_srl);
+                return $output;
+            }
             $msg = $output->get('msg');
 
             // 추가 정보 준비
