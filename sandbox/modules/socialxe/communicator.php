@@ -143,6 +143,20 @@ class socialxeCommunicator{
         // 내용을 분석해서 각 소셜 서비스의 리플 형식이 들어있는지 확인
         $reply_provider_list = $this->providerManager->getReplyProviderList($comment->content);
 
+        // 보낼 필요가 있는지 확인
+
+        // 대댓글이면
+        if ($comment->parent){
+            // 부모 댓글에 소셜 정보가 없으면 리턴~
+            if (!$comment->parent->provider || $comment->parent->provider == 'xe') return new Object();
+        }
+
+        // 대댓글이 아니면
+        else{
+            // 로그인한 소셜 서비스가 없으면 리턴~
+            if (!count($logged_provider_list)) return new Object();
+        }
+
         // API 요청 준비
         $query = array(
                         'mode' => 'send',

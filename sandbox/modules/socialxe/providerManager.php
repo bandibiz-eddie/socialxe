@@ -168,7 +168,10 @@ class socialxeProviderManager{
             if ($this->provider['xe']->isLogged()){
                 // 부계정이 없으면 지금 대표 계정을
                 if (!$this->getSlaveProvider() && $init){
-                    $this->setSlaveProvider($provider);
+                    if ($provider == 'xe')
+                        $this->setNextSlaveProvider();
+                    else
+                        $this->setSlaveProvider($provider);
                 }
 
                 // XE 로그인 상태에서는 요청을 부계정으로 넘긴다.
@@ -245,9 +248,9 @@ class socialxeProviderManager{
             else if ($logged_provider_list[1])
                 $this->setSlaveProvider($logged_provider_list[1]);
             else
-                $this->session->clearSession('slave');
+                $this->clearSlaveProvider();
         }else{
-            $this->session->clearSession('slave');
+            $this->clearSlaveProvider();
         }
     }
 
