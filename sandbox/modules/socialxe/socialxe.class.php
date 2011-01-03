@@ -20,6 +20,10 @@
             array('comment.deleteComment', 'socialxe', 'controller', 'triggerDeleteComment', 'after')
         );
 
+        var $add_column = array(
+            array('socialxe', 'social_nick_name', 'varchar', 255)
+        );
+
         function socialxe(){
             // 세션 관리자
             $this->session = &socialxeSessionManager::getInstance();
@@ -53,11 +57,17 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
 
             // $this->add_triggers 트리거 일괄 검사
             foreach($this->add_triggers as $trigger) {
                 if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
+            }
+
+            // $this->add_column 컴럼 일괄 검사
+            foreach($this->add_column as $column){
+                if(!$oDB->isColumnExists($column[0], $column[1])) return true;
             }
 
             return false;
@@ -67,6 +77,7 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
 
@@ -75,6 +86,11 @@
                 if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) {
                     $oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
                 }
+            }
+
+            // $this->add_column 컬럼 일괄 업데이트
+            foreach($this->add_column as $column){
+                if(!$oDB->isColumnExists($column[0], $column[1])) $oDB->addColumn($column[0], $column[1], $column[2], $column[3]);
             }
 
             return new Object(0, 'success_updated');

@@ -119,6 +119,7 @@ class socialxeCommunicator{
 
         $logged_provider_list = $this->providerManager->getLoggedProviderList();
         $master_provider = $this->providerManager->getMasterProvider();
+        $slave_provider = $this->providerManager->getSlaveProvider();
         $config = $this->config;
 
         // $logged_provider_list에서 xe 제외
@@ -207,7 +208,11 @@ class socialxeCommunicator{
         }
 
         // 대표 계정의 댓글 번호를 세팅한다.
-        $comment_id = $output->result->{$master_provider}->id;
+        if ($master_provider == 'xe' && $slave_provider)
+            $comment_id = $output->result->{$slave_provider}->id;
+        else
+            $comment_id = $output->result->{$master_provider}->id;
+
         $result->add('comment_id', $comment_id);
 
         return $result;

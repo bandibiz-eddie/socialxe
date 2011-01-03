@@ -82,10 +82,23 @@
 
             // 추가 정보 준비
             $args->comment_srl = $comment_srl;
-            $args->provider = $this->providerManager->getMasterProvider();
-            $args->id = $this->providerManager->getMasterProviderId();
-            $args->profile_image = $this->providerManager->getMasterProviderProfileImage();
-            $args->comment_id = $output->get('comment_id');
+
+            // 대표 계정이 XE면 부계정의 정보를 넣는다.
+            if ($this->providerManager->getMasterProvider() == 'xe'){
+                $args->provider = $this->providerManager->getSlaveProvider();
+                $args->id = $this->providerManager->getSlaveProviderId();
+                $args->comment_id = $output->get('comment_id');
+                $args->social_nick_name = $this->providerManager->getSlaveProviderNickName();
+            }
+
+            // 대표 계정이 XE가 아니면 대표 계정의 정보를 넣는다.
+            else{
+                $args->provider = $this->providerManager->getMasterProvider();
+                $args->id = $this->providerManager->getMasterProviderId();
+                $args->profile_image = $this->providerManager->getMasterProviderProfileImage();
+                $args->comment_id = $output->get('comment_id');
+                $args->social_nick_name = $this->providerManager->getMasterProviderNickName();
+            }
 
             // 추가 정보 삽입
             $output = executeQuery('socialxe.insertSocialxe', $args);

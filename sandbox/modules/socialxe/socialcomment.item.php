@@ -33,7 +33,10 @@
             }
 
             // 리플 형식
-            $this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->get('nick_name')));
+            if ($this->get('member_srl'))
+                $this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->get('nick_name')));
+            else
+                $this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->getSocialNickName()));
         }
 
         // 프로필 이미지
@@ -48,6 +51,18 @@
             if(!$profile_info) return;
 
             return $profile_info->src;
+        }
+
+        // 소셜 닉네임
+        function getSocialNickName() {
+            $nick_name = $this->get('social_nick_name');
+
+            // 하위 버전은 social_nick_name 컬럼 없었음
+            if (!$nick_name && !$this->get('member_srl')){
+                $nick_name = $this->getNickName();
+            }
+
+            return $nick_name;
         }
 
         // 댓글 권한 체크

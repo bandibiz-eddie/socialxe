@@ -3,6 +3,7 @@
     <column name="provider" type="varchar" size="255" />
     <column name="profile_image" type="varchar" size="255" />
     <column name="id" type="varchar" size="255" />
+    <column name="social_nick_name" type="varchar" size="255" />
     <column name="comment_id" type="varchar" size="255" />
     <column name="sub_comment_count" type="number" size="5" default="0"/>
 </table>

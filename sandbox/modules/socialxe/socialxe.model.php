@@ -48,9 +48,29 @@
             return $this->providerManager->getMasterProviderProfileImage();
         }
 
+        // 부계정의 아이디
+        function getSlaveID(){
+            return $this->providerManager->getSlaveProviderId();
+        }
+
+        // 부계정의 닉네임
+        function getSlaveNickName(){
+            return $this->providerManager->getSlaveProviderNickName();
+        }
+
+        // 부계정의 프로필 이미지
+        function getSlaveProfileImage(){
+            return $this->providerManager->getSlaveProviderProfileImage();
+        }
+
         // 대표 계정
         function getMasterProvider(){
             return $this->providerManager->getMasterProvider();
+        }
+
+        // 부계정
+        function getSlaveProvider(){
+            return $this->providerManager->getSlaveProvider();
         }
 
         // 소셜 서비스 페이지 링크
