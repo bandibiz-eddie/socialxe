@@ -53,11 +53,6 @@
             $args->content_link = Context::get('content_link');
             $args->content_title = Context::get('content_title');
 
-            // 소셜 서비스로 댓글 전송
-            $output = $this->communicator->sendComment($args);
-            if (!$output->toBool()) return $output;
-            $msg = $output->get('msg');
-
             // 댓글의 moduel_srl
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByDocumentSrl($args->document_srl);
@@ -79,6 +74,11 @@
 
             // 삽입된 댓글의 번호
             $comment_srl = $result->get('comment_srl');
+
+            // 소셜 서비스로 댓글 전송
+            $output = $this->communicator->sendComment($args);
+            if (!$output->toBool()) return $output;
+            $msg = $output->get('msg');
 
             // 추가 정보 준비
             $args->comment_srl = $comment_srl;
