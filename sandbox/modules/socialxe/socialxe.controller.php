@@ -45,8 +45,14 @@
                 return $this->stop('msg_not_logged');
             }
 
-            // 데이터를 준비
             $args->document_srl = Context::get('document_srl');
+
+            // 해당 문서의 댓글이 닫혀있는지 확인
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($args->document_srl);
+            if (!$oDocument->allowComment()) return new Object(-1, 'msg_invalid_request');
+
+            // 데이터를 준비
             $args->parent_srl = Context::get('comment_srl');
             $args->content = Context::get('content');
             $args->nick_name = $this->providerManager->getMasterProviderNickName();
