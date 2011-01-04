@@ -24,7 +24,7 @@
     </div>
     <div class="socialxe_right">
         <div class="name">
-            <!--@if ($oComment->get('member_srl'))-->
+            <!--@if ($oComment->get('member_srl') || !$oComment->get('provider'))-->
                 <img src="./images/xe_small.png" alt="XE" class="iePngFix"/>
                 <a href="#popup_menu_area" class="member_{$oComment->get('member_srl')}" onclick="return false">{$oComment->getNickName()}</a>
             <!--@end-->
