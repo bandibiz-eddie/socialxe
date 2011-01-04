@@ -31,12 +31,16 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
         ));
 
         // URL 생성
-        $loginUrl = $fb->getLoginUrl(array(
-            "req_perms" => "publish_stream,offline_access",
-            "display" => "popup",
-            "next" => $this->callback,
-            "cancel_url" => $this->callback
-        ));
+        try{
+            $loginUrl = $fb->getLoginUrl(array(
+                "req_perms" => "publish_stream,offline_access",
+                "display" => "popup",
+                "next" => $this->callback,
+                "cancel_url" => $this->callback
+            ));
+        }catch(FacebookApiException $e){
+            return new Object(-1, $e->__toString());
+        }
 
         $result = new Object();
         $result->add('url', $loginUrl);
@@ -53,7 +57,11 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
             "cookie" => false
         ));
 
-        $session = $fb->getSession();
+        try{
+            $session = $fb->getSession();
+        }catch(FacebookApiException $e){
+            return new Object(-1, $e->__toString());
+        }
 
         // 로그인 취소했으면 이전 페이지로 돌아간다.
         if (!$session){
