@@ -110,7 +110,7 @@ class socialxeCommunicator{
         }
         if (!$post_data) $post_data = array();
 
-        $content = FileHandler::getRemoteResource($url, null, 3, 'POST', 'application/x-www-form-urlencoded', array(), array(), $post_data);
+        $content = FileHandler::getRemoteResource($url, null, 3, 'POST', 'application/json', array(), array(), $post_data);
     }
 
     // 소셜 서비스로 댓글 전송
@@ -186,7 +186,7 @@ class socialxeCommunicator{
         if (!$post_data) $post_data = array();
 
         // 요청
-        $content = FileHandler::getRemoteResource($url, null, 3, 'POST', 'application/x-www-form-urlencoded', array(), array(), $post_data);
+        $content = FileHandler::getRemoteResource($url, null, 3, 'POST', 'application/json', array(), array(), $post_data);
 
         if (!$content){
             $result->setError(-1);
@@ -243,7 +243,7 @@ class socialxeCommunicator{
         $url = $this->getURL($query);
 
         // 요청
-        $content = FileHandler::getRemoteResource($url);
+        $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
 
         //JSON 디코딩
         $json = new Services_JSON_SocialXE();
@@ -263,7 +263,7 @@ class socialxeCommunicator{
         $url = $this->getURL($query);
 
         // 요청
-        $content = FileHandler::getRemoteResource($url);
+        $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
 
 
         //JSON 디코딩
@@ -293,7 +293,7 @@ class socialxeCommunicator{
         $url = $this->getURL($query);
 
         // 요청
-        $content = FileHandler::getRemoteResource($url);
+        $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
 
 
         //JSON 디코딩
