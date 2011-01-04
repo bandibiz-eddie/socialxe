@@ -93,6 +93,11 @@
             $auto_login_key_url = $oSocialxeModel->getAutoLoginKeyUrl();
             Context::set('auto_login_key_url', $auto_login_key_url);
 
+            // 엔터 전송 여부
+            $enter_send = $args->enter_send;
+            if (!$enter_send) $enter_send = 'Y';
+            Context::set('enter_send', $enter_send);
+
             // 한번에 볼 댓글 개수
             $list_count = $args->list_count;
             if (!$list_count) $list_count = 10;
@@ -193,6 +198,11 @@
 
             // 현재 페이지 주소의 쿼리 정보를 세팅
             Context::set('query', $query);
+
+            // 엔터 전송 여부
+            $enter_send = $args->enter_send;
+            if (!$enter_send) $enter_send = 'Y';
+            Context::set('enter_send', $enter_send);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $skin);

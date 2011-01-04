@@ -27,5 +27,17 @@
             <type>text</type>
             <name xml:lang="ko">한번에 보여질 댓글 개수(기본값: 10)</name>
         </var>
+        <var id="enter_send">
+            <type>select</type>
+            <name xml:lang="ko">엔터로 바로 댓글 등록</name>
+            <options>
+                <value>Y</value>
+                <name xml:lang="ko">사용</name>
+            </options>
+            <options>
+                <value>N</value>
+                <name xml:lang="ko">사용안함</name>
+            </options>
+        </var>
     </extra_vars>
 </widget>
