@@ -73,7 +73,7 @@
             $nick_name = $this->get('social_nick_name');
 
             // 하위 버전은 social_nick_name 컬럼 없었음
-            if (!$nick_name && !$this->get('member_srl')){
+            if (!$nick_name && !$this->get('member_srl') && $this->get('provider')){
                 $nick_name = $this->getNickName();
             }
 
