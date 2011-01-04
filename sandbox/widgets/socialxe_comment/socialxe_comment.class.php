@@ -117,6 +117,11 @@
             Context::set('comment_list', $comment_list->get('list'));
             Context::set('total', $comment_list->get('total'));
 
+            // 해당 글의 댓글 잠김을 확인한다.
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($args->document_srl);
+            Context::set('allow_comment', $oDocument->allowComment());
+
             // 사용하는 필터 등록
             Context::addJsFilter($this->widget_path.'filter', 'insert_social_comment.xml');
             Context::addJsFilter($this->widget_path.'filter', 'delete_social_comment.xml');
@@ -261,6 +266,11 @@
             $page_navigation = $comment_list->get('page_navigation');
             Context::set('page_navigation', $page_navigation);
             $result->add('total', $page_navigation->total_count);
+
+            // 해당 글의 댓글 잠김을 확인한다.
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            Context::set('allow_comment', $oDocument->allowComment());
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $skin);

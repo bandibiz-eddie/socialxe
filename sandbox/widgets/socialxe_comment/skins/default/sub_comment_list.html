@@ -49,6 +49,7 @@
 </div>
 <!--@end-->
 
+<!--@if($allow_comment)-->
 <div class="sub_comment_input">
     <form action="./" method="post" onsubmit="return socialSend(this, insert_sub_comment);">
     <input type="hidden" name="document_srl" value="{$document_srl}" />
@@ -59,3 +60,4 @@
         <div class="socialxe_right"><span class="socialxe_button"><input type="submit" value="{$lang->cmd_submit}" /></span></div>
     </form>
 </div>
+<!--@end-->
