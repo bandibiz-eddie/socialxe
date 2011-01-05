@@ -137,6 +137,7 @@
 			$module_info = null;
             if ($document_srl){
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+				$oModuleModel->syncModuleToSite($module_info);
 
             // document_srl이 없으면
             }else{
