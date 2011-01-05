@@ -103,14 +103,8 @@ class socialxeCommunicator{
         $url = $this->getURL($query);
         $url_info = parse_url($url);
         $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
-        $query_list = explode('&', $url_info['query']);
-        foreach($query_list as $query){
-            $query_info = explode('=', $query);
-            $post_data[$query_info[0]] = $query_info[1];
-        }
-        if (!$post_data) $post_data = array();
 
-        $content = FileHandler::getRemoteResource($url, null, 3, 'POST', 'application/json', array(), array(), $post_data);
+        $content = FileHandler::getRemoteResource($url, $url_info['query'], 3, 'POST', 'application/json');
     }
 
     // 소셜 서비스로 댓글 전송
@@ -178,15 +172,9 @@ class socialxeCommunicator{
         $url = $this->getURL($query);
         $url_info = parse_url($url);
         $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
-        $query_list = explode('&', $url_info['query']);
-        foreach($query_list as $query){
-            $query_info = explode('=', $query);
-            $post_data[$query_info[0]] = $query_info[1];
-        }
-        if (!$post_data) $post_data = array();
 
         // 요청
-        $content = FileHandler::getRemoteResource($url, null, 3, 'POST', 'application/json', array(), array(), $post_data);
+        $content = FileHandler::getRemoteResource($url, $url_info['query'], 3, 'POST', 'application/json');
 
         if (!$content){
             $result->setError(-1);
