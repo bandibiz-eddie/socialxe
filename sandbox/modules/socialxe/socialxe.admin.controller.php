@@ -31,7 +31,14 @@
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('socialxe',$args);
+
+			// 사이트 정보에 따라 저장
+			$module_info = Context::get('site_module_info');
+			if ($module_info->site_srl){
+				$output = $oModuleController->insertModulePartConfig('socialxe', $module_info->site_srl, $args);
+			}else{
+				$output = $oModuleController->insertModuleConfig('socialxe',$args);
+			}
             return $output;
         }
 

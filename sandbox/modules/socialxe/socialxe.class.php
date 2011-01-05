@@ -16,8 +16,13 @@
         var $hostname = 'socialxe.net';
         var $query = '/?module=socialxeserver&act=procSocialxeserverAPI';
 
+        var $action_forwards = array(
+            array('socialxe', 'view', 'dispSocialxeTextyleTool')
+        );
+
         var $add_triggers = array(
-            array('comment.deleteComment', 'socialxe', 'controller', 'triggerDeleteComment', 'after')
+            array('comment.deleteComment', 'socialxe', 'controller', 'triggerDeleteComment', 'after'),
+            array('textyle.getTextyleCustomMenu', 'socialxe', 'controller', 'triggerGetTextyleCustomMenu', 'after')
         );
 
         var $add_column = array(
@@ -47,6 +52,11 @@
         function moduleInstall() {
             $oModuleController = &getController('module');
 
+            // aciton forward 일괄 추가
+            foreach($this->action_forwards as $item) {
+                $oModuleController->insertActionForward($item[0], $item[1], $item[2]);
+            }
+
             // $this->add_triggers 트리거 일괄 추가
             foreach($this->add_triggers as $trigger) {
                 $oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
@@ -59,6 +69,11 @@
         function checkUpdate() {
             $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
+
+            // action forward 일괄 체크
+            foreach($this->action_forwards as $item) {
+                if(!$oModuleModel->getActionForward($item[2])) return true;
+            }
 
             // $this->add_triggers 트리거 일괄 검사
             foreach($this->add_triggers as $trigger) {
@@ -80,6 +95,13 @@
             $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
+
+            // action forward 일괄 업데이트
+            foreach($this->action_forwards as $item) {
+                if(!$oModuleModel->getActionForward($item[2])) {
+                    $oModuleController->insertActionForward($item[0], $item[1], $item[2]);
+                }
+            }
 
             // $this->add_triggers 트리거 일괄 업데이트
             foreach($this->add_triggers as $trigger) {
@@ -104,20 +126,67 @@
 
         // 환경설정
         function getConfig(){
+			// 전역 설정에 있으면 그걸 리턴~
+			if ($GLOBALS['socialxe_config']) return $GLOBALS['socialxe_config'];
+
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('socialxe');
 
-            if (!$config->server_hostname) $config->server_hostname = $this->hostname;
-            if (!$config->server_query) $config->server_query = $this->query;
-            if (!$config->use_ssl) $config->use_ssl = 'Y';
-            if (!$config->hashtag) $config->hashtag = 'socialxe';
+            // document_srl이 있으면 해당 글의 모듈 정보를...
+            $document_srl = Context::get('document_srl');
+			$module_info = null;
+            if ($document_srl){
+                $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+
+            // document_srl이 없으면
+            }else{
+                // 사이트 정보
+                $module_info = Context::get('site_module_info');
+            }
+
+			// 우선 기본 사이트 설정을 얻는다.
+            $default_config = $oModuleModel->getModuleConfig('socialxe');
+
+            if (!$default_config->server_hostname) $default_config->server_hostname = $this->hostname;
+            if (!$default_config->server_query) $default_config->server_query = $this->query;
+            if (!$default_config->use_ssl) $default_config->use_ssl = 'Y';
+            if (!$default_config->hashtag) $default_config->hashtag = 'socialxe';
 
             $provider_list = $this->providerManager->getFullProviderList();
             foreach($provider_list as $provider){
-                if (!$config->select_service[$provider])
-                    $config->select_service[$provider] = 'Y';
+                if (!$default_config->select_service[$provider])
+                    $default_config->select_service[$provider] = 'Y';
             }
+
+			// site_srl이 없으면 기본 설정을 사용.
+			if (!$module_info->site_srl){
+				$config = $default_config;
+			}
+
+			// site_srl이 있으면 해당 사이트 설정을 사용
+			else{
+				$config = $oModuleModel->getModulePartConfig('socialxe', $module_info->site_srl);
+
+				if (!$config->server_hostname) $config->server_hostname = $this->hostname;
+				if (!$config->server_query) $config->server_query = $this->query;
+				if (!$config->use_ssl) $config->use_ssl = 'Y';
+				if (!$config->hashtag) $config->hashtag = 'socialxe';
+
+				foreach($provider_list as $provider){
+					if (!$config->select_service[$provider])
+						$config->select_service[$provider] = 'Y';
+				}
+
+				// 별도 도메인을 사용하지 않으면 서버 관련 설정은 기본 사이트 설정을 따른다.
+				if (strpos($module_info->domain, '.') === false){
+					$config->server_hostname = $default_config->server_hostname;
+					$config->server_query = $default_config->server_query;
+					$config->use_ssl = $default_config->use_ssl;
+					$config->use_default = true;
+				}
+			}
+
+			$GLOBALS['socialxe_config'] = $config;
 
             return $config;
         }

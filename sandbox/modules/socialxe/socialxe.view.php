@@ -151,5 +151,42 @@
             exit;
         }
 
+        // 텍스타일 설정화면
+        function dispSocialxeTextyleTool() {
+            // 텍스타일의 최신 버전이 아니면 직접 처리
+            $oTextyleView = &getView('textyle');
+            if (!method_exists($oTextyleView, 'initTool')){
+                $oTextyleModel = &getModel('textyle');
+
+                $site_module_info = Context::get('site_module_info');
+                $textyle = $oTextyleModel->getTextyle($site_module_info->index_module_srl);
+                Context::set('textyle',$textyle);
+
+                Context::set('custom_menu', $oTextyleModel->getTextyleCustomMenu());
+
+                $template_path = sprintf("%stpl",$oTextyleView->module_path);
+                $this->setLayoutPath($template_path);
+                $this->setLayoutFile('_tool_layout');
+
+                if($_COOKIE['tclnb']) Context::addBodyClass('lnbClose');
+                else Context::addBodyClass('lnbToggleOpen');
+
+                // browser title 지정
+                Context::setBrowserTitle($textyle->get('browser_title') . ' - admin');
+                Context::addHtmlHeader('<link rel="shortcut icon" href="'.$textyle->getFaviconSrc().'" />');
+            }
+
+            // 설정 정보를 받아옴
+            Context::set('config',$this->config);
+
+            // 서비스 목록
+            $provider_list = $this->providerManager->getFullProviderList();
+            Context::set('provider_list', $provider_list);
+
+            // 템플릿 파일 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('textyleConfig');
+        }
+
     }
 ?>

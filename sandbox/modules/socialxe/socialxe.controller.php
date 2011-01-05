@@ -82,6 +82,21 @@
             // 삽입된 댓글의 번호
             $comment_srl = $result->get('comment_srl');
 
+			// 텍스타일이면 지지자 처리
+			if ($module_info->module == 'textyle'){
+				$oCommentModel = &getModel('comment');
+				$oComment = $oCommentModel->getComment($comment_srl);
+
+				$obj->module_srl = $module_info->module_srl;
+				$obj->nick_name = $oComment->get('nick_name');
+				$obj->member_srl = $oComment->get('member_srl');
+				$obj->homepage = $oComment->get('homepage');
+				$obj->comment_count = 1;
+
+				$oTextyleController = &getController('textyle');
+				$oTextyleController->updateTextyleSupporter($obj);
+			}
+
             // 소셜 서비스로 댓글 전송
             $output = $this->communicator->sendComment($args);
             if (!$output->toBool()){
@@ -216,7 +231,35 @@
 
             $args->comment_srl = $comment->comment_srl;
             $output = executeQuery('socialxe.deleteSocialxe', $args);
-            return $output;
+            if (!$output->toBool()) return $output;
+
+			// 텍스타일이면 지지자 처리
+			$oModuleModel = &getModel('module');
+			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($comment->document_srl);
+			if ($module_info->module == 'textyle'){
+				unset($args);
+				$args->module_srl = $module_info->module_srl;
+				$args->nick_name = $comment->nick_name;
+				$args->member_srl = $comment->member_srl;
+				$args->homepage = $comment->homepage;
+				$args->comment_count = -1;
+
+				$oTextyleController = &getController('textyle');
+				$oTextyleController->updateTextyleSupporter($args);
+			}
+
+			return new Object();
+
+        }
+
+        // 텍스타일 메뉴 설정
+        function triggerGetTextyleCustomMenu(&$custom_menu) {
+            // menu 5(설정) 메뉴에 추가
+            $attache_menu5 = array(
+                'dispSocialxeTextyleTool' => Context::getLang('socialxe')
+            );
+            if(!$custom_menu->attached_menu[5]) $custom_menu->attached_menu[5] = array();
+            $custom_menu->attached_menu[5] = array_merge($custom_menu->attached_menu[5], $attache_menu5);
         }
     }
 ?>
