@@ -49,7 +49,12 @@ class me2day{
         $post_data['ukey'] = $this->createUserKey($user_key);
         $post_data['uid'] = $id;
 
-        $content = $this->getRemoteResource($url, null, 3, 'POST', 'application/x-www-form-urlencoded', array(), array(), $post_data);
+		foreach($post_data as $name => $val){
+			$body .= '&' . $name . '=' . $val;
+		}
+		$body = substr($body, 1);
+
+        $content = $this->getRemoteResource($url, $body, 3, 'POST', 'application/x-www-form-urlencoded');
 
         // JSON 디코딩
         $json = new Services_JSON_SocialXE();
@@ -74,7 +79,12 @@ class me2day{
         $post_data['ukey'] = $this->createUserKey($user_key);
         $post_data['uid'] = $id;
 
-        $content = $this->getRemoteResource($url, null, 3, 'POST', 'application/x-www-form-urlencoded', array(), array(), $post_data);
+        foreach($post_data as $name => $val){
+			$body .= '&' . $name . '=' . $val;
+		}
+		$body = substr($body, 1);
+
+        $content = $this->getRemoteResource($url, $body, 3, 'POST', 'application/x-www-form-urlencoded');
 
         // JSON 디코딩
         $json = new Services_JSON_SocialXE();
