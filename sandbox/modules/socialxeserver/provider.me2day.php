@@ -106,6 +106,7 @@ class socialxeServerProviderMe2day extends socialxeServerProvider{
         }
 
         // 내용 준비
+		$comment->content_title = str_replace('"', '\"', $comment->content_title);
         if ($comment->content_title){
             $title = $comment->content_title;
         }else if ($use_socialxe){
