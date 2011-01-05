@@ -295,7 +295,7 @@ class socialxeServerCommunicator {
 
         // 링크 주소
         $bitly = new bitly($this->config->bitly_username, $this->config->bitly_api_key);
-        $comment->content_link = $bitly->shorten($this->_getCommentUrl($content_link, $comment->parent->comment_srl));
+        $comment->content_link = $bitly->shorten(urlencode($this->_getCommentUrl($content_link, $comment->parent->comment_srl)));
 
         // 댓글이면 모두 등록
         if (!$comment->parent){
@@ -357,10 +357,16 @@ class socialxeServerCommunicator {
             $url .= $url_info[path];
         else
             $url .= '/';
-        if ($url_info[query])
-            $url .= '?' . $url_info[query] . '&comment_srl=' . $comment_srl;
-        else
-            $url .= '?comment_srl=' . $comment_srl;
+
+		if ($comment_srl){
+			if ($url_info[query])
+				$url .= '?' . $url_info[query] . '&comment_srl=' . $comment_srl . '#socialxe_comment';
+			else
+				$url .= '?comment_srl=' . $comment_srl . '#socialxe_comment';
+		}else{
+			if ($url_info[query])
+				$url .= '?' . $url_info[query];
+		}
         return $url;
     }
 
