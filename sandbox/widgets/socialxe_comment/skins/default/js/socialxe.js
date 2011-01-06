@@ -215,7 +215,7 @@ function completeDeleteSocialComment(ret_obj){
     var comment_srl = ret_obj['comment_srl'];
 
     jQuery("#social_comment_" + comment_srl).fadeOut("slow", function(){
-        $(this).remove();
+        jQuery(this).remove();
     });
 }
 
