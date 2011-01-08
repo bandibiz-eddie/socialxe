@@ -49,6 +49,10 @@ class socialxeProviderManager{
             $this->setMasterProvider($master_provider, true);
         else
             $this->setNextMasterProvider();
+
+		// 보험용! 대표 계정 확인
+		if (!$this->getMasterProvider())
+			$this->setNextMasterProvider();
     }
 
     // 제공하는 전체 서비스 목록
@@ -158,37 +162,36 @@ class socialxeProviderManager{
         }
 
         // 제공하는 서비스인지 확인
-        if (!$this->inProvider($provider)){
+        if (!$this->inProvider($provider) && $provider != 'xe'){
             $result->setError(-1);
             return $result->setMessage('msg_invalid_provider');
         }
 
-        if ($this->inProvider('xe')){
-            // XE가 로그인되어 있으면 따지지 말고 XE를 대표계정으로 만든다.
-            if ($this->provider['xe']->isLogged()){
-                // 부계정이 없으면 지금 대표 계정을
-                if (!$this->getSlaveProvider() && $init){
-                    if ($provider == 'xe')
-                        $this->setNextSlaveProvider();
-                    else
-                        $this->setSlaveProvider($provider);
-                }
+		// XE를 사용하고
+		// XE가 로그인되어 있으면 따지지 말고 XE를 대표계정으로 만든다.
+		if ($this->inProvider('xe') && $this->provider['xe']->isLogged()){
+			// 부계정이 없으면 지금 대표 계정을
+			if (!$this->getSlaveProvider() && $init){
+				if ($provider == 'xe')
+					$this->setNextSlaveProvider();
+				else
+					$this->setSlaveProvider($provider);
+			}
 
-                // XE 로그인 상태에서는 요청을 부계정으로 넘긴다.
-                else{
-                    $this->setSlaveProvider($provider);
-                }
+			// XE 로그인 상태에서는 요청을 부계정으로 넘긴다.
+			else{
+				$this->setSlaveProvider($provider);
+			}
 
-                $provider = 'xe';
-            }
+			$provider = 'xe';
+		}
 
-            // XE 로그인 상태가 아닌데 세션에 XE로 되어 있으면 부계정을 대표계정으로 만든다.
-            else if ($provider == 'xe'){
-                $this->setMasterProvider($this->getSlaveProvider());
-                $this->clearSlaveProvider();
-                return $result;
-            }
-        }
+		// XE 로그인 상태가 아닌데 세션에 XE로 되어 있으면 부계정을 대표계정으로 만든다.
+		else if ($provider == 'xe'){
+			$this->setMasterProvider($this->getSlaveProvider());
+			$this->clearSlaveProvider();
+			return $result;
+		}
 
         // 대표계정 설정
         $this->master_provider = $provider;

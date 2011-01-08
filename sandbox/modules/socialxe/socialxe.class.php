@@ -138,12 +138,12 @@
             if ($document_srl){
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
 				$oModuleModel->syncModuleToSite($module_info);
+			}
 
-            // document_srl이 없으면
-            }else{
-                // 사이트 정보
-                $module_info = Context::get('site_module_info');
-            }
+			// module_info를 못 얻었으면
+			if (!$module_info){
+				$module_info = Context::get('site_module_info');
+			}
 
 			// 우선 기본 사이트 설정을 얻는다.
             $default_config = $oModuleModel->getModuleConfig('socialxe');
