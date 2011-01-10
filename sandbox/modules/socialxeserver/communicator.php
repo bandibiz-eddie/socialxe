@@ -32,6 +32,9 @@ class socialxeServerCommunicator {
     function procAPI($mode){
         $result = new Object();
 
+		// data decode
+		$this->decodeData();
+
         switch($mode){
             // 요청토큰
             case 'request':
@@ -90,9 +93,15 @@ class socialxeServerCommunicator {
         $output = $this->_clearOldRequest();
         if (!$output->toBool()) return $output;
 
+		// 클라이언트 버전이 0.9.1보다 낮으면 우선 요청 데이터 처리를 호출해준다.
+		if ($this->client_ver < '0.9.1'){
+			$name_list = array('client');
+			$this->getRequestData($name_list);
+		}
+
         // 클라이언트 토큰 확인
         unset($output);
-        $output = $this->_getClientInfo(Context::get('client'));
+        $output = $this->_getClientInfo($this->request_data['client']);
         if (!$output->toBool()) return $output;
         $client_info = $output->get('client_info');
 
@@ -112,8 +121,14 @@ class socialxeServerCommunicator {
         // 응답 형식은 HTML로
         Context::setRequestMethod('HTML');
 
-        $request_token = Context::get('request_token');
-        $provider = Context::get('provider');
+		// 클라이언트 버전이 0.9.1보다 낮으면 우선 요청 데이터 처리를 호출해준다.
+		if ($this->client_ver < '0.9.1'){
+			$name_list = array('request_token', 'provider', 'xe');
+			$this->getRequestData($name_list);
+		}
+
+        $request_token = $this->request_data['request_token'];
+        $provider = $this->request_data['provider'];
 
         // 제공하는 서비스 인지 확인
         if (!$this->providerManager->inProvider($provider)) return $this->stop('msg_invalid_provider');
@@ -132,7 +147,7 @@ class socialxeServerCommunicator {
 
         // 요청이 온 사이트의 XE 위치를 세션에 저장한다.
         $callback = $referer_info['scheme'] . '://' . $referer_info['host'] . '/';
-        if (Context::get('xe')) $callback .= Context::get('xe');
+        if ($xe) $callback .= $xe;
         $this->session->setSession('callback', $callback);
 
         // 로그인 URL을 얻는다.
@@ -173,10 +188,19 @@ class socialxeServerCommunicator {
         // 응답 형식은 JSON로
         Context::setRequestMethod('JSON');
 
-        $auto_login_key = Context::get('auto_login_key');
+		// 클라이언트 버전이 0.9.1보다 낮으면 우선 요청 데이터 처리를 호출해준다.
+		if ($this->client_ver < '0.9.1'){
+			$name_list = array('auto_login_key', 'session');
+			$this->getRequestData($name_list);
+		}
+
+        $auto_login_key = $this->request_data['auto_login_key'];
         if (!$auto_login_key) return new Object();
 
-        $session = urldecode(Context::get('session')); // 세션 정보
+		if ($this->client_ver < '0.9.1')
+			$session = urldecode($this->request_data['session']); // 세션 정보
+		else
+			$session = serialize($this->request_data['session']); // 세션 정보
 
         // 기존 세션 정보 삭제
         $args->auto_login_key = $auto_login_key;
@@ -194,7 +218,13 @@ class socialxeServerCommunicator {
         // 응답 형식은 JSON로
         Context::setRequestMethod('JSON');
 
-        $auto_login_key = Context::get('auto_login_key');
+		// 클라이언트 버전이 0.9.1보다 낮으면 우선 요청 데이터 처리를 호출해준다.
+		if ($this->client_ver < '0.9.1'){
+			$name_list = array('auto_login_key');
+			$this->getRequestData($name_list);
+		}
+
+        $auto_login_key = $this->request_data['auto_login_key'];
         if (!$auto_login_key) return new Object();
 
         $args->auto_login_key = $auto_login_key;
@@ -241,7 +271,13 @@ class socialxeServerCommunicator {
         $output = executeQuery('socialxeserver.deleteVerifier', $args);
         if (!$output->toBool()) return $this->stop('error');
 
-        $verifier = Context::get('verifier');
+		// 클라이언트 버전이 0.9.1보다 낮으면 우선 요청 데이터 처리를 호출해준다.
+		if ($this->client_ver < '0.9.1'){
+			$name_list = array('verifier');
+			$this->getRequestData($name_list);
+		}
+
+        $verifier = $this->request_data['verifier'];
 
         // 액세스 토큰 얻기
         unset($args);
@@ -263,19 +299,37 @@ class socialxeServerCommunicator {
         // 응답 형식은 JSON로
         Context::setRequestMethod('JSON');
 
-        $comment = unserialize(urldecode(Context::get('comment'))); // 댓글 정보
-        $master_provider = Context::get('master_provider'); // 대표 계정
-        $logged_provider_list = unserialize(Context::get('logged_provider_list')); // 로그인한 서비스 목록
-        $reply_provider_list = unserialize(Context::get('reply_provider_list')); // 리플 서비스 목록
-        $client_token = Context::get('client'); // 클라이언트 키
-        $uselang = Context::get('uselang'); // 언어
+		// 클라이언트 버전이 0.9.1보다 낮으면 우선 요청 데이터 처리를 호출해준다.
+		if ($this->client_ver < '0.9.1'){
+			$name_list = array('comment', 'master_provider', 'logged_provider_list', 'reply_provider_list', 'client', 'uselang', 'twitter', 'me2day', 'facebook', 'yozm');
+			$this->getRequestData($name_list);
+		}
+
+		if ($this->client_ver < '0.9.1'){
+			$comment = unserialize(urldecode($this->request_data['comment'])); // 댓글 정보
+			$master_provider = $this->request_data['master_provider']; // 대표 계정
+			$logged_provider_list = unserialize($this->request_data['logged_provider_list']); // 로그인한 서비스 목록
+			$reply_provider_list = unserialize($this->request_data['reply_provider_list']); // 리플 서비스 목록
+			$client_token = $this->request_data['client']; // 클라이언트 키
+			$uselang = $this->request_data['uselang']; // 언어
+		}else{
+			$comment = $this->request_data['comment']; // 댓글 정보
+			$master_provider = $this->request_data['master_provider']; // 대표 계정
+			$logged_provider_list = $this->request_data['logged_provider_list']; // 로그인한 서비스 목록
+			$reply_provider_list = $this->request_data['reply_provider_list']; // 리플 서비스 목록
+			$client_token = $this->request_data['client']; // 클라이언트 키
+			$uselang = $this->request_data['uselang']; // 언어
+		}
 
         // 원본 주소를 저장해 둔다.
         $content_link = $comment->content_link;
 
         // 소셜 서비스 액세스 정보 준비
         foreach($logged_provider_list as $provider){
-            $access[$provider] = unserialize(Context::get($provider));
+			if ($this->client_ver < '0.9.1')
+				$access[$provider] = unserialize($this->request_data[$provider]);
+			else
+				$access[$provider] = $this->request_data[$provider];
         }
 
         // 해당 클라이언트의 사용 도메인인지 확인
@@ -463,6 +517,36 @@ class socialxeServerCommunicator {
         Context::close();
         exit;
     }
+
+	// 요청 데이터 처리
+	function decodeData(){
+		$this->request_data = unserialize(urldecode(base64_decode(Context::get('data'))));
+
+		if (is_array($this->request_data)){
+			foreach($this->request_data as &$val){
+				if (($tmp = @unserialize($val)) !== false)
+					$val = $tmp;
+			}
+		}
+
+		// 클라이언트 버전
+		$this->client_ver = Context::get('ver');
+		debugPrint($this->client_ver);
+	}
+
+	// 클라이언트 0.9버전 호환을 위한 함수
+	function getRequestData($name_list){
+		if (!is_array($name_list)) return;
+
+		foreach($name_list as $name){
+			if (get_magic_quotes_gpc())
+				$this->request_data[$name] = stripslashes(Context::get($name));
+			else
+				$this->request_data[$name] = Context::get($name);
+		}
+
+		debugPrint($this->request_data);
+	}
 
     function stop($msg){
         $result = new Object();
