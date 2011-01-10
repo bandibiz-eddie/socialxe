@@ -38,7 +38,6 @@ class socialxeSessionManager{
 
     // 전체 세션 얻기
     function getFullSession(){
-		if (!is_object($session)) return null;
         return $_SESSION['socialxe'][$this->domain];
     }
 
