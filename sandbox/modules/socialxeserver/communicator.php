@@ -531,7 +531,6 @@ class socialxeServerCommunicator {
 
 		// 클라이언트 버전
 		$this->client_ver = Context::get('ver');
-		debugPrint($this->client_ver);
 	}
 
 	// 클라이언트 0.9버전 호환을 위한 함수
@@ -544,8 +543,6 @@ class socialxeServerCommunicator {
 			else
 				$this->request_data[$name] = Context::get($name);
 		}
-
-		debugPrint($this->request_data);
 	}
 
     function stop($msg){
