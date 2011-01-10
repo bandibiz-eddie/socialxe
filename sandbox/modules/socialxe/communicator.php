@@ -5,7 +5,7 @@ if (!class_exists("Services_JSON_SocialXE")){
 
 // 소셜XE 서버와 통신을 위한 클래스
 class socialxeCommunicator{
-    var $version = '0.9';
+    var $version = '0.9.1';
 
     // 인스턴스
     function getInstance(&$sessionManager, &$providerManager, &$config){
@@ -49,8 +49,12 @@ class socialxeCommunicator{
 
         // 요청 URL 생성
         $xe = preg_replace('@^https?://[^/]+/?@', '', Context::getRequestUri());
-        $query = array('mode' => 'login', 'provider' => $provider, 'request_token' => $request_token, 'xe' => $xe);
-        $url = $this->getURL($query);
+		$data = array(
+			'provider' => $provider,
+			'request_token' => $request_token,
+			'xe' => $xe
+		);
+        $url = $this->getURL('login', $data);
         $result->add('url', $url);
 
         return $result;
@@ -93,14 +97,13 @@ class socialxeCommunicator{
     // 소셜XE 서버로 세션 전송
     function sendSession(){
         // API 요청 준비
-        $query = array(
-                        'mode' => 'setsession',
-                        'auto_login_key' => $this->session->getSession('auto_login_key'),
-                        'session' => urlencode(serialize($this->session->getFullSession())),
-                      );
+		$data = array(
+			'auto_login_key' => $this->session->getSession('auto_login_key'),
+			'session' => $this->session->getFullSession()
+		);
 
         // URL 생성
-        $url = $this->getURL($query);
+        $url = $this->getURL('setsession', $data);
         $url_info = parse_url($url);
         $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
 
@@ -152,24 +155,23 @@ class socialxeCommunicator{
         }
 
         // API 요청 준비
-        $query = array(
-                        'mode' => 'send',
-                        'client' => $config->client_token,
-                        'comment' => urlencode(serialize($comment)),
-                        'logged_provider_list' => serialize($logged_provider_list),
-                        'reply_provider_list' => serialize($reply_provider_list),
-                        'master_provider' => $master_provider,
-                        'uselang' => Context::getLangType()
-                      );
+		$data = array(
+			'client' => $config->client_token,
+			'comment' => $comment,
+			'logged_provider_list' => $logged_provider_list,
+			'reply_provider_list' => $reply_provider_list,
+			'master_provider' => $master_provider,
+			'uselang' => Context::getLangType()
+		);
 
-        // 소셜 서비스 액세스 정보 준비
-        $accesses = $this->providerManager->getAccesses();
-        foreach($accesses as $provider => $access){
-            $query[$provider] = serialize($access);
-        }
+		// 소셜 서비스 액세스 정보 준비
+		$accesses = $this->providerManager->getAccesses();
+		foreach($accesses as $provider => $access){
+			$data[$provider] = serialize($access);
+		}
 
         // URL 생성
-        $url = $this->getURL($query);
+        $url = $this->getURL('send', $data);
         $url_info = parse_url($url);
         $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
 
@@ -224,11 +226,11 @@ class socialxeCommunicator{
     function getRequestToken(){
         $config = $this->config;
 
-        // API 요청 종류
-        $query = array('mode' => 'request', 'client' => $config->client_token);
+        // 데이터 준비
+		$data = array('client' => $config->client_token);
 
         // 요청 URL 생성
-        $url = $this->getURL($query);
+        $url = $this->getURL('request', $data);
 
         // 요청
         $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
@@ -244,11 +246,11 @@ class socialxeCommunicator{
     function getAccessToken($verifier){
         $config = $this->getconfig;
 
-        // API 요청 종류
-        $query = array('mode' => 'access', 'verifier' => $verifier);
+        // 데이터 준비
+		$data = array('verifier' => $verifier);
 
         // 요청 URL 생성
-        $url = $this->getURL($query);
+        $url = $this->getURL('access', $data);
 
         // 요청
         $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
@@ -262,11 +264,8 @@ class socialxeCommunicator{
 
     // 자동 로그인 키
     function getAutoLoginKeyUrl(){
-        // API 요청 종류
-        $query = array('mode' => 'autologinkey');
-
         // 요청 URL 생성
-        return $url = $this->getURL($query, 'N');
+        return $url = $this->getURL('autologinkey', null, 'N');
     }
 
     // 자동 로그인 키 세팅
@@ -274,11 +273,12 @@ class socialxeCommunicator{
         $this->session->setSession('auto_login_key', $auto_login_key);
 
         // 소셜XE 서버에서 세션을 받아 세팅한다.
-        // API 요청 종류
-        $query = array('mode' => 'getsession', 'auto_login_key' => $auto_login_key);
+
+        // 데이터 준비
+		$data = array('auto_login_key' => $auto_login_key);
 
         // 요청 URL 생성
-        $url = $this->getURL($query);
+        $url = $this->getURL('getsession', $data);
 
         // 요청
         $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
@@ -298,7 +298,7 @@ class socialxeCommunicator{
     }
 
     // 요청 URL 생성
-    function getURL($query, $use_ssl = 'Y'){
+    function getURL($mode, $data, $use_ssl = 'Y'){
         $config = $this->config;
 
         if ($config->use_ssl == 'Y' && $use_ssl == 'Y')
@@ -308,11 +308,9 @@ class socialxeCommunicator{
 
         $url .= $config->server_hostname . $config->server_query;
 
-        foreach($query as $name => $val){
-            $url .= '&' . $name . '=' . $val;
-        }
+		$data = base64_encode(urlencode(serialize($data)));
 
-        $url .= '&ver=' . $this->version;
+		$url .= "&mode={$mode}&data={$data}&ver={$this->version}";
 
         return $url;
     }
