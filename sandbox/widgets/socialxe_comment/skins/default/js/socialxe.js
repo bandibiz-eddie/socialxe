@@ -8,7 +8,9 @@ function providerLogin(url, skin){
     url += '&skin=' + skin;
 
     // 윈도우 오픈
-    window.open(url,'socialxeLogin','top=0, left=0, width=800, height=500');
+    var android = navigator.userAgent.indexOf('Android') != -1;
+	if(android) window.open(url,'socialxeLogin');
+	else window.open(url,'socialxeLogin','top=0, left=0, width=800, height=500');
 }
 
 // 로그인 후
