@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+    <title xml:lang="ko">SocialXE 정보</title>
+    <description xml:lang="ko">현재 자신의 소셜 로그인 상태를 출력해줍니다.</description>
+    <version>0.9</version>
+    <date>2011-01-12</date>
+    <license>BSD</license>
+
+    <author email_address="sinsy200@gmail.com" link="http://socialxe.net">
+        <name xml:lang="ko">난다날아</name>
+    </author>
+</widget>

@@ -1,0 +1,24 @@
+.socialxe_info fieldset{ border:0; clear:both;}
+.socialxe_info fieldset:after{ content:""; display:block; float:none; clear:both;}
+.socialxe_info legend { position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+
+.socialxe_info { position: relative; border: 0px solid #ddd; }
+.socialxe_info .poweredby { position: absolute; top: 13px; right: 10px; }
+
+.socialxe_info .service { margin: 0 0 5px; padding: 0; }
+.socialxe_info ul { float: left; margin: 0; padding: 0; list-style: none; }
+.socialxe_info .service li { float: left; margin: 0 5px 0 0; padding: 0; border: 0; }
+.socialxe_info .name { font-weight: bold; margin-bottom: 10px; }
+.socialxe_info .name img { vertical-align: middle; }
+.socialxe_info .name .master_change { font-weight: normal; font-size: 90%; cursor: pointer; }
+
+/* IE6 css fixer v0.95: Thu, 30 Dec 2010 03:08:58 +0100 */
+
+/* ============================================= */
+/* safe settings                                 */
+
+/* add display:inline to floated elements */
+.socialxe_info .service li {display:inline;}
+
+/* add zoom:1 to overflow:hidden */
+.socialxe_info legend {zoom:1;}
