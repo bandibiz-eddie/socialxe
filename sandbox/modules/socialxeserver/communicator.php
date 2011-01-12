@@ -414,9 +414,14 @@ class socialxeServerCommunicator {
 
 		if ($comment_srl){
 			if ($url_info[query])
-				$url .= '?' . $url_info[query] . '&comment_srl=' . $comment_srl . '#socialxe_comment';
+				$url .= '?' . $url_info[query] . '&comment_srl=' . $comment_srl;
 			else
-				$url .= '?comment_srl=' . $comment_srl . '#socialxe_comment';
+				$url .= '?comment_srl=' . $comment_srl;
+
+			if ($url_info['fragment'])
+				$url .= '#' . $url_info['fragment'];
+			else
+				$url .= '#socialxe_comment';
 		}else{
 			if ($url_info[query])
 				$url .= '?' . $url_info[query];
