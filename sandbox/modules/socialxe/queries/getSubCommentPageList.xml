@@ -19,9 +19,9 @@
         <column name="comments.comment_srl" alias="comment_srl" />
     </columns>
     <conditions>
-        <condition operation="notequal" column="comments.comment_srl" var="parent_srl" notnull="notnull" pipe="and" />
         <condition operation="equal" column="comments_list.head" var="parent_srl" notnull="notnull" pipe="and" />
         <condition operation="more" column="comments_list.arrange" default="0" pipe="and" />
+		<condition operation="notequal" column="comments.comment_srl" var="parent_srl" notnull="notnull" pipe="and" />
     </conditions>
     <navigation>
         <index var="list_order" default="comments_list.head" order="desc" />

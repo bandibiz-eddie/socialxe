@@ -88,9 +88,6 @@ class socialxeCommunicator{
         $output = $this->providerManager->doLogin($provider, $access, $account);
         if (!$output->toBool()) return $output;
 
-        // 소셜XE 서버로 세션 전송
-        $this->sendSession();
-
         return $result;
     }
 
@@ -113,6 +110,7 @@ class socialxeCommunicator{
     // 소셜 서비스로 댓글 전송
     function sendComment($args){
         $result = new Object();
+		$oSocialxeModel = &getModel('socialxe');
 
         $logged_provider_list = $this->providerManager->getLoggedProviderList();
         $master_provider = $this->providerManager->getMasterProvider();
@@ -132,8 +130,7 @@ class socialxeCommunicator{
 
         // 대댓글이면 부모 댓글의 정보를 준비
         if ($args->parent_srl){
-            $obj->comment_srl = $args->parent_srl;
-            $output = executeQuery('socialxe.getSocialxe', $obj);
+			$output = $oSocialxeModel->getSocialByCommentSrl($args->parent_srl);
             $comment->parent = $output->data;
         }
 
@@ -143,7 +140,7 @@ class socialxeCommunicator{
         // 보낼 필요가 있는지 확인
 
         // 대댓글이면
-        if ($comment->parent){
+        if ($args->parent_srl){
             // 부모 댓글에 소셜 정보가 없으면 리턴~
             if (!$comment->parent->provider || $comment->parent->provider == 'xe') return new Object();
         }

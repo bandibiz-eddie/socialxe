@@ -22,12 +22,24 @@
 
         var $add_triggers = array(
             array('comment.deleteComment', 'socialxe', 'controller', 'triggerDeleteComment', 'after'),
-            array('textyle.getTextyleCustomMenu', 'socialxe', 'controller', 'triggerGetTextyleCustomMenu', 'after')
+            array('textyle.getTextyleCustomMenu', 'socialxe', 'controller', 'triggerGetTextyleCustomMenu', 'after'),
+			array('member.deleteMember', 'socialxe', 'controller', 'triggerDeleteMember', 'after'),
+			array('member.doLogin', 'socialxe', 'controller', 'triggerLogin', 'after'),
+			array('module.dispAdditionSetup', 'socialxe', 'view', 'triggerDispAdditionSetup', 'before'),
+			array('comment.insertComment', 'socialxe', 'controller', 'triggerInsertComment', 'after'),
+			array('document.insertDocument', 'socialxe', 'controller', 'triggerInsertDocument', 'after'),
+			array('document.deleteDocument', 'socialxe', 'controller', 'triggerDeleteDocument', 'after'),
+			array('module.deleteModule', 'socialxe', 'controller', 'deleteModuleSocial', 'after')
         );
 
         var $add_column = array(
-            array('socialxe', 'social_nick_name', 'varchar', 255)
+            array('socialxe', 'social_nick_name', 'varchar', 255, null, null),
+			array('socialxe', 'module_srl', 'number', 11, 0, true)
         );
+
+		var $add_index = array(
+			'socialxe.module_srl' => array('socialxe', 'idx_module_srl', array('module_srl'))
+		);
 
         function socialxe(){
             // 세션 관리자
@@ -112,7 +124,11 @@
 
             // $this->add_column 컬럼 일괄 업데이트
             foreach($this->add_column as $column){
-                if(!$oDB->isColumnExists($column[0], $column[1])) $oDB->addColumn($column[0], $column[1], $column[2], $column[3]);
+                if(!$oDB->isColumnExists($column[0], $column[1])){
+					$oDB->addColumn($column[0], $column[1], $column[2], $column[3], $column[4], $column[5]);
+					if ($index = $this->add_index[$column[0] . '.' . $column[1]])
+						$oDB->addIndex($index[0], $index[1], $index[2]);
+				}
             }
 
             return new Object(0, 'success_updated');
@@ -152,6 +168,7 @@
             if (!$default_config->server_query) $default_config->server_query = $this->query;
             if (!$default_config->use_ssl) $default_config->use_ssl = 'Y';
             if (!$default_config->hashtag) $default_config->hashtag = 'socialxe';
+			if (!$default_config->skin) $default_config->skin = 'default';
 
             $provider_list = $this->providerManager->getFullProviderList();
             foreach($provider_list as $provider){

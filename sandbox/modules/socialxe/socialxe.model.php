@@ -268,5 +268,86 @@
                 return $result;
             }
         }
+
+		// 한 댓글에 대한 소셜 정보를 가져온다.
+		function getSocialByCommentSrl($comment_srl){
+			// 전역에 있으면 사용
+			if ($GLOBAL['socialxe_social'][$comment_srl]) return $GLOBAL['socialxe_social'][$comment_srl];
+
+			$obj->comment_srl = $comment_srl;
+			$output = executeQuery('socialxe.getSocialxe', $obj);
+			return $output;
+		}
+
+		// 회원의 소셜 정보 얻기
+		function getSocialInfoByMemberSrl($member_srl){
+			if (!$member_srl) return new Object(-1, 'msg_invalid_request');
+
+			$args->member_srl = $member_srl;
+			$output = executeQueryArray('socialxe.getSocialInfoByMemberSrl', $args);
+			if (!$output->toBool()) return $output;
+			if (!$output->data) return new Object();
+
+			// provider를 키로 하여 배열을 생성
+			$social_info = array();
+			foreach($output->data as $val){
+				$social_info[$val->provider]['id'] = $val->id;
+				$social_info[$val->provider]['session'] = unserialize($val->access);
+				$social_info[$val->provider]['send'] = $val->send;
+			}
+
+			$result = new Object();
+			$result->add('social_info', $social_info);
+			return $result;
+		}
+
+		// 회원의 대표 계정을 얻기
+		function getSocialInfoMasterByMemberSrl($member_srl){
+			if (!$member_srl) return new Object(-1, 'msg_invalid_request');
+
+			$args->member_srl = $member_srl;
+			$output = executeQuery('socialxe.getSocialInfoMasterByMemberSrl', $args);
+			if (!$output->toBool()) return $output;
+
+			$result = new Object();
+			$result->add('master_provider', $output->data->master);
+			return $result;
+		}
+
+		// 아이디에서 가입 때 사용한 서비스명을 얻는다.
+		function getFirstProviderById($id){
+			if (!preg_match("/^_sx\./", $id)) return null;
+
+			$tmp = explode('.', $id);
+			return $tmp[1];
+		}
+
+		// 해당 회원의 가입 때 사용한 서비스명을 얻는다.
+		function getFirstProviderByMemberSrl($member_srl){
+			if (!$member_srl) return null;
+
+			$oMemberModel = &getModel('member');
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			return $this->getFirstProviderById($member_info->user_id);
+		}
+
+		// 특정 모듈의 설정을 가져온다.
+		function getModulePartConfig($module_srl) {
+			// 전역 설정에 있으면 그걸 리턴
+			if ($GLOBALS['socialxe_part_config'][$module_srl]) return $GLOBALS['socialxe_part_config'][$module_srl];
+
+			// config를 가져옴
+			$oModuleModel = &getModel('module');
+			$module_config = $oModuleModel->getModulePartConfig('socialxe', $module_srl);
+
+			if (!$module_config){
+				$module_config = $this->config;
+			}
+
+			$module_config->module_srl = $module_srl;
+			$GLOBALS['socialxe_part_config'][$module_srl] = $module_config;
+
+            return $module_config;
+        }
     }
 ?>

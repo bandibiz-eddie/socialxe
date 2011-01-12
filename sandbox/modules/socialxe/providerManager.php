@@ -123,6 +123,18 @@ class socialxeProviderManager{
         return $result;
     }
 
+	// 전부 로그아웃
+	function doFullLogout(){
+		$full_provider_list = $this->getFullProviderList();
+
+		foreach($full_provider_list as $provider){
+			$this->provider[$provider]->doLogout();
+		}
+
+		$this->clearMasterProvider();
+		$this->clearSlaveProvider();
+	}
+
     // 로그인 여부 싱크
     function syncLogin(){
         foreach($this->getProviderList() as $provider){
@@ -193,9 +205,14 @@ class socialxeProviderManager{
 			return $result;
 		}
 
-        // 대표계정 설정
-        $this->master_provider = $provider;
-        $this->session->setSession('master', $provider);
+		// 로그인되어 있는지 확인
+		if ($this->isLogged($provider)){
+			// 대표계정 설정
+			$this->master_provider = $provider;
+			$this->session->setSession('master', $provider);
+		}else{
+			$this->setNextMasterProvider();
+		}
 
         return $result;
     }
@@ -208,9 +225,15 @@ class socialxeProviderManager{
         if (count($logged_provider_list)){
             $this->setMasterProvider($logged_provider_list[0]);
         }else{
-            $this->session->clearSession('master');
+            $this->clearMasterProvider();
         }
     }
+
+	// 대표 계정 삭제
+	function clearMasterProvider(){
+		$this->master_provider = null;
+        $this->session->clearSession('master');
+	}
 
     // 부계정 설정
     function setSlaveProvider($provider){
@@ -222,14 +245,19 @@ class socialxeProviderManager{
             return $result->setMessage('msg_invalid_provider');
         }
 
-        // XE 로그인이 아니면 끝
-        if ($this->provider['xe']->isLogged()){
-            // 부계정 설정
-            $this->slave_provider = $provider;
-            $this->session->setSession('slave', $provider);
-        }else{
-            $this->clearSlaveProvider();
-        }
+		// 로그인되어 있는지 확인
+		if ($this->isLogged($provider)){
+			// XE 로그인이 아니면 끝
+			if ($this->provider['xe']->isLogged()){
+				// 부계정 설정
+				$this->slave_provider = $provider;
+				$this->session->setSession('slave', $provider);
+			}else{
+				$this->clearSlaveProvider();
+			}
+		}else{
+			$this->setNextSlaveProvider();
+		}
 
         return $result;
     }
@@ -340,6 +368,14 @@ class socialxeProviderManager{
 
         return $this->provider[$provider]->getAccess();
     }
+
+	// 사용자 정보 얻기
+	function getAccount($provider){
+		// 제공하는 서비스인지 확인
+        if (!$this->inProvider($provider)) return;
+
+        return $this->provider[$provider]->getAccount();
+	}
 
     // 액세스 정보 통으로 얻기
     function getAccesses(){

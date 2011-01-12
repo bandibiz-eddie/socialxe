@@ -42,5 +42,36 @@
             return $output;
         }
 
+		// 모듈별 설정
+		function procSocialxeAdminInsertModuleConfig() {
+			// 필요한 변수를 받아옴
+			$module_srl = Context::get('target_module_srl');
+			if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+			else $module_srl = array($module_srl);
+
+			$use_social_info = Context::get('use_social_info');
+			if(!in_array($use_social_info, array('Y','N'))) $use_social_info = 'N';
+
+			if(!$module_srl || !$use_social_info) return new Object(-1, 'msg_invalid_request');
+
+			for($i=0;$i<count($module_srl);$i++) {
+				$srl = trim($module_srl[$i]);
+				if(!$srl) continue;
+				$output = $this->setTrackbackModuleConfig($srl, $use_social_info);
+			}
+
+			$this->setError(-1);
+			$this->setMessage('success_updated');
+		}
+
+		// 모듈별 설정 함수
+		function setTrackbackModuleConfig($module_srl, $use_social_info) {
+			$config->use_social_info = $use_social_info;
+
+			$oModuleController = &getController('module');
+			$oModuleController->insertModulePartConfig('socialxe', $module_srl, $config);
+			return new Object();
+		}
+
     }
 ?>

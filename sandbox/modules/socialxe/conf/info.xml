@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-    <title xml:lang="ko">소셜XE</title>
+    <title xml:lang="ko">SocialXE</title>
     <description xml:lang="ko">소셜 기능 사용을 지원합니다.</description>
     <version>0.9</version>
     <date>2010-12-24</date>
