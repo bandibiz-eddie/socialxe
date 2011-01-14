@@ -26,3 +26,8 @@
 .socialxe_comment .comment_list .name a { color: #999; }
 .socialxe_comment .comment_list .more { border-color: #333;}
 .socialxe_comment .xe_content { color: #999; }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+	.socialxe_comment .input .name .master_change,
+	.socialxe_comment .input .name .master_change_list span { border-color: #999; }
+}
