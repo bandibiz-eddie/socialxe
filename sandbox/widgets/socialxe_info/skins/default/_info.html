@@ -41,9 +41,9 @@
 		{@$logged_count-=1;}
 	<!--@end-->
 	<!--@if($logged_count > 1)-->
-		<span class="master_change">
+		<span class="master_change_info">
 		{$lang->cmd_master}
-		<span class="master_change_list">
+		<span class="master_change_list_info">
 			<!--@foreach($logged_provider as $provider)--><!--@if($provider!='xe')-->
 			<span onclick="changeInfoMaster('{$provider}', '{$skin}');" style="cursor:pointer;">{$lang->provider[$provider]}</span>
 			<!--@end--><!--@end-->
@@ -53,11 +53,11 @@
 		<script type="text/javascript">
 		<!--
 			// 대표 계정 리스트 숨기기
-			jQuery(".master_change_list").hide();
+			jQuery(".master_change_list_info").hide();
 
 			// 대표 계정 변경 누르면 리스트 토글
-			jQuery(".master_change").bind("click", function(e){
-				jQuery(".master_change_list").toggle();
+			jQuery(".master_change_info").bind("click", function(e){
+				jQuery(".master_change_list_info").toggle();
 			});
 		-->
 		</script>

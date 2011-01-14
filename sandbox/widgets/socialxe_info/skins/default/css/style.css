@@ -10,7 +10,7 @@
 .socialxe_info .service li { float: left; margin: 0 5px 0 0; padding: 0; border: 0; }
 .socialxe_info .name { font-weight: bold; margin-bottom: 10px; }
 .socialxe_info .name img { vertical-align: middle; }
-.socialxe_info .name .master_change { font-weight: normal; font-size: 90%; cursor: pointer; }
+.socialxe_info .name .master_change_info { font-weight: normal; font-size: 90%; cursor: pointer; }
 
 /* IE6 css fixer v0.95: Thu, 30 Dec 2010 03:08:58 +0100 */
 
