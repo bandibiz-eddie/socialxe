@@ -30,11 +30,17 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
             "cookie" => false
         ));
 
+		$display = 'popup';
+		if(preg_match('/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']))
+		{
+			$display = 'touch';
+		}
+
         // URL 생성
         try{
             $loginUrl = $fb->getLoginUrl(array(
                 "req_perms" => "publish_stream,offline_access",
-                "display" => "popup",
+                "display" => $display,
                 "next" => $this->callback,
                 "cancel_url" => $this->callback
             ));
