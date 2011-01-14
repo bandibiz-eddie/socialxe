@@ -13,3 +13,14 @@
 .socialxe_info td { vertical-align: middle !important; }
 .socialxe_info .not_use { color: #999; }
 .socialxe_info .about { background: #efefef; padding: 10px !important; color: black !important; margin-bottom: 10px !important; }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+	.socialxe_login h3,
+	.socialxe_login form,
+	.socialxe_login p,
+	.socialxe_login ul { width: 280px; }
+	.socialxe_login .loginButton { width: 258px; }
+	.itx{border:1px solid #ccc;width:90%;font-size:20px;height:30px;padding:5px 10px}
+	.button{display:inline-block;padding:5px 10px;font-weight:normal;font-size:14px;border:1px solid #333;background:#eee;color:#000;text-shadow:1px 1px 0 #fff;box-shadow:0 0 3px #333;-moz-box-shadow:0 0 3px #333;-webkit-box-shadow:0 0 3px #333;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;text-decoration:none}
+	.button input { border: 0; background: none; }
+}
