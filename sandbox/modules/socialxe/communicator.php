@@ -211,7 +211,7 @@ class socialxeCommunicator{
         // 대표 계정의 댓글 번호를 세팅한다.
         if ($master_provider == 'xe' && $slave_provider)
             $comment_id = $output->result->{$slave_provider}->id;
-        else
+        else if ($master_provider)
             $comment_id = $output->result->{$master_provider}->id;
 
         $result->add('comment_id', $comment_id);
