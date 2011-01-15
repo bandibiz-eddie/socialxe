@@ -169,6 +169,8 @@
             if (!$default_config->use_ssl) $default_config->use_ssl = 'Y';
             if (!$default_config->hashtag) $default_config->hashtag = 'socialxe';
 			if (!$default_config->skin) $default_config->skin = 'default';
+			if (!$default_config->use_social_login) $default_config->use_social_login = 'N';
+			if (!$default_config->use_social_info) $default_config->use_social_info = 'N';
 
             $provider_list = $this->providerManager->getFullProviderList();
             foreach($provider_list as $provider){
@@ -199,9 +201,15 @@
 				if (strpos($module_info->domain, '.') === false){
 					$config->server_hostname = $default_config->server_hostname;
 					$config->server_query = $default_config->server_query;
+					$config->client_token = $default_config->client_token;
 					$config->use_ssl = $default_config->use_ssl;
 					$config->use_default = true;
 				}
+
+				// 소셜 로그인, 소셜 통합은 기본 사이트 설정을 따른다.
+				$config->skin = $default_config->skin;
+				$config->use_social_login = $default_config->use_social_login;
+				$config->use_social_info = $default_config->use_social_info;
 			}
 
 			$GLOBALS['socialxe_config'] = $config;

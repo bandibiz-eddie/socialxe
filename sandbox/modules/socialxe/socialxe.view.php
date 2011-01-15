@@ -218,7 +218,10 @@
 
             // 쿼리가 있으면 붙인다.
             if ($query){
-				$url .= '?' . urldecode($query);
+				if (strpos($query, 'http') !== false)
+					$url = urldecode($query);
+				else
+					$url .= '?' . urldecode($query);
 			}
 
             header('Location: ' . $url);
