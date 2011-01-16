@@ -25,7 +25,7 @@
 	</ul>
 	<div class="command">
 		<!--@if($logged_info)-->
-		<a href="#" onclick="resetInfo('{$skin}'); return false;" class="button"><span>{$lang->cmd_reset_info}</span></a>
+		<a href="#" onclick="resetInfo('{$skin}'); return false;" class="button socialxe_info_button"><span>{$lang->cmd_reset_info}</span></a>
 		<!--@end-->
 	</div>
 </fieldset>
@@ -43,12 +43,11 @@
 	<!--@if($logged_count > 1)-->
 		<span class="master_change_info">
 		{$lang->cmd_master}
+		</span>
 		<span class="master_change_list_info">
 			<!--@foreach($logged_provider as $provider)--><!--@if($provider!='xe')-->
 			<span onclick="changeInfoMaster('{$provider}', '{$skin}');" style="cursor:pointer;">{$lang->provider[$provider]}</span>
 			<!--@end--><!--@end-->
-		</span>
-
 		</span>
 		<script type="text/javascript">
 		<!--
