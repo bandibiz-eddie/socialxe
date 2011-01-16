@@ -47,11 +47,7 @@ function replaceInfo(ret_obj){
 	jQuery('.socialxe_info').html(ret_obj['output']);
 
 	var params = new Array();
-	params['skin'] = socialxe_skin;
-	params['document_srl'] = socialxe_document_srl;
-	params['list_count'] = socialxe_list_count;
-	params['content_link'] = socialxe_content_link;
-	params['comment_srl'] = socialxe_comment_srl;
+	params['skin'] = socialxe_info_skin;
 	var response_tags = new Array('error','message','output');
 	exec_xml('socialxe', 'procCompileList', params, null, response_tags);
 }
