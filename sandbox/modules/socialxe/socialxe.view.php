@@ -39,7 +39,7 @@
             if ($provider == 'xe') return $this->stop('msg_invalid_request');
 
             // JS 사용 여부 확인
-            if ($use_js){
+            if (($use_js || Context::get('mode') == 'socialLogin') && !Context::get('js2')){
                 // JS 사용 여부를 세션에 저장한다.
                 $this->session->setSession('js', $use_js);
                 $this->session->setSession('widget_skin', $widget_skin);
@@ -278,6 +278,15 @@
 
 			// 사용 중인 서비스 세팅
 			Context::set('provider_list', $this->providerManager->getProviderList());
+
+			// 기본 사이트의 도메인
+			$db_info = Context::getDBInfo();
+			$domain = str_replace(array('http://', 'https://'), '', $db_info->default_url);
+			Context::set('domain', $domain);
+
+			// 세션 파기(가끔씩 기본 사이트와 PHPSESSIONID가 일치하지 않는 문제 때문)
+			$oMemberController = &getController('member');
+			$oMemberController->destroySessionInfo();
 
 			// template path 지정
 			$tpl_path = sprintf('%sskins/%s', $this->module_path, $config->skin);

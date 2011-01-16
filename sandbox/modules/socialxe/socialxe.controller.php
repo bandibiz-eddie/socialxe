@@ -300,7 +300,9 @@
 
 			// 로그인은 기본적으로 자동 로그인으로...
 			$oMemberController = &getController('member');
-			$oMemberController->doLogin($member_info->user_id, '', true);
+			//TODO XE 자동 로그인 버그 때문에 일단 자동 로그인은 해제
+			// http://xe.xpressengine.net/19469260
+			$oMemberController->doLogin($member_info->user_id, '', false);
 
 			return new Object();
 		}
@@ -384,7 +386,9 @@
 			}
 
 			// 로그인은 기본적으로 자동 로그인으로...
-			$output = $oMemberController->doLogin($args->user_id, '', true);
+			//TODO XE 자동 로그인 버그 때문에 일단 자동 로그인은 해제
+			// http://xe.xpressengine.net/19469260
+			$output = $oMemberController->doLogin($args->user_id, '', false);
 			if(!$output->toBool()) return $this->stop($output->getMessage());
 		}
 
