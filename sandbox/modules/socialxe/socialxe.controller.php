@@ -612,6 +612,10 @@
 		function triggerInsertDocument(&$document){
 			// widget 모듈은 실행하지 않는다.
 			$module_info = Context::get('module_info');
+			if (!$module_info->module){
+				$oModuleModel = &getModel('module');
+				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_info->module_srl);
+			}
 			if (in_array($module_info->module, array('widget'))) return new Object();
 
 			// 현재 모듈이 소셜 통합 기능 사용 중인지 확인한다.
@@ -626,6 +630,12 @@
 			$args->content = '';
 			$args->content_link = getFullUrl('', 'document_srl', $document->document_srl);
 			$args->content_title = $document->title;
+
+			// 플래닛은 따로 처리
+			if ($module_info->module == "planet"){
+				$args->content_title = '';
+				$args->content = $document->content;
+			}
 
 			// 소셜 서비스로 전송
 			$output = $this->sendSocialComment($args, $document->document_srl, $msg);
