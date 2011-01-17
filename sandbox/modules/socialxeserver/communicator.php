@@ -149,7 +149,7 @@ class socialxeServerCommunicator {
 
         // 요청이 온 사이트의 XE 위치를 세션에 저장한다.
         $callback = $referer_info['scheme'] . '://' . $referer_info['host'] . '/';
-        if ($xe) $callback .= $xe;
+        if ($this->request_data['xe']) $callback .= $this->request_data['xe'];
         $this->session->setSession('callback', $callback);
 
         // 로그인 URL을 얻는다.
