@@ -252,9 +252,9 @@ class bitly_SocialXE{
 		}
 
 		if ( $this->format == 'json' ) {
-			$results = json_decode(file_get_contents($bitlyurl), true);
+			$results = json_decode(FileHandler::getRemoteResource($bitlyurl), true);
 		} else if ( $this->format == 'xml' ) {
-			$xml = file_get_contents($bitlyurl);
+			$xml = FileHandler::getRemoteResource($bitlyurl);
 			$results = $this->XML2Array($xml);
 		}
 
