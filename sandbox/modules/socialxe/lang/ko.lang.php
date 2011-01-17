@@ -16,6 +16,8 @@
 	$lang->use_social_info = '소셜 정보 통합 사용';
 	$lang->about_use_social_info = '회원 정보에 소셜 정보를 통합할 수 있도록 합니다.';
 	$lang->about_part_social_info = '이 모듈에서 쓰는 글, 댓글에 대해 소셜 통합 기능을 이용할 수 있도록 합니다.';
+	$lang->bitly_username = 'bit.ly Username';
+    $lang->bitly_api_key = 'bit.ly API Key';
 
 	$lang->title_social_login_additional = '소셜 로그인 추가 정보 입력';
 	$lang->about_social_login_additional = '처음 로그인 시도하셨군요! 아래 추가 정보 입력이 필요합니다.';

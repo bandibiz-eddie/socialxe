@@ -149,6 +149,18 @@ class socialxeCommunicator{
             if (!count($logged_provider_list)) return new Object();
         }
 
+		if ($this->config->bitly_username && $this->config->bitly_api_key){
+			// bit.ly 라이브러리 로드
+			if (!class_exists("bitly_SocialXE")){
+				require_once(_XE_PATH_.'modules/socialxe/bitly.php');
+			}
+
+			// 링크 생성
+			$bitly = new bitly_SocialXE($this->config->bitly_username, $this->config->bitly_api_key);
+			$content_link = $bitly->shorten(urlencode($this->_getCommentUrl($comment->content_link, $comment->parent->comment_srl)));
+			if ($content_link) $comment->short_link = $content_link;
+		}
+
         // API 요청 준비
 		$data = array(
 			'client' => $config->client_token,
@@ -318,6 +330,35 @@ class socialxeCommunicator{
 
 		$headers = array('User-Agent' => "SocialXE ClientBot Ver. {$this->version}");
 		return FileHandler::getRemoteResource($url, $body, 3, $mode, 'application/json', $headers);
+	}
+
+	// comment_srl이 붙은 주소를 만든다.
+	function _getCommentUrl($content_link, $comment_srl){
+		if (!$comment_srl) return $content_link;
+
+		$url_info = parse_url($content_link);
+		$url = $url_info[scheme] . '://' . $url_info[host];
+
+		if ($url_info[path])
+			$url .= $url_info[path];
+		else
+			$url .= '/';
+
+		if ($comment_srl){
+			if ($url_info[query])
+				$url .= '?' . $url_info[query] . '&comment_srl=' . $comment_srl;
+			else
+				$url .= '?comment_srl=' . $comment_srl;
+
+			if ($url_info['fragment'])
+				$url .= '#' . $url_info['fragment'];
+			else
+				$url .= '#socialxe_comment';
+		}else{
+			if ($url_info[query])
+				$url .= '?' . $url_info[query];
+		}
+		return $url;
 	}
 }
 

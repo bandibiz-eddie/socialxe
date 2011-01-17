@@ -5,7 +5,7 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
 <table cellspacing="0" class="rowTable">
 <tr>
-    <th scope="col"><div>{$lang->server_hostname}</div></th>
+    <th scope="col" class="w200"><div>{$lang->server_hostname}</div></th>
     <td>
         <input type="text" name="server_hostname" value="{htmlspecialchars($config->server_hostname?$config->server_hostname:'socialxe.net')}" class="inputTypeText w400" />
         <p>{$lang->about_server_hostname}</p>
@@ -26,25 +26,44 @@
     </td>
 </tr>
 <tr>
-    <th scope="col"><div>{$lang->hashtag}</div></th>
-    <td>
-        <input type="text" name="hashtag" value="{htmlspecialchars($config->hashtag)}" class="inputTypeText w100"/>
-        <p>{$lang->about_hashtag}</p>
-    </td>
-</tr>
-<tr>
     <th scope="col"><div>{$lang->use_ssl}</div></th>
     <td>
         <input type="checkbox" name="use_ssl" value="Y" <!--@if($config->use_ssl=='Y')-->checked="checked"<!--@end-->/>
         <p>{$lang->about_use_ssl}</p>
     </td>
 </tr>
+</table>
+
+
+<table cellspacing="0" class="rowTable">
 <tr>
-    <th scope="col"><div>{$lang->select_service}</div></th>
+    <th scope="col" class="w200"><div>{$lang->bitly_username}</div></th>
+    <td>
+        <input type="text" name="bitly_username" value="{htmlspecialchars($config->bitly_username)}" class="inputTypeText w400" />
+    </td>
+</tr>
+<tr>
+    <th scope="col" class="w200"><div>{$lang->bitly_api_key}</div></th>
+    <td>
+        <input type="text" name="bitly_api_key" value="{htmlspecialchars($config->bitly_api_key)}" class="inputTypeText w400" />
+    </td>
+</tr>
+</table>
+
+<table cellspacing="0" class="rowTable">
+<tr>
+    <th scope="col" class="w200"><div>{$lang->select_service}</div></th>
     <td>
         <!--@foreach($provider_list as $provider)-->
             <label><input type="checkbox" name="select_service_{$provider}" value="Y" <!--@if($config->select_service[$provider]=='Y')-->checked="checked"<!--@end-->/> {$lang->provider[$provider]}</label>
         <!--@end-->
+    </td>
+</tr>
+<tr>
+    <th scope="col"><div>{$lang->hashtag}</div></th>
+    <td>
+        <input type="text" name="hashtag" value="{htmlspecialchars($config->hashtag)}" class="inputTypeText w100"/>
+        <p>{$lang->about_hashtag}</p>
     </td>
 </tr>
 <tr>
