@@ -73,5 +73,18 @@
 			return new Object();
 		}
 
+		// bit.ly 삭제 삭제
+		function procSocialxeAdminDeleteChecked(){
+			// 선택된 글이 없으면 오류 표시
+			$cart = Context::get('cart');
+			if(!$cart) return $this->stop('msg_cart_is_null');
+			$bitly_srl_list= explode('|@|', $cart);
+			$bitly_count = count($bitly_srl_list);
+			if(!$bitly_srl_list) return $this->stop('msg_cart_is_null');
+
+			$args->bitly_srls = implode(',', $bitly_srl_list);
+			return executeQuery('socialxe.deleteBitly', $args);
+		}
+
     }
 ?>

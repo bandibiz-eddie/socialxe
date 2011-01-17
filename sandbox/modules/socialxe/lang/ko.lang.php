@@ -31,12 +31,17 @@
 	$lang->cmd_social_send_on = '전송하기';
 	$lang->cmd_social_send_off = '전송끄기';
 	$lang->cmd_change_master_provider = '대표계정 변경';
+	$lang->cmd_setting = '환경설정';
+	$lang->cmd_bitly = 'bit.ly 통계';
+	$lang->cmd_delete_checked = '선택 항목 삭제';
 
 	$lang->set = '설정 됨';
 	$lang->not_set = '설정 안 됨';
 	$lang->social_send = '글과 댓글을 전송합니다.';
 	$lang->social_not_send = '글과 댓글을 전송하지 않습니다.';
 	$lang->master_provider = '대표 계정';
+	$lang->bitly_summary = 'bit.ly 통계 페이지';
+	$lang->bitly_info = '정보 페이지';
 
     $lang->msg_login = '선택하신 서비스로 로그인 요청 중입니다.<br/>잠시만 기다려주세요.';
     $lang->msg_request_error = 'SocialXE 서버에 API 요청이 실패했습니다.';

@@ -5,9 +5,12 @@
         <permission action="dispSocialxeTextyleTool" target="manager" />
     </permissions>
     <actions>
-        <action name="dispSocialxeAdminConfig" type="view" admin_index="true" standalone="true" />
+        <action name="dispSocialxeAdminConfig" type="view" standalone="true" />
+		<action name="dispSocialxeAdminBitly" type="view" admin_index="true" standalone="true" />
+
         <action name="procSocialxeAdminInsertConfig" type="controller" standalone="true" />
 		<action name="procSocialxeAdminInsertModuleConfig" type="controller" standalone="true" />
+		<action name="procSocialxeAdminDeleteChecked" type="controller" standalone="true" />
 
         <action name="procCompileInput" type="controller" standalone="true" />
         <action name="procCompileList" type="controller" standalone="true" />

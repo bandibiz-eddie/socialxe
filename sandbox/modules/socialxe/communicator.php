@@ -149,7 +149,13 @@ class socialxeCommunicator{
             if (!count($logged_provider_list)) return new Object();
         }
 
-		if ($this->config->bitly_username && $this->config->bitly_api_key){
+		// 생성된 짧은 주소가 있는지 확인한다.
+		$args->url = $this->_getCommentUrl($comment->content_link, $comment->parent->comment_srl);
+		$output = executeQuery('socialxe.getBitlyByUrl', $args);
+		$comment->short_link = $output->data->short_url;
+
+		// 생성된 짧은 주소가 없으며 생성
+		if ($this->config->bitly_username && $this->config->bitly_api_key && !$comment->short_link){
 			// bit.ly 라이브러리 로드
 			if (!class_exists("bitly_SocialXE")){
 				require_once(_XE_PATH_.'modules/socialxe/bitly.php');
@@ -215,6 +221,16 @@ class socialxeCommunicator{
             $msg = implode('\n', $msg);
             $result->add('msg', $msg);
         }
+
+		// bit.ly 결과를 저장한다.
+		if ($bitly){
+			$bitly_result = $bitly->getRawResults();
+			$args->hash = $bitly_result['userHash'];
+			$args->title = $comment->content_title;
+			$args->short_url = $comment->short_link;
+			$args->url = $this->_getCommentUrl($comment->content_link, $comment->parent->comment_srl);
+			executeQuery('socialxe.insertBitly', $args);
+		}
 
         // 대표 계정의 댓글 번호를 세팅한다.
         if ($master_provider == 'xe' && $slave_provider)
