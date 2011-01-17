@@ -34,7 +34,10 @@
 
             // 리플 형식
             if ($this->get('member_srl'))
-                $this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->get('nick_name')));
+				if ($this->get('provider') == 'xe')
+					$this->add('reply_prefix', $oSocialxeModel->getReplyPrefix('xe', null, $this->get('nick_name')));
+				else
+					$this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->getSocialNickName()));
             else
                 $this->add('reply_prefix', $oSocialxeModel->getReplyPrefix($this->get('provider'), $this->get('id'), $this->getSocialNickName()));
 
