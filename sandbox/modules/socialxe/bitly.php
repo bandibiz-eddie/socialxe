@@ -1,5 +1,9 @@
 <?php
 
+if (!class_exists("Services_JSON_SocialXE")){
+    require_once(_XE_PATH_.'modules/socialxe/JSON.php');
+}
+
 /**
  * bitly
  *
@@ -32,21 +36,21 @@ class bitly_SocialXE{
 	 *
 	 * @var string
 	 */
-	private $login;
+	var $login;
 
 	/**
 	 * The API key used for the API connection.
 	 *
 	 * @var string
 	 */
-	private $apikey;
+	var $apikey;
 
 	/**
 	 * All API calls require a version parameter.
 	 *
 	 * @var string
 	 */
-	private $version = '2.0.1';
+	var $version = '2.0.1';
 
 	/**
 	 * The format that the data is returned in. JSON is the
@@ -54,21 +58,21 @@ class bitly_SocialXE{
 	 *
 	 * @var string
 	 */
-	private $format = 'json';
+	var $format = 'json';
 
 	/**
 	 * The raw data returned from bit.ly.
 	 *
 	 * @var array
 	 */
-	private $results;
+	var $results;
 
 	/**
 	 * The any error messages returned from bit.ly.
 	 *
 	 * @var mixed
 	 */
-	private $errors = false;
+	var $errors = false;
 
 	/**
      * Constructor
@@ -76,7 +80,7 @@ class bitly_SocialXE{
 	 * @param string $login  The login to use for the connection.
 	 * @param string $apikey The API key to use for the connection.
      */
-	public function bitly_SocialXE($login, $apikey)
+	function bitly_SocialXE($login, $apikey)
 	{
 		$this->login = $login;
 		$this->apikey = $apikey;
@@ -87,7 +91,7 @@ class bitly_SocialXE{
 	 *
 	 * @param string $format The format.
      */
-	public function setFormat($format)
+	function setFormat($format)
 	{
 		$format = strtolower($format);
 		if ( $format == 'json' || $format == 'xml' ) {
@@ -102,7 +106,7 @@ class bitly_SocialXE{
      *
 	 * @return string The format of the returned data.
      */
-	public function getFormat()
+	function getFormat()
 	{
 		return $this->format;
 	}
@@ -112,7 +116,7 @@ class bitly_SocialXE{
      *
 	 * @return array An array containing the latest errors.
      */
-	public function getErrors()
+	function getErrors()
 	{
 		return $this->errors;
 	}
@@ -122,7 +126,7 @@ class bitly_SocialXE{
      *
 	 * @return array An array containing the bit.ly results.
      */
-	public function getRawResults()
+	function getRawResults()
 	{
 		return $this->results;
 	}
@@ -137,7 +141,7 @@ class bitly_SocialXE{
 	 * @return mixed Either the shortened URL or an array containing the shortened URL
 	 *	             and the hash value returned from the site.
      */
-	public function shorten($url, $returnHash = false)
+	function shorten($url, $returnHash = false)
 	{
 		$bitlyurl = 'http://api.bit.ly/shorten?version='.$this->version.'&longUrl='.$url.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
 		if ( $this->getResult($bitlyurl) !== false ) {
@@ -158,7 +162,7 @@ class bitly_SocialXE{
 	 *
 	 * @return string The long URL, as translated by the bit.ly service.
      */
-	public function expand($shortUrl, $hash = '')
+	function expand($shortUrl, $hash = '')
 	{
 		if ( $shortUrl != '' ) {
 			$bitlyurl = 'http://api.bit.ly/expand?version='.$this->version.'&shortUrl='.$shortUrl.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
@@ -181,7 +185,7 @@ class bitly_SocialXE{
 	 *
 	 * @return array The information about a URL from the bit.ly service.
      */
-	public function info($shortUrl, $hash = '', $keys = '')
+	function info($shortUrl, $hash = '', $keys = '')
 	{
 		if ( $shortUrl != '' ) {
 			$bitlyurl = 'http://api.bit.ly/info?version='.$this->version.'&shortUrl='.$shortUrl.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
@@ -206,7 +210,7 @@ class bitly_SocialXE{
 	 *
 	 * @return array An array containing statistics about the URL in question.
      */
-	public function stats($shortUrl, $hash = '')
+	function stats($shortUrl, $hash = '')
 	{
 		if ( $shortUrl != '' ) {
 			$bitlyurl = 'http://api.bit.ly/stats?version='.$this->version.'&shortUrl='.$shortUrl.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
@@ -225,7 +229,7 @@ class bitly_SocialXE{
 	 *
 	 * @return array An array containing all possible error codes.
      */
-	public function errors()
+	function errors()
 	{
 		$bitlyurl = 'http://api.bit.ly/errors?version='.$this->version.'&login='.$this->login.'&apiKey='.$this->apikey;
 		if ( $this->getResult($bitlyurl, true) !== false ) {
@@ -244,7 +248,7 @@ class bitly_SocialXE{
    *
    * @return boolean True if everything has worked, otherwise false.
    */
-	private function getResult($bitlyurl, $errors = false )
+	function getResult($bitlyurl, $errors = false )
 	{
 		if ( $errors ) {
 			$tmpFormat = $this->format;
@@ -252,10 +256,12 @@ class bitly_SocialXE{
 		}
 
 		if ( $this->format == 'json' ) {
-			$results = json_decode(FileHandler::getRemoteResource($bitlyurl), true);
-		} else if ( $this->format == 'xml' ) {
-			$xml = FileHandler::getRemoteResource($bitlyurl);
-			$results = $this->XML2Array($xml);
+			$content = FileHandler::getRemoteResource($bitlyurl);
+			$json = new Services_JSON_SocialXE();
+			$results = $json->decode($content);
+
+			// array로
+			$results = $this->objectToArray($results);
 		}
 
 		if ( $errors ) {
@@ -285,24 +291,37 @@ class bitly_SocialXE{
    *
    * @return array The short URL
    */
-	private function XML2Array($xml, $recursive = false)
-	{
-		if ( !$recursive ) {
-			$array = simplexml_load_string($xml);
-		} else {
-			$array = $xml;
-		}
+	// function XML2Array($xml, $recursive = false)
+	// {
+		// if ( !$recursive ) {
+			// $array = simplexml_load_string($xml);
+		// } else {
+			// $array = $xml;
+		// }
 
-		$newArray = array();
-		$array = (array)$array;
-		foreach ( $array as $key => $value ) {
-			$value = (array)$value;
-			if ( isset($value[0]) ) {
-				$newArray[$key] = trim($value[0]);
-			} else {
-				$newArray[$key] = $this->XML2Array($value, true);
-			}
+		// $newArray = array();
+		// $array = (array)$array;
+		// foreach ( $array as $key => $value ) {
+			// $value = (array)$value;
+			// if ( isset($value[0]) ) {
+				// $newArray[$key] = trim($value[0]);
+			// } else {
+				// $newArray[$key] = $this->XML2Array($value, true);
+			// }
+		// }
+		// return $newArray;
+	// }
+
+	function objectToArray( $object )
+	{
+		if( !is_object( $object ) && !is_array( $object ) )
+		{
+			return $object;
 		}
-		return $newArray;
+		if( is_object( $object ) )
+		{
+			$object = get_object_vars( $object );
+		}
+		return array_map( array('bitly_SocialXE', 'objectToArray'), $object );
 	}
 }
