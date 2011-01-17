@@ -76,7 +76,7 @@ class bitly_SocialXE{
 	 * @param string $login  The login to use for the connection.
 	 * @param string $apikey The API key to use for the connection.
      */
-	public function bitly($login, $apikey)
+	public function bitly_SocialXE($login, $apikey)
 	{
 		$this->login = $login;
 		$this->apikey = $apikey;
