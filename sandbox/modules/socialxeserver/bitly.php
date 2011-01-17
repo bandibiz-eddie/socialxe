@@ -25,7 +25,7 @@
  *
  * @package    bitly
  */
-class bitly{
+class bitly_SocialXE{
 
 	/**
 	 * The login used for the API connection.

@@ -1,7 +1,9 @@
 <?php
 
 // bit.ly 라이브러리 로드
-require_once(_XE_PATH_.'modules/socialxeserver/bitly.php');
+if (!class_exists("bitly_SocialXE")){
+    require_once(_XE_PATH_.'modules/socialxeserver/bitly.php');
+}
 
 // 클라이언트와 통신을 위한 클래스
 class socialxeServerCommunicator {
@@ -348,7 +350,7 @@ class socialxeServerCommunicator {
         $reply = false;
 
         // 링크 주소
-        $bitly = new bitly($this->config->bitly_username, $this->config->bitly_api_key);
+        $bitly = new bitly_SocialXE($this->config->bitly_username, $this->config->bitly_api_key);
         $comment->content_link = $bitly->shorten(urlencode($this->_getCommentUrl($content_link, $comment->parent->comment_srl)));
 
         // 댓글이면 모두 등록
