@@ -101,10 +101,8 @@ class socialxeCommunicator{
 
         // URL 생성
         $url = $this->getURL('setsession', $data);
-        $url_info = parse_url($url);
-        $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
 
-        $content = FileHandler::getRemoteResource($url, $url_info['query'], 3, 'POST', 'application/json');
+        $content = $this->httpRequest($url, 'POST');
     }
 
     // 소셜 서비스로 댓글 전송
@@ -169,11 +167,9 @@ class socialxeCommunicator{
 
         // URL 생성
         $url = $this->getURL('send', $data);
-        $url_info = parse_url($url);
-        $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
 
         // 요청
-        $content = FileHandler::getRemoteResource($url, $url_info['query'], 3, 'POST', 'application/json');
+        $content = $this->httpRequest($url, 'POST');
 
         if (!$content){
             $result->setError(-1);
@@ -230,7 +226,7 @@ class socialxeCommunicator{
         $url = $this->getURL('request', $data);
 
         // 요청
-        $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
+        $content = $this->httpRequest($url);
 
         //JSON 디코딩
         $json = new Services_JSON_SocialXE();
@@ -250,7 +246,7 @@ class socialxeCommunicator{
         $url = $this->getURL('access', $data);
 
         // 요청
-        $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
+        $content = $this->httpRequest($url);
 
 
         //JSON 디코딩
@@ -278,7 +274,7 @@ class socialxeCommunicator{
         $url = $this->getURL('getsession', $data);
 
         // 요청
-        $content = FileHandler::getRemoteResource($url, null, 3, 'GET', 'application/json');
+        $content = $this->httpRequest($url);
 
 
         //JSON 디코딩
@@ -311,6 +307,18 @@ class socialxeCommunicator{
 
         return $url;
     }
+
+	// HTTP 요청
+	function httpRequest($url, $mode = 'GET'){
+		if ($mode == 'POST'){
+			$url_info = parse_url($url);
+			$url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
+			$body = $url_info['query'];
+		}
+
+		$headers = array('User-Agent' => "SocialXE ClientBot Ver. {$this->version}");
+		return FileHandler::getRemoteResource($url, $body, 3, $mode, 'application/json', $headers);
+	}
 }
 
 ?>
