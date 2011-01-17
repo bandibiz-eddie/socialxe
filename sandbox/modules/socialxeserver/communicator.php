@@ -350,8 +350,12 @@ class socialxeServerCommunicator {
         $reply = false;
 
         // 링크 주소
-        $bitly = new bitly_SocialXE($this->config->bitly_username, $this->config->bitly_api_key);
-        $comment->content_link = $bitly->shorten(urlencode($this->_getCommentUrl($content_link, $comment->parent->comment_srl)));
+		if ($comment->short_link){
+			$comment->content_link = $comment->short_link;
+		}else{
+			$bitly = new bitly_SocialXE($this->config->bitly_username, $this->config->bitly_api_key);
+			$comment->content_link = $bitly->shorten(urlencode($this->_getCommentUrl($content_link, $comment->parent->comment_srl)));
+		}
 
         // 댓글이면 모두 등록
         if (!$comment->parent){
