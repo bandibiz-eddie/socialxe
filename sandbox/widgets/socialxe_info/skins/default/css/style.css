@@ -11,7 +11,7 @@
 .socialxe_info .name { font-weight: bold; margin-bottom: 10px; }
 .socialxe_info .name img { vertical-align: middle; }
 .socialxe_info .name .master_change_info,
-.socialxe_info .name .master_change_list_info, { font-weight: normal; font-size: 90%; cursor: pointer; }
+.socialxe_info .name .master_change_list_info { font-weight: normal; font-size: 90%; cursor: pointer; }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 	.socialxe_info .service li img { width: 32px; height: 32px; }
