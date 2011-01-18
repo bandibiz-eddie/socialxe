@@ -610,13 +610,13 @@
 
 		// 글 작성 트리거
 		function triggerInsertDocument(&$document){
-			// widget 모듈은 실행하지 않는다.
+			// widget, textyle 모듈은 실행하지 않는다.
 			$module_info = Context::get('module_info');
 			if (!$module_info->module){
 				$oModuleModel = &getModel('module');
 				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_info->module_srl);
 			}
-			if (in_array($module_info->module, array('widget'))) return new Object();
+			if (in_array($module_info->module, array('widget', 'textyle'))) return new Object();
 
 			// 현재 모듈이 소셜 통합 기능 사용 중인지 확인한다.
 			$oSocialxeModel = &getModel('socialxe');
