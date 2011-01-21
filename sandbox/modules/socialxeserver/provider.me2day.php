@@ -122,7 +122,7 @@ class socialxeServerProviderMe2day extends socialxeServerProvider{
         // URL 삽입
         $temp = explode('」', $content);
         if (count($temp) > 1){
-            $temp[0] = '「"' . cur_str($temp[0], 149, '') . '":' . $comment->content_link . ' ';
+            $temp[0] = '「"' . cut_str($temp[0], 149, '') . '":' . $comment->content_link . ' ';
             $content = implode('」', $temp);
         }
 

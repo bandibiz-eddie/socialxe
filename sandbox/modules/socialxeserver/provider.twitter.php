@@ -112,7 +112,7 @@ class socialxeServerProviderTwitter extends socialxeServerProvider{
         $content = ' ' . $comment->content_link . ' #' . $comment->hashtag;
 
         // 얼마만큼의 길이를 사용할 수 있는지 확인
-        $max_length = 140 - strlen($content, 'UTF-8');
+        $max_length = 140 - strlen($content);
 
         // 실제 내용을 준비
         if ($comment->content_title){
