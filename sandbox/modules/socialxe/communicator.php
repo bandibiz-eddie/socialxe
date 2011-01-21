@@ -37,7 +37,13 @@ class socialxeCommunicator{
         }
 
         // 요청 토큰을 얻는다.
-        $request_token = $this->getRequestToken();
+        $output = $this->getRequestToken();
+		if ($output->error){
+			$result->setError($output->error);
+			$result->setMessage($output->message);
+			return $result;
+		}
+		$request_token = $output->request_token;
         if (!$request_token){
             $result->setError(-1);
             $result->setMessage('msg_request_error');
@@ -260,7 +266,7 @@ class socialxeCommunicator{
         $json = new Services_JSON_SocialXE();
         $output = $json->decode($content);
 
-        return $output->request_token;
+        return $output;
     }
 
     // 액세스 토큰 얻기
