@@ -100,10 +100,7 @@ class socialxeServerProviderMe2day extends socialxeServerProvider{
         if (!$lang->notify) $lang->notify = $this->lang->notify['en'];
 
         // 태그 준비. 태그는 그냥 150자 넘으면 자른다
-        $tag = $comment->hashtag;
-        if (mb_strlen($tag, 'UTF-8') > $max_length){
-            $tag = mb_substr($tag, 0, $max_length-3, 'UTF-8') . '...';
-        }
+        $tag = cut_str($comment->hashtag, $max_length-3, '...');
 
         // 내용 준비
 		$before = array('"');
@@ -117,17 +114,15 @@ class socialxeServerProviderMe2day extends socialxeServerProvider{
         }else{
             $title = $lang->comment;
         }
-        $content = '「' . $title . '」 ' . $comment->content;
+        $content = $title . '」 ' . $comment->content;
 
         // 150자 체크
-        if (mb_strlen($content, 'UTF-8') > $max_length){
-            $content = mb_substr($content, 0, $max_length-3, 'UTF-8') . '...';
-        }
+		$content = cut_str($content, $max_length-3, '...');
 
         // URL 삽입
         $temp = explode('」', $content);
         if (count($temp) > 1){
-            $temp[0] = '「"' . mb_substr($temp[0], 1, 150, 'UTF-8') . '":' . $comment->content_link . ' ';
+            $temp[0] = '「"' . cur_str($temp[0], 149, '') . '":' . $comment->content_link . ' ';
             $content = implode('」', $temp);
         }
 

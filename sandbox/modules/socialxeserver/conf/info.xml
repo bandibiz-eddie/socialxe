@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-    <title xml:lang="ko">소셜XE 서버</title>
-    <description xml:lang="ko">소셜XE 서버</description>
+    <title xml:lang="ko">SocialXE 서버</title>
+    <description xml:lang="ko">SocialXE 서버</description>
     <version>0.9</version>
     <date>2010-12-24</date>
     <category>accessory</category>

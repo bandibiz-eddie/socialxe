@@ -112,7 +112,7 @@ class socialxeServerProviderYozm extends socialxeServerProvider{
         $content = ' ' . $comment->content_link;
 
         // 얼마만큼의 길이를 사용할 수 있는지 확인
-        $max_length = 150 - mb_strlen($content, 'UTF-8');
+        $max_length = 150 - strlen($content);
 
         // 실제 내용을 준비
         if ($comment->content_title){
@@ -125,12 +125,7 @@ class socialxeServerProviderYozm extends socialxeServerProvider{
         $content2 = '「' . $title . '」 ' . $comment->content;
 
         // 내용 길이가 최대 길이를 넘는지 확인
-        if (mb_strlen($content2, 'UTF-8') > $max_length){
-            // 말줄임을 위한 3자를 남기고 내용을 자른다.
-            $content = mb_substr($content2, 0, $max_length-3, 'UTF-8') . '...' . $content;
-        }else{
-            $content = $content2 . $content;
-        }
+		$content = cut_str($content2, $max_length-3, '...');
 
         // 댓글 전송
 
