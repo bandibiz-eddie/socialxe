@@ -133,7 +133,7 @@ class socialxeServerProviderTwitter extends socialxeServerProvider{
         }
 
         // 내용 길이가 최대 길이를 넘는지 확인
-		$content = cut_str($content2, $max_length-3, '...');
+		$content = cut_str($content2, $max_length-3, '...') . $content;
 
         // 댓글 전송
 
