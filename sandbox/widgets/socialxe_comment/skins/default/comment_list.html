@@ -48,12 +48,12 @@
         <div class="date">{getTimeGap($oComment->get('regdate'), "Y.m.d H:i:s")}</div>
         <div class="command">
             <!--@if($oComment->isGranted())-->
-                <span onclick="deleteSocialComment({$oComment->get('comment_srl')})" style="cursor: pointer">{$lang->cmd_delete}</span>,
+                <a href="#" onclick="deleteSocialComment({$oComment->get('comment_srl')}); return false;" style="cursor: pointer">{$lang->cmd_delete}</a>,
             <!--@end-->
 
-            <span id="socialxe_write_comment_{$oComment->get('comment_srl')}" class="write_comment" onclick="viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}')">
+            <a href="#" id="socialxe_write_comment_{$oComment->get('comment_srl')}" class="write_comment" onclick="viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}'); return false;">
                 {$lang->comment} {$oComment->get('sub_comment_count')}
-            </span>
+            </a>
         </div>
         <div id="socialxe_comment_{$oComment->get('comment_srl')}" class="sub_comment" style="display: none;"></div>
         <!--@if ($use_comment_srl && $auto_login_key)-->

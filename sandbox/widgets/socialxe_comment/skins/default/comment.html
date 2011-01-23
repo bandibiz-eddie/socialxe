@@ -11,6 +11,15 @@
     <!--%import("css/style.black.css")-->
 <!--@end-->
 
+<script type="text/javascript">
+	var socialxe_document_srl = '{$document_srl}';
+	var socialxe_skin = '{$skin}';
+	var socialxe_list_count = '{$list_count}';
+	var socialxe_content_link = '{$content_link}';
+	var socialxe_comment_srl = '{$socialxe_comment_srl}';
+	var socialxe_enter_send = '{$enter_send}';
+</script>
+
 <a name="socialxe_comment"></a>
 <div class="socialxe_comment">
     <!--@if($allow_comment)-->
@@ -48,11 +57,5 @@
     <!--@if(!$auto_login_key)-->
     getAutoLoginKey('{$auto_login_key_url}', '{$skin}');
     <!--@end-->
-
-    var socialxe_document_srl = '{$document_srl}';
-    var socialxe_skin = '{$skin}';
-    var socialxe_list_count = '{$list_count}';
-    var socialxe_content_link = '{$content_link}';
-    var socialxe_comment_srl = '{$socialxe_comment_srl}';
 -->
 </script>

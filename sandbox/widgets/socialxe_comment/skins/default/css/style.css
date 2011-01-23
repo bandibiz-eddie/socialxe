@@ -7,7 +7,7 @@
 /* Control Button + Submit Button */
 .socialxe_comment span.socialxe_button,
 .socialxe_comment span.socialxe_button button,
-.socialxe_comment span.socialxe_button input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../../../common/tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
+.socialxe_comment span.socialxe_button input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../../../../../common/tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
 .socialxe_comment span.socialxe_button { padding:0; background-position:left top;}
 .socialxe_comment span.socialxe_button button,
 .socialxe_comment span.socialxe_button input { height:23px; left:2px; *vertical-align:top; padding:0 10px 0 8px; line-height:24px; background-position:right top; cursor:pointer; *overflow:visible;}
@@ -33,8 +33,9 @@
 
 .socialxe_comment .input { margin: 0; padding: 5px 10px 10px 10px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #eee; background: #f6f6f6;}
 .socialxe_comment .input .name { margin: 5px 0; font-weight: bold; }
-.socialxe_comment .input .name .master_change { font-weight: normal; font-size: 90%; cursor: pointer; }
-.socialxe_comment .input .name .master_change_list { font-weight: normal; font-size: 90%; }
+.socialxe_comment .input .name .master_change { font-weight: normal; font-size: 90%; cursor: pointer; color: black; text-decoration: none; }
+.socialxe_comment .input .name .master_change_list { font-weight: normal; font-size: 90%; color: black; }
+.socialxe_comment .input .name .master_change_list a { color: black; text-decoration: none; }
 
 .socialxe_comment .input .socialxe_wrap { position: relative; }
 .socialxe_comment .input .socialxe_wrap .socialxe_left { margin-right: 60px; border: 1px #f6f6f6 solid; }
@@ -64,12 +65,14 @@
 
 .socialxe_comment .comment_list .command { text-align: right; font-size: 90%; font-weight: normal; }
 .socialxe_comment .comment_list .command .write_comment { cursor: pointer; }
+.socialxe_comment .comment_list .command a { color: black; text-decoration: none; }
 
 .socialxe_comment .sub_comment { padding: 10px 0; }
 .socialxe_comment .sub_comment li { padding: 5px 0; }
 .socialxe_comment .sub_comment .name img { vertical-align: middle; }
 .socialxe_comment .sub_comment .command { font-size: 90%; font-weight: normal; }
-.socialxe_comment .sub_comment .write_comment { cursor: pointer; }
+.socialxe_comment .sub_comment .command a { color: black; text-decoration: none;}
+.socialxe_comment .sub_comment .write_comment { cursor: pointer; color: black; text-decoration: none; }
 .socialxe_comment .sub_comment .content { padding-top: 5px; }
 
 .socialxe_comment .sub_comment_input { position: relative; margin: 5px 0; }

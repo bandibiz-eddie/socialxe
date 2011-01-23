@@ -14,6 +14,8 @@
 .socialxe_comment .input .name { color: #999; }
 .socialxe_comment .input .socialxe_wrap .socialxe_left { border-color: #222; }
 .socialxe_comment .input .socialxe_wrap .submit input { background: url(../images/submit.black.gif) no-repeat; }
+.socialxe_comment .input .name .master_change { color: #999; }
+.socialxe_comment .input .name .master_change_list a { color: #999; }
 
 .socialxe_comment .profile_image { border-color: #444; padding: 2px; background: #333; }
 
@@ -26,6 +28,10 @@
 .socialxe_comment .comment_list .name a { color: #999; }
 .socialxe_comment .comment_list .more { border-color: #333;}
 .socialxe_comment .xe_content { color: #999; }
+.socialxe_comment .comment_list .command a { color: #999; }
+
+.socialxe_comment .sub_comment .command a { color: #999; }
+.socialxe_comment .sub_comment .write_comment { color: #999; }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 	.socialxe_comment .input .name .master_change,

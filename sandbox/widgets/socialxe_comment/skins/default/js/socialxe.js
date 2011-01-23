@@ -232,6 +232,8 @@ function runAutoLink(){
 
 // textarea 엔터로 등록하기
 function enterSend(){
+	if (socialxe_enter_send != 'Y') return;
+
     jQuery(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
         if (e.keyCode != 13) return true;
 

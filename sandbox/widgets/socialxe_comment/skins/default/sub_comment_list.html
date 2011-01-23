@@ -25,9 +25,9 @@
         <span class="date">{getTimeGap($oComment->get('regdate'), "Y.m.d H:i:s")}</span>
         <span class="command">
         <!--@if($oComment->isGranted())-->
-            <span onclick="deleteSocialComment({$oComment->get('comment_srl')})" style="cursor: pointer">{$lang->cmd_delete}</span>,
+            <a href="#" onclick="deleteSocialComment({$oComment->get('comment_srl')}); return false;" style="cursor: pointer">{$lang->cmd_delete}</a>,
         <!--@end-->
-        <span class="write_comment" onclick="writeSubSubComment(this, '{addslashes($oComment->get('reply_prefix'))}')">{$lang->write_comment}</span>
+        <a href="#" class="write_comment" onclick="writeSubSubComment(this, '{addslashes($oComment->get('reply_prefix'))}'); return false;">{$lang->write_comment}</a>
         </span>
     </div>
     <div class="content">{$oComment->getContent(false)}</div>
