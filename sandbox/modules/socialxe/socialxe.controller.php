@@ -70,7 +70,7 @@
 
             // 데이터를 준비
             $args->parent_srl = Context::get('comment_srl');
-            $args->content = Context::get('content');
+            $args->content = htmlspecialchars(nl2br(Context::get('content')));
             $args->nick_name = $this->providerManager->getMasterProviderNickName();
             $args->content_link = Context::get('content_link');
             $args->content_title = Context::get('content_title');
