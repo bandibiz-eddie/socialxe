@@ -41,12 +41,12 @@
 		{@$logged_count-=1;}
 	<!--@end-->
 	<!--@if($logged_count > 1)-->
-		<span class="master_change_info">
+		<a href="#" onclick="return false;" class="master_change_info">
 		{$lang->cmd_master}
-		</span>
+		</a>
 		<span class="master_change_list_info">
 			<!--@foreach($logged_provider as $provider)--><!--@if($provider!='xe')-->
-			<span onclick="changeInfoMaster('{$provider}', '{$skin}');" style="cursor:pointer;">{$lang->provider[$provider]}</span>
+			<a href="#" onclick="changeInfoMaster('{$provider}', '{$skin}'); return false;" style="cursor:pointer;">{$lang->provider[$provider]}</a>
 			<!--@end--><!--@end-->
 		</span>
 		<script type="text/javascript">
