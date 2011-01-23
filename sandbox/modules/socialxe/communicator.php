@@ -227,7 +227,7 @@ class socialxeCommunicator{
             }
         }
         if (count($msg)){
-            $msg = implode('\n', $msg);
+            $msg = implode("\n", $msg);
             $result->add('msg', $msg);
         }
 
@@ -354,7 +354,7 @@ class socialxeCommunicator{
 		}
 
 		$headers = array('User-Agent' => "SocialXE ClientBot Ver. {$this->version}");
-		return FileHandler::getRemoteResource($url, $body, 3, $mode, 'application/json', $headers);
+		return FileHandler::getRemoteResource($url, $body, 30, $mode, 'application/json', $headers);
 	}
 
 	// comment_srl이 붙은 주소를 만든다.
