@@ -34,6 +34,8 @@ class socialxeServerCommunicator {
     function procAPI($mode){
         $result = new Object();
 
+		set_time_limit(0);
+
 		// data decode
 		$this->decodeData();
 
@@ -104,6 +106,7 @@ class socialxeServerCommunicator {
         // 클라이언트 토큰 확인
         unset($output);
         $output = $this->_getClientInfo($this->request_data['client']);
+	debugPrint($output);
         if (!$output->toBool()) return $output;
         $client_info = $output->get('client_info');
 
