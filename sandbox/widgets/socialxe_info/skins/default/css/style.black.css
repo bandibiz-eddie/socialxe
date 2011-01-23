@@ -1,7 +1,7 @@
 .socialxe_info { color: #999; }
 .socialxe_info .name .master_change_info,
-.socialxe_info .name .master_change_list_info { color: #999; }
-.socialxe_info .name .master_change_list_info a { color: #999; }
+.socialxe_info .name .master_change_list_info { color: #999 !important; }
+.socialxe_info .name .master_change_list_info a { color: #999 !important; }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 	.socialxe_comment .name .master_change,
