@@ -114,6 +114,9 @@ class socialxeCommunicator{
     // 소셜 서비스로 댓글 전송
     function sendComment($args){
         $result = new Object();
+
+		set_time_limit(0);
+
 		$oSocialxeModel = &getModel('socialxe');
 
         $logged_provider_list = $this->providerManager->getLoggedProviderList();
