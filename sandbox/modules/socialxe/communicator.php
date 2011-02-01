@@ -112,16 +112,22 @@ class socialxeCommunicator{
     }
 
     // 소셜 서비스로 댓글 전송
-    function sendComment($args){
+    function sendComment($args, $manual_data = null){
         $result = new Object();
 
 		set_time_limit(0);
 
 		$oSocialxeModel = &getModel('socialxe');
 
-        $logged_provider_list = $this->providerManager->getLoggedProviderList();
-        $master_provider = $this->providerManager->getMasterProvider();
-        $slave_provider = $this->providerManager->getSlaveProvider();
+		if ($manual_data){
+			$logged_provider_list = $manual_data->logged_provider_list;
+			$master_provider = $manual_data->master_provider;
+			$slave_provider = $manual_data->slave_provider;
+		}else{
+			$logged_provider_list = $this->providerManager->getLoggedProviderList();
+			$master_provider = $this->providerManager->getMasterProvider();
+			$slave_provider = $this->providerManager->getSlaveProvider();
+		}
         $config = $this->config;
 
         // $logged_provider_list에서 xe 제외
@@ -187,7 +193,12 @@ class socialxeCommunicator{
 		);
 
 		// 소셜 서비스 액세스 정보 준비
-		$accesses = $this->providerManager->getAccesses();
+		if ($manual_data){
+			$accesses = $manual_data->access;
+		}else{
+			$accesses = $this->providerManager->getAccesses();
+		}
+
 		foreach($accesses as $provider => $access){
 			$data[$provider] = serialize($access);
 		}

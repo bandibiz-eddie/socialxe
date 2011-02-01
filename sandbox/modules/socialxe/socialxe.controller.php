@@ -130,9 +130,9 @@
         }
 
 		// 소셜 사이트로 전송
-		function sendSocialComment($args, $comment_srl, &$msg){
+		function sendSocialComment($args, $comment_srl, &$msg, $manual_data = null){
 			// 소셜 서비스로 댓글 전송
-			$output = $this->communicator->sendComment($args);
+			$output = $this->communicator->sendComment($args, $manual_data);
 			if (!$output->toBool()) return $output;
 
 			$msg = $output->get('msg');
@@ -628,7 +628,7 @@
 			// 데이터 준비
 			$args->module_srl = $document->module_srl;
 			$args->content = '';
-			$args->content_link = getFullUrl('', 'document_srl', $document->document_srl);
+			$args->content_link = getNotEncodedFullUrl('', 'document_srl', $document->document_srl);
 			$args->content_title = $document->title;
 
 			// 플래닛은 따로 처리
@@ -741,6 +741,92 @@
             if(!$custom_menu->attached_menu[5]) $custom_menu->attached_menu[5] = array();
             $custom_menu->attached_menu[5] = array_merge($custom_menu->attached_menu[5], $attache_menu5);
         }
+
+		// 텍스타일 발행 시 처리
+		function textylePostPublish($oModule){
+			// 텍스타일 발행 처리 오류가 있으면 처리하지 않음
+			if ($oModule->error) return;
+
+			// 문서 번호
+			$document_srl = Context::get('document_srl');
+			if (!$document_srl) return;
+
+			// 문서를 얻는다.
+			$document = $GLOBALS['socialxe_textyle_document_' . $document_srl];
+			if (!$document) return;
+
+			// 기발행 여부 체크
+			$isPublished = $GLOBALS['socialxe_textyle_published_' . $document_srl];
+
+			// 예약 발행 여부
+			$isSubscription = Context::get('subscription');
+
+			// 처음 발행 && !예약발행
+			// 또는
+			// 기발행 && !예약발행 && 이전에 예약발행 설정이었으면
+			// 소셜 사이트로 전송
+			if ( (!$isPublished && $isSubscription == 'N') || ($isPublished && $isSubscription == 'N' && $document->get('module_srl') < 0) ){
+				// 데이터 준비
+				$args->module_srl = $document->get('module_srl');
+				$args->content = '';
+				$args->content_link = getNotEncodedFullUrl('', 'document_srl', $document->get('document_srl'));
+				$args->content_title = $document->getTitleText();
+
+				// 소셜 서비스로 전송
+				$output = $this->sendSocialComment($args, $document->document_srl, $msg);
+				// 에러는 무시하자...
+			}
+
+			// 예약 발행이면 예약 정보를 DB에 저장
+			else if ($isSubscription == 'Y'){
+				// 우선 현재 예약 정보를 삭제
+				$args->document_srl = $document_srl;
+				$output = executeQuery('socialxe.deleteTextylePostSubscriptionSocialInfo', $args);
+				// 에러는 무시하자
+
+				// 현재 로그인한 서비스와 액세스 정보를 얻는다.
+				$config->logged_provider_list = $this->providerManager->getLoggedProviderList();
+				$config->master_provider = $this->providerManager->getMasterProvider();
+				$config->slave_provider = $this->providerManager->getSlaveProvider();
+				foreach($config->logged_provider_list as $provider){
+					$config->access[$provider] = $this->providerManager->getAccess($provider);
+				}
+
+				$args->document_srl = $document_srl;
+				$args->config = serialize($config);
+				$output = executeQuery('socialxe.insertTextylePostSubscriptionSocialInfo', $args);
+				// 에러는 무시하자...
+			}
+		}
+
+		// 텍스타일 예약 발행 처리
+		function textylePublishSubscriptedPost($document_srl){
+			// 문서를 얻는다.
+			$oDocumentModel = &getModel('document');
+			$document = $oDocumentModel->getDocument($document_srl);
+			if (!$document) return;
+
+			// 소셜 정보 준비
+			$args->document_srl = $document_srl;
+			$output = executeQuery('socialxe.getTextylePostSubscriptionSocialInfo', $args);
+			if (!$output->data) return;
+
+			$config = unserialize($output->data->config);
+
+			// 데이터 준비
+			$args->module_srl = $document->get('module_srl');
+			$args->content = '';
+			$args->content_link = getNotEncodedFullUrl('', 'document_srl', $document->get('document_srl'));
+			$args->content_title = $document->getTitleText();
+
+			// 소셜 서비스로 전송
+			$output = $this->sendSocialComment($args, $document->document_srl, $msg, $config);
+			// 에러는 무시하자...
+
+			// 소셜 정보 삭제
+			$args->document_srl = $document_srl;
+			$output = executeQuery('socialxe.deleteTextylePostSubscriptionSocialInfo', $args);
+		}
 
 		// 모듈에 속한 소셜 정보 삭제
 		function deleteModuleSocial(&$obj) {

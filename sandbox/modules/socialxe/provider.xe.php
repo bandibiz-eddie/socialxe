@@ -18,7 +18,7 @@ class socialxeProviderXE extends socialxeProvider{
     // 로그인 여부 갱신
     function syncLogin(){
         $logged_info = Context::get('logged_info');
-        if ($logged_info){
+        if ($logged_info->member_srl){
             $this->logged_info = $logged_info;
             $this->setLogin(true);
         }
