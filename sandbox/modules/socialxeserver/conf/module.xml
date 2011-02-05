@@ -3,12 +3,17 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispSocialxeserverAdminConfig" type="view" admin_index="true" standalone="true" />
-        <action name="procSocialxeserverAdminInsertConfig" type="controller" standalone="true" />
+        <action name="dispSocialxeserverAdminConfig" type="view" standalone="true" />
+		<action name="dispSocialxeserverAdminClient" type="view" admin_index="true" standalone="true" />
+		<action name="dispSocialxeserverAdminInsertClient" type="view" standalone="true" />
+		<action name="dispSocialxeserverAdminModifyClient" type="view" standalone="true" />
+
+		<action name="procSocialxeserverAdminInsertConfig" type="controller" standalone="true" />
+		<action name="procSocialxeserverAdminInsertClient" type="controller" standalone="true" />
+		<action name="procSocialxeserverAdminDeleteCheckedClient" type="controller" standalone="true" />
 
         <action name="procSocialxeserverAPI" type="controller" standalone="true" />
         <action name="procSocialxeserverCallback" type="controller" standalone="true" />
-        <action name="procSocialxeInsertComment" type="controller" standalone="true" />
 
         <action name="dispSocialxeserverAdminGetYozmAccessToken" type="view" standalone="true" />
         <action name="dispSocialxeserverAdminCallback" type="view" standalone="true" />

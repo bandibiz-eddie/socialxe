@@ -507,9 +507,12 @@ class socialxeServerCommunicator {
         // 해당 클라이언트의 사용 도메인인지 확인
         $is_valid = false;
         foreach($client_info as $val){
-            if ($val->domain == $domain){
-                $is_valid = true;
-            }
+			$domain_array = explode(',', $val->domain);
+			foreach($domain_array as $val2){
+				if (trim($val2) == $domain){
+					$is_valid = true;
+				}
+			}
         }
         if (!$is_valid) return $this->stop('msg_invalid_request_domain');
 

@@ -17,6 +17,13 @@
     $lang->bitly_username = 'bit.ly Username';
     $lang->bitly_api_key = 'bit.ly API Key';
 
+	$lang->cmd_client_list = '클라이언트 목록';
+	$lang->cmd_setting = '환경설정';
+	$lang->cmd_delete_checked = '선택 삭제';
+	$lang->cmd_modify_client = '클라이언트 정보 수정';
+
+	$lang->about_client_domain = '클라이언트 도메인을 콤마(,)로 구분하여 입력해주세요. http://는 생략해주세요.';
+
     $lang->msg_invalid_provider = '올바른 서비스 제공자가 아닙니다.';
     $lang->msg_old_token = '올바른 토큰값이 아닙니다.';
     $lang->msg_error_twitter = '트위터에 접속할 수 없습니다. 페이지를 새로고치거나 잠시 후 다시 시도해주세요.';
@@ -27,6 +34,7 @@
     $lang->msg_error_token = '토큰을 가져오는데 실패했습니다.';
     $lang->msg_error_yozm = '요즘에 접속할 수 없습니다. 페이지를 새로고치거나 잠시 후 다시 시도해주세요.';
     $lang->msg_error_yozm_not_joined = '요즘 사용자가 아닙니다.';
+	$lang->msg_exsist_domain = '이미 등록된 도메인입니다.';
 
     $lang->provider['twitter'] = '트위터';
     $lang->provider['me2day'] = '미투데이';
