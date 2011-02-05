@@ -80,7 +80,7 @@
 			if(!$cart) return $this->stop('msg_cart_is_null');
 			$bitly_srl_list= explode('|@|', $cart);
 			$bitly_count = count($bitly_srl_list);
-			if(!$bitly_srl_list) return $this->stop('msg_cart_is_null');
+			if(!$bitly_count) return $this->stop('msg_cart_is_null');
 
 			$args->bitly_srls = implode(',', $bitly_srl_list);
 			return executeQuery('socialxe.deleteBitly', $args);
