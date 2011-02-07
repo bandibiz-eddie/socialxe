@@ -16,13 +16,19 @@
     $lang->get_yozm_access_token ='요즘 Access Token 얻기';
     $lang->bitly_username = 'bit.ly Username';
     $lang->bitly_api_key = 'bit.ly API Key';
+	$lang->service_id = '모듈 이름';
+	$lang->empty_client = '등록된 클라이언트가 없습니다.';
 
 	$lang->cmd_client_list = '클라이언트 목록';
 	$lang->cmd_setting = '환경설정';
 	$lang->cmd_delete_checked = '선택 삭제';
 	$lang->cmd_modify_client = '클라이언트 정보 수정';
+	$lang->cmd_service_config = '서비스 모듈 설정';
+	$lang->cmd_insert_service_module = '서비스 모듈 생성';
+	$lang->cmd_create_client = '클라이언트 등록';
 
 	$lang->about_client_domain = '클라이언트 도메인을 콤마(,)로 구분하여 입력해주세요. http://는 생략해주세요.';
+	$lang->about_insert_service_module = '사용자가 직접 클라이언트 등록을 하고 자신의 도메인을 관리하기 위해서는 서비스 모듈을 생성하여야 합니다.';
 
     $lang->msg_invalid_provider = '올바른 서비스 제공자가 아닙니다.';
     $lang->msg_old_token = '올바른 토큰값이 아닙니다.';

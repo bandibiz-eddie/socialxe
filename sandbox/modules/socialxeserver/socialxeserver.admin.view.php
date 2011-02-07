@@ -6,6 +6,10 @@
          * @brief 초기화
          **/
         function init() {
+			// 서비스 모듈 정보를 얻는다.
+			$oSocialxeserverModel = &getModel('socialxeserver');
+			$this->service_module_info = $oSocialxeserverModel->getServiceModuleInfo();
+			Context::set('service_module_info', $this->service_module_info);
         }
 
         /**
@@ -74,6 +78,38 @@
 			// 템플릿 파일 지정
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('modify_client');
+		}
+
+		// 서비스 모듈 설정
+		function dispSocialxeserverAdminServiceConfig(){
+			// 서비스 모듈이 생성되지 않았으면 생성 화면으로
+			$this->setTemplatePath($this->module_path.'tpl');
+			if (!$this->service_module_info){
+				$this->setTemplateFile('insert_service_module');
+			}
+
+			// 서비스 모듈이 설정되어 있으면 설정 화면으로
+			else{
+				$oModuleModel = &getModel('module');
+				$skin_list = $oModuleModel->getSkins($this->module_path);
+				Context::set('skin_list',$skin_list);
+
+				$oLayoutMode = &getModel('layout');
+				$layout_list = $oLayoutMode->getLayoutList();
+				Context::set('layout_list', $layout_list);
+				$this->setTemplateFile('service_config');
+			}
+		}
+
+		// 권한 설정
+		function dispSocialxeserverAdminServiceGrant(){
+			// 공통 모듈 권한 설정 페이지 호출
+			$oModuleAdminModel = &getAdminModel('module');
+			$grant_content = $oModuleAdminModel->getModuleGrantHTML($this->service_module_info->module_srl, $this->xml_info->grant);
+			Context::set('grant_content', $grant_content);
+
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile('grant_list');
 		}
 
         // 요즘 액세스 토큰 얻기

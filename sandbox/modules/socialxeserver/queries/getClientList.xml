@@ -6,7 +6,8 @@
 		<column name="*" />
 	</columns>
 	<conditions>
-		<condition operation="like" column="domain" var="domain" />
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
+		<condition operation="like" column="domain" var="domain" pipe="and" />
 	</conditions>
 	<navigation>
 		<index var="list_order" default="client_srl" order="desc" />

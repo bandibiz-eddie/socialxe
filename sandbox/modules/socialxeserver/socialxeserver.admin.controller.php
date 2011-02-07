@@ -1,11 +1,15 @@
 <?php
 
-    class socialxeserverAdminController extends socialxeserver {
+    class socialxeserverAdminController extends ModuleObject {
 
         /**
          * @brief 초기화
          **/
         function init() {
+			// 서비스 모듈 정보를 얻는다.
+			$oSocialxeserverModel = &getModel('socialxeserver');
+			$this->service_module_info = $oSocialxeserverModel->getServiceModuleInfo();
+			Context::set('service_module_info', $this->service_module_info);
         }
 
         /**
@@ -23,37 +27,9 @@
 
 		// 클라이언트 추가/수정
 		function procSocialxeserverAdminInsertClient(){
-			$client_srl = Context::get('client_srl');
-			$domain = Context::get('domain');
+			$oSocialxeserverController = &getController('socialxeserver');
 
-			// 도메인 확인
-			$oSocialxeserverModel = &getModel('socialxeserver');
-			$domain_array = explode(',', $domain);
-			foreach($domain_array as &$val){
-				$val = trim(str_replace(array('http://', 'www.'), '', $val));
-				$output = $oSocialxeserverModel->isExsistDomain($val, $client_srl);
-				if (!$output->toBool()) return $output;
-				if ($output->get('result')) return $this->stop(Context::getLang('msg_exsist_domain') . '(' . $val . ')');
-			}
-
-			// 수정
-			if ($client_srl){
-				$args->client_srl = $client_srl;
-				$args->domain = $domain;
-				$output = executeQuery('socialxeserver.updateClient', $args);
-			}
-
-			// 추가
-			else{
-				// 클라이언트 토큰
-				$token = md5($domain);
-
-				// DB 입력
-				$args->domain = $domain;
-				$args->client_token = $token;
-				$output = executeQuery('socialxeserver.insertClient', $args);
-			}
-			return $output;
+			return $oSocialxeserverController->_insertClient();
 		}
 
 		// 클라이언트 선택 삭제
@@ -67,6 +43,42 @@
 
 			$args->client_srls = implode(',', $client_srl_list);
 			return executeQuery('socialxeserver.deleteClient', $args);
+		}
+
+		// 서비스 모듈 생성
+		function procSocialxeserverAdminInsertServiceModule(){
+			if($this->service_module_info->module_srl) return new Object(-1,'msg_invalid_request');
+
+			$oModuleController = &getController('module');
+
+			$args->module = 'socialxeserver';
+			$args->mid = Context::get('service_id');
+			$args->site_srl = 0;
+			$args->skin = 'default';
+			$args->browser_title = 'SocialXE Server';
+			$output = $oModuleController->insertModule($args);
+			if(!$output->toBool()) return $output;
+
+			$this->setRedirectUrl(getUrl('','module','admin','act','dispSocialxeserverAdminServiceConfig'));
+		}
+
+		// 서비스 모듈 설정 업데이트
+		function procSocialxeserverAdminUpdateServiceModule(){
+			if(!$this->service_module_info->module_srl) return new Object(-1,'msg_invalid_request');
+
+			// module 모듈의 model/controller 객체 생성
+			$oModuleController = &getController('module');
+			$oModuleModel = &getModel('module');
+
+			// 모듈의 정보 설정
+			$args = Context::getRequestVars();
+			$args->module = 'socialxeserver';
+			$args->mid = $args->service_id;
+			unset($args->service_id);
+
+			$args->module_srl = $this->service_module_info->module_srl;
+			$output = $oModuleController->updateModule($args);
+			if(!$output->toBool()) return $output;
 		}
 
     }

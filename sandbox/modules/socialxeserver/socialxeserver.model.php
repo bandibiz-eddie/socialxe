@@ -1,6 +1,6 @@
 <?php
 
-    class socialxeserverModel extends socialxeserver {
+    class socialxeserverModel extends ModuleObject {
 
         /**
          * @brief 초기화
@@ -47,6 +47,17 @@
 			// 일치하는 도메인이 없으면 false
 			$result->add('result', false);
 			return $result;
+		}
+
+		// 서비스 모듈 정보
+		function getServiceModuleInfo(){
+			$oModuleModel = &getModel('module');
+
+			$output = executeQuery('socialxeserver.getServiceModule');
+			if(!$output->data->module_srl) return;
+
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($output->data->module_srl);
+			return $module_info;
 		}
     }
 ?>
