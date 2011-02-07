@@ -1,29 +1,29 @@
 <?php
 
-    class socialxeserverAdminController extends ModuleObject {
+	class socialxeserverAdminController extends ModuleObject {
 
-        /**
-         * @brief 초기화
-         **/
-        function init() {
+		/**
+		* @brief 초기화
+		**/
+		function init() {
 			// 서비스 모듈 정보를 얻는다.
 			$oSocialxeserverModel = &getModel('socialxeserver');
 			$this->service_module_info = $oSocialxeserverModel->getServiceModuleInfo();
 			Context::set('service_module_info', $this->service_module_info);
-        }
+		}
 
-        /**
-         * @brief 설정
-         **/
-        function procSocialxeserverAdminInsertConfig() {
-            // 기본 정보를 받음
-            $args = Context::getRequestVars();
+		/**
+		* @brief 설정
+		**/
+		function procSocialxeserverAdminInsertConfig() {
+			// 기본 정보를 받음
+			$args = Context::getRequestVars();
 
-            // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('socialxeserver',$args);
-            return $output;
-        }
+			// module Controller 객체 생성하여 입력
+			$oModuleController = &getController('module');
+			$output = $oModuleController->insertModuleConfig('socialxeserver',$args);
+			return $output;
+		}
 
 		// 클라이언트 추가/수정
 		function procSocialxeserverAdminInsertClient(){
@@ -81,5 +81,5 @@
 			if(!$output->toBool()) return $output;
 		}
 
-    }
+	}
 ?>

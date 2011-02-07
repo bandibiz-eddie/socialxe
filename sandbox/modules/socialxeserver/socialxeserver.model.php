@@ -1,19 +1,19 @@
 <?php
 
-    class socialxeserverModel extends ModuleObject {
+	class socialxeserverModel extends ModuleObject {
 
-        /**
-         * @brief 초기화
-         **/
-        function init() {
-        }
+		/**
+		* @brief 초기화
+		**/
+		function init() {
+		}
 
-        // 환경설정
-        function getConfig(){
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            return $config = $oModuleModel->getModuleConfig('socialxeserver');
-        }
+		// 환경설정
+		function getConfig(){
+			// 설정 정보를 받아옴 (module model 객체를 이용)
+			$oModuleModel = &getModel('module');
+			return $config = $oModuleModel->getModuleConfig('socialxeserver');
+		}
 
 		// 이미 존재하는 도메인인지 확인
 		function isExsistDomain($domain, $client_srl = null){
@@ -59,5 +59,5 @@
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($output->data->module_srl);
 			return $module_info;
 		}
-    }
+	}
 ?>
