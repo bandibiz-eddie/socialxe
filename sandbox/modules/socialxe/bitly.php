@@ -1,85 +1,85 @@
 <?php
 
 if (!class_exists("Services_JSON_SocialXE")){
-    require_once(_XE_PATH_.'modules/socialxe/JSON.php');
+	require_once(_XE_PATH_.'modules/socialxe/JSON.php');
 }
 
 /**
- * bitly
- *
- * For more information on this file and how to use the class please visit
- * http://www.hashbangcode.com/blog/php-class-to-interact-with-bit-ly-api-1315.html
- *
- * Changes in this version:
- * 1. Corrected incorrect comments on some functions.
- *
- * @author 	  Philip Norton
- * @version   1.1
- * @copyright 2009 #! code
- *
- */
+* bitly
+*
+* For more information on this file and how to use the class please visit
+* http://www.hashbangcode.com/blog/php-class-to-interact-with-bit-ly-api-1315.html
+*
+* Changes in this version:
+* 1. Corrected incorrect comments on some functions.
+*
+* @author 	  Philip Norton
+* @version   1.1
+* @copyright 2009 #! code
+*
+*/
 
 /**
- * This class provides a set of functions that replicate the bit.ly API.
- * In order to interface with bit.ly a login and API key are needed. The
- * functions will always create an array containing the data returned
- * from the bit.ly service, but different functions will return the most
- * important information. For more information about the bitly API have
- * a look at http://code.google.com/p/bitly-api/wiki/ApiDocumentation
- *
- * @package    bitly
- */
+* This class provides a set of functions that replicate the bit.ly API.
+* In order to interface with bit.ly a login and API key are needed. The
+* functions will always create an array containing the data returned
+* from the bit.ly service, but different functions will return the most
+* important information. For more information about the bitly API have
+* a look at http://code.google.com/p/bitly-api/wiki/ApiDocumentation
+*
+* @package    bitly
+*/
 class bitly_SocialXE{
 
 	/**
-	 * The login used for the API connection.
-	 *
-	 * @var string
-	 */
+	* The login used for the API connection.
+	*
+	* @var string
+	*/
 	var $login;
 
 	/**
-	 * The API key used for the API connection.
-	 *
-	 * @var string
-	 */
+	* The API key used for the API connection.
+	*
+	* @var string
+	*/
 	var $apikey;
 
 	/**
-	 * All API calls require a version parameter.
-	 *
-	 * @var string
-	 */
+	* All API calls require a version parameter.
+	*
+	* @var string
+	*/
 	var $version = '2.0.1';
 
 	/**
-	 * The format that the data is returned in. JSON is the
-	 * default, XML is also available.
-	 *
-	 * @var string
-	 */
+	* The format that the data is returned in. JSON is the
+	* default, XML is also available.
+	*
+	* @var string
+	*/
 	var $format = 'json';
 
 	/**
-	 * The raw data returned from bit.ly.
-	 *
-	 * @var array
-	 */
+	* The raw data returned from bit.ly.
+	*
+	* @var array
+	*/
 	var $results;
 
 	/**
-	 * The any error messages returned from bit.ly.
-	 *
-	 * @var mixed
-	 */
+	* The any error messages returned from bit.ly.
+	*
+	* @var mixed
+	*/
 	var $errors = false;
 
 	/**
-     * Constructor
-     *
-	 * @param string $login  The login to use for the connection.
-	 * @param string $apikey The API key to use for the connection.
-     */
+	* Constructor
+	*
+	* @param string $login  The login to use for the connection.
+	* @param string $apikey The API key to use for the connection.
+	*/
 	function bitly_SocialXE($login, $apikey)
 	{
 		$this->login = $login;
@@ -87,10 +87,10 @@ class bitly_SocialXE{
 	}
 
 	/**
-     * Set the format of the data being returned, this can be in json or xml.
-	 *
-	 * @param string $format The format.
-     */
+	* Set the format of the data being returned, this can be in json or xml.
+	*
+	* @param string $format The format.
+	*/
 	function setFormat($format)
 	{
 		$format = strtolower($format);
@@ -102,45 +102,45 @@ class bitly_SocialXE{
 	}
 
 	/**
-     * Get the format of the returned data.
-     *
-	 * @return string The format of the returned data.
-     */
+	* Get the format of the returned data.
+	*
+	* @return string The format of the returned data.
+	*/
 	function getFormat()
 	{
 		return $this->format;
 	}
 
 	/**
-     * Get the latest errors.
-     *
-	 * @return array An array containing the latest errors.
-     */
+	* Get the latest errors.
+	*
+	* @return array An array containing the latest errors.
+	*/
 	function getErrors()
 	{
 		return $this->errors;
 	}
 
 	/**
-     * Get the latest results from the bit.ly service.
-     *
-	 * @return array An array containing the bit.ly results.
-     */
+	* Get the latest results from the bit.ly service.
+	*
+	* @return array An array containing the bit.ly results.
+	*/
 	function getRawResults()
 	{
 		return $this->results;
 	}
 
 	/**
-     * Shorten a URL using the bit.ly service.
-	 *
-	 * @param string  $url        The URL to shorten.
-	 * @param boolean $returnHash Boolean value to make the function return an array
-	 *							  containing the shortened URL and a hash.
-	 *
-	 * @return mixed Either the shortened URL or an array containing the shortened URL
-	 *	             and the hash value returned from the site.
-     */
+	* Shorten a URL using the bit.ly service.
+	*
+	* @param string  $url        The URL to shorten.
+	* @param boolean $returnHash Boolean value to make the function return an array
+	*							  containing the shortened URL and a hash.
+	*
+	* @return mixed Either the shortened URL or an array containing the shortened URL
+	*	             and the hash value returned from the site.
+	*/
 	function shorten($url, $returnHash = false)
 	{
 		$bitlyurl = 'http://api.bit.ly/shorten?version='.$this->version.'&longUrl='.$url.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
@@ -155,13 +155,13 @@ class bitly_SocialXE{
 	}
 
 	/**
-     * Expand a URL that has been shortened using the bit.ly service.
-	 *
-	 * @param string $url  The URL to expand.
-	 * @param string $hash The hash value to be translated into a long URL.
-	 *
-	 * @return string The long URL, as translated by the bit.ly service.
-     */
+	* Expand a URL that has been shortened using the bit.ly service.
+	*
+	* @param string $url  The URL to expand.
+	* @param string $hash The hash value to be translated into a long URL.
+	*
+	* @return string The long URL, as translated by the bit.ly service.
+	*/
 	function expand($shortUrl, $hash = '')
 	{
 		if ( $shortUrl != '' ) {
@@ -177,14 +177,14 @@ class bitly_SocialXE{
 	}
 
 	/**
-     * Find out information about the URL.
-	 *
-	 * @param string $url  The shortened URL.
-	 * @param string $hash The hash value from the bit.ly service.
-	 * @param string $keys This will cause the bit.ly service to return only this data item.
-	 *
-	 * @return array The information about a URL from the bit.ly service.
-     */
+	* Find out information about the URL.
+	*
+	* @param string $url  The shortened URL.
+	* @param string $hash The hash value from the bit.ly service.
+	* @param string $keys This will cause the bit.ly service to return only this data item.
+	*
+	* @return array The information about a URL from the bit.ly service.
+	*/
 	function info($shortUrl, $hash = '', $keys = '')
 	{
 		if ( $shortUrl != '' ) {
@@ -203,13 +203,13 @@ class bitly_SocialXE{
 	}
 
 	/**
-     * Find out statistics about the URL.
-	 *
-	 * @param string $url  The shortened URL.
-	 * @param string $hash The hash value from the bit.ly service.
-	 *
-	 * @return array An array containing statistics about the URL in question.
-     */
+	* Find out statistics about the URL.
+	*
+	* @param string $url  The shortened URL.
+	* @param string $hash The hash value from the bit.ly service.
+	*
+	* @return array An array containing statistics about the URL in question.
+	*/
 	function stats($shortUrl, $hash = '')
 	{
 		if ( $shortUrl != '' ) {
@@ -225,10 +225,10 @@ class bitly_SocialXE{
 	}
 
 	/**
-     * Return a list of all error codes from the bit.ly service.
-	 *
-	 * @return array An array containing all possible error codes.
-     */
+	* Return a list of all error codes from the bit.ly service.
+	*
+	* @return array An array containing all possible error codes.
+	*/
 	function errors()
 	{
 		$bitlyurl = 'http://api.bit.ly/errors?version='.$this->version.'&login='.$this->login.'&apiKey='.$this->apikey;
@@ -238,16 +238,16 @@ class bitly_SocialXE{
 		return false;
 	}
 
-  /**
-   * Get the results from a bit.ly service interaction.
-   *
-   * @param string  $url    The URL to interact with, the action of the interaction
-   *                        will be contained within the URL.
-   * @param boolean $errors Passed by the errors() function and forces this function
-   *						            to use json as the format.
-   *
-   * @return boolean True if everything has worked, otherwise false.
-   */
+/**
+* Get the results from a bit.ly service interaction.
+*
+* @param string  $url    The URL to interact with, the action of the interaction
+*                        will be contained within the URL.
+* @param boolean $errors Passed by the errors() function and forces this function
+*						            to use json as the format.
+*
+* @return boolean True if everything has worked, otherwise false.
+*/
 	function getResult($bitlyurl, $errors = false )
 	{
 		if ( $errors ) {
@@ -283,14 +283,14 @@ class bitly_SocialXE{
 		return true;
 	}
 
-  /**
-   * Convert an XML string into an array.
-   *
-   * @param string  $xml       The XML to convert.
-   * @param boolean $recursive Has the function called itself?
-   *
-   * @return array The short URL
-   */
+/**
+* Convert an XML string into an array.
+*
+* @param string  $xml       The XML to convert.
+* @param boolean $recursive Has the function called itself?
+*
+* @return array The short URL
+*/
 	// function XML2Array($xml, $recursive = false)
 	// {
 		// if ( !$recursive ) {

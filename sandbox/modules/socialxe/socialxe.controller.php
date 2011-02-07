@@ -1,40 +1,40 @@
 <?php
 
-    class socialxeController extends socialxe {
+	class socialxeController extends socialxe {
 
-        /**
-         * @brief 초기화
-         **/
-        function init() {
-        }
+		/**
+		* @brief 초기화
+		**/
+		function init() {
+		}
 
-        // 자동 로그인 키 세팅
-        function procSocialxeSetAutoLoginKey(){
-            $auto_login_key = Context::get('auto_login_key');
-            $widget_skin = Context::get('skin'); // 위젯의 스킨명
+		// 자동 로그인 키 세팅
+		function procSocialxeSetAutoLoginKey(){
+			$auto_login_key = Context::get('auto_login_key');
+			$widget_skin = Context::get('skin'); // 위젯의 스킨명
 			$info = Context::get('info'); // info 위젯 여부
 
-            // 세팅
-            $this->communicator->setAutoLoginKey($auto_login_key);
+			// 세팅
+			$this->communicator->setAutoLoginKey($auto_login_key);
 
-            // 입력창 컴파일
+			// 입력창 컴파일
 			if ($info){
 				$output = $this->_compileInfo();
 			}else{
 				$output = $this->_compileInput();
 			}
 
-            $this->add('skin', $widget_skin);
-            $this->add('output', $output);
-        }
+			$this->add('skin', $widget_skin);
+			$this->add('output', $output);
+		}
 
-        // 대표 계정 설정
-        function procSocialxeChangeMaster(){
-            $widget_skin = Context::get('skin'); // 위젯의 스킨명
-            $provider = Context::get('provider'); // 서비스
+		// 대표 계정 설정
+		function procSocialxeChangeMaster(){
+			$widget_skin = Context::get('skin'); // 위젯의 스킨명
+			$provider = Context::get('provider'); // 서비스
 			$info = Context::get('info'); // info 위젯 여부
 
-            $this->providerManager->setMasterProvider($provider);
+			$this->providerManager->setMasterProvider($provider);
 
 			// 로그인되어 있지 않고, 로그인되어 있다면 소셜 정보 통합 기능을 사용하지 않을 때만 세션을 전송한다.
 			$is_logged = Context::get('is_logged');
@@ -48,55 +48,55 @@
 				$output = $this->_compileInput();
 			}
 
-            $this->add('skin', $widget_skin);
-            $this->add('output', $output);
-        }
+			$this->add('skin', $widget_skin);
+			$this->add('output', $output);
+		}
 
-        // 댓글 달기
-        function procSocialxeInsertComment(){
-            $oCommentController = &getController('comment');
+		// 댓글 달기
+		function procSocialxeInsertComment(){
+			$oCommentController = &getController('comment');
 
-            // 로그인 상태인지 확인
-            if (count($this->providerManager->getLoggedProviderList()) == 0){
-                return $this->stop('msg_not_logged');
-            }
+			// 로그인 상태인지 확인
+			if (count($this->providerManager->getLoggedProviderList()) == 0){
+				return $this->stop('msg_not_logged');
+			}
 
-            $args->document_srl = Context::get('document_srl');
+			$args->document_srl = Context::get('document_srl');
 
-            // 해당 문서의 댓글이 닫혀있는지 확인
-            $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($args->document_srl);
-            if (!$oDocument->allowComment()) return new Object(-1, 'msg_invalid_request');
+			// 해당 문서의 댓글이 닫혀있는지 확인
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument($args->document_srl);
+			if (!$oDocument->allowComment()) return new Object(-1, 'msg_invalid_request');
 
-            // 데이터를 준비
-            $args->parent_srl = Context::get('comment_srl');
-            $args->content = nl2br(htmlspecialchars(Context::get('content')));
-            $args->nick_name = $this->providerManager->getMasterProviderNickName();
-            $args->content_link = Context::get('content_link');
-            $args->content_title = Context::get('content_title');
+			// 데이터를 준비
+			$args->parent_srl = Context::get('comment_srl');
+			$args->content = nl2br(htmlspecialchars(Context::get('content')));
+			$args->nick_name = $this->providerManager->getMasterProviderNickName();
+			$args->content_link = Context::get('content_link');
+			$args->content_title = Context::get('content_title');
 
-            // 댓글의 moduel_srl
-            $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByDocumentSrl($args->document_srl);
-            $args->module_srl = $module_info->module_srl;
+			// 댓글의 moduel_srl
+			$oModuleModel = &getModel('module');
+			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($args->document_srl);
+			$args->module_srl = $module_info->module_srl;
 
-            // 댓글 삽입
+			// 댓글 삽입
 
-            // XE가 대표 계정이면 XE 회원 정보를 이용하여 댓글을 등록
-            if ($this->providerManager->getMasterProvider() == 'xe'){
-                $manual_inserted = false;
-                // 부계정이 없으면 알림 설정
-                if (!$this->providerManager->getSlaveProvider())
-                    $args->notify_message = "Y";
-            }else{
-                $manual_inserted = true;
-            }
+			// XE가 대표 계정이면 XE 회원 정보를 이용하여 댓글을 등록
+			if ($this->providerManager->getMasterProvider() == 'xe'){
+				$manual_inserted = false;
+				// 부계정이 없으면 알림 설정
+				if (!$this->providerManager->getSlaveProvider())
+					$args->notify_message = "Y";
+			}else{
+				$manual_inserted = true;
+			}
 
-            $result = $oCommentController->insertComment($args, $manual_inserted);
-            if (!$result->toBool()) return $result;
+			$result = $oCommentController->insertComment($args, $manual_inserted);
+			if (!$result->toBool()) return $result;
 
-            // 삽입된 댓글의 번호
-            $comment_srl = $result->get('comment_srl');
+			// 삽입된 댓글의 번호
+			$comment_srl = $result->get('comment_srl');
 
 			// 텍스타일이면 지지자 처리
 			if ($module_info->module == 'textyle'){
@@ -113,21 +113,21 @@
 				$oTextyleController->updateTextyleSupporter($obj);
 			}
 
-            // 소셜 서비스로 댓글 전송
-            $output = $this->sendSocialComment($args, $comment_srl, $msg);
-            if (!$output->toBool()){
-                $oCommentController->deleteComment($comment_srl);
-                return $output;
-            }
+			// 소셜 서비스로 댓글 전송
+			$output = $this->sendSocialComment($args, $comment_srl, $msg);
+			if (!$output->toBool()){
+				$oCommentController->deleteComment($comment_srl);
+				return $output;
+			}
 
-            // 위젯에서 화면 갱신에 사용할 정보 세팅
-            $this->add('skin', Context::get('skin'));
-            $this->add('document_srl', Context::get('document_srl'));
-            $this->add('comment_srl', Context::get('comment_srl'));
-            $this->add('list_count', Context::get('list_count'));
-            $this->add('content_link', Context::get('content_link'));
-            $this->add('msg', $msg);
-        }
+			// 위젯에서 화면 갱신에 사용할 정보 세팅
+			$this->add('skin', Context::get('skin'));
+			$this->add('document_srl', Context::get('document_srl'));
+			$this->add('comment_srl', Context::get('comment_srl'));
+			$this->add('list_count', Context::get('list_count'));
+			$this->add('content_link', Context::get('content_link'));
+			$this->add('msg', $msg);
+		}
 
 		// 소셜 사이트로 전송
 		function sendSocialComment($args, $comment_srl, &$msg, $manual_data = null){
@@ -164,49 +164,49 @@
 			return new Object();
 		}
 
-        // 댓글 삭제
-        function procSocialxeDeleteComment(){
-            $comment_srl = Context::get('comment_srl');
-            if (!$comment_srl) return $this->stop('msg_invalid_request');
+		// 댓글 삭제
+		function procSocialxeDeleteComment(){
+			$comment_srl = Context::get('comment_srl');
+			if (!$comment_srl) return $this->stop('msg_invalid_request');
 
-            // 우선 SocialCommentItem을 만든다.
-            // DB에서 읽어오게 되지만, 어차피 권한 체크하려면 읽어야 한다.
-            $oComment = new socialCommentItem($comment_srl);
+			// 우선 SocialCommentItem을 만든다.
+			// DB에서 읽어오게 되지만, 어차피 권한 체크하려면 읽어야 한다.
+			$oComment = new socialCommentItem($comment_srl);
 
-            // comment 모듈의 controller 객체 생성
-            $oCommentController = &getController('comment');
+			// comment 모듈의 controller 객체 생성
+			$oCommentController = &getController('comment');
 
-            $output = $oCommentController->deleteComment($comment_srl, $oComment->isGranted());
-            if(!$output->toBool()) return $output;
+			$output = $oCommentController->deleteComment($comment_srl, $oComment->isGranted());
+			if(!$output->toBool()) return $output;
 
-            // 위젯에서 화면 갱신에 사용할 정보 세팅
-            $this->add('skin', Context::get('skin'));
-            $this->add('document_srl', Context::get('document_srl'));
-            $this->add('comment_srl', Context::get('comment_srl'));
-            $this->add('list_count', Context::get('list_count'));
-            $this->add('content_link', Context::get('content_link'));
+			// 위젯에서 화면 갱신에 사용할 정보 세팅
+			$this->add('skin', Context::get('skin'));
+			$this->add('document_srl', Context::get('document_srl'));
+			$this->add('comment_srl', Context::get('comment_srl'));
+			$this->add('list_count', Context::get('list_count'));
+			$this->add('content_link', Context::get('content_link'));
 
-            $this->setMessage('success_deleted');
-        }
+			$this->setMessage('success_deleted');
+		}
 
-        // 입력창 컴파일
-        function procCompileInput(){
-            $this->add('output', $this->_compileInput());
-        }
+		// 입력창 컴파일
+		function procCompileInput(){
+			$this->add('output', $this->_compileInput());
+		}
 
-        function _compileInput(){
-            $skin = Context::get('skin');
+		function _compileInput(){
+			$skin = Context::get('skin');
 
-            // socialxe_comment 위젯을 구한다.
-            $oWidgetController = &getController('widget');
-            $widget = $oWidgetController->getWidgetObject('socialxe_comment');
-            if (!$widget)   return;
+			// socialxe_comment 위젯을 구한다.
+			$oWidgetController = &getController('widget');
+			$widget = $oWidgetController->getWidgetObject('socialxe_comment');
+			if (!$widget)   return;
 
-            $output = $widget->_compileInput($skin, urlencode($this->session->getSession('callback_query')));
-            $this->session->clearSession('callback_query');
+			$output = $widget->_compileInput($skin, urlencode($this->session->getSession('callback_query')));
+			$this->session->clearSession('callback_query');
 
-            return $output;
-        }
+			return $output;
+		}
 
 		// info 컴파일
 		function procCompileInfo(){
@@ -226,45 +226,45 @@
 			return $output;
 		}
 
-        // 목록 컴파일
-        function procCompileList(){
-            $this->add('output', $this->_compileList());
-        }
+		// 목록 컴파일
+		function procCompileList(){
+			$this->add('output', $this->_compileList());
+		}
 
-        function _compileList(){
-            $skin = Context::get('skin');
-            $document_srl = Context::get('document_srl');
-            $last_comment_srl = Context::get('last_comment_srl');
-            $list_count = Context::get('list_count');
-            $content_link = Context::get('content_link');
+		function _compileList(){
+			$skin = Context::get('skin');
+			$document_srl = Context::get('document_srl');
+			$last_comment_srl = Context::get('last_comment_srl');
+			$list_count = Context::get('list_count');
+			$content_link = Context::get('content_link');
 
-            // socialxe_comment 위젯을 구한다.
-            $oWidgetController = &getController('widget');
-            $widget = $oWidgetController->getWidgetObject('socialxe_comment');
-            if (!$widget)   return;
+			// socialxe_comment 위젯을 구한다.
+			$oWidgetController = &getController('widget');
+			$widget = $oWidgetController->getWidgetObject('socialxe_comment');
+			if (!$widget)   return;
 
-            return $output = $widget->_compileCommentList($skin, $document_srl, $content_link, $last_comment_srl, $list_count);
-        }
+			return $output = $widget->_compileCommentList($skin, $document_srl, $content_link, $last_comment_srl, $list_count);
+		}
 
-        // 대댓글 컴파일
-        function procCompileSubList(){
-            $skin = Context::get('skin');
-            $document_srl = Context::get('document_srl');
-            $comment_srl = Context::get('comment_srl');
-            $content_link = Context::get('content_link');
-            $page = Context::get('page');
+		// 대댓글 컴파일
+		function procCompileSubList(){
+			$skin = Context::get('skin');
+			$document_srl = Context::get('document_srl');
+			$comment_srl = Context::get('comment_srl');
+			$content_link = Context::get('content_link');
+			$page = Context::get('page');
 
-            // socialxe_comment 위젯을 구한다.
-            $oWidgetController = &getController('widget');
-            $widget = $oWidgetController->getWidgetObject('socialxe_comment');
-            if (!$widget)   return;
+			// socialxe_comment 위젯을 구한다.
+			$oWidgetController = &getController('widget');
+			$widget = $oWidgetController->getWidgetObject('socialxe_comment');
+			if (!$widget)   return;
 
-            $output = $widget->_compileSubCommentList($skin, $document_srl, $comment_srl, $content_link, $page);
+			$output = $widget->_compileSubCommentList($skin, $document_srl, $comment_srl, $content_link, $page);
 
-            $this->add('output', $output->get('output'));
-            $this->add('comment_srl', $comment_srl);
-            $this->add('total', $output->get('total'));
-        }
+			$this->add('output', $output->get('output'));
+			$this->add('comment_srl', $comment_srl);
+			$this->add('total', $output->get('total'));
+		}
 
 		// 소셜 로그인 처리
 		function doSocialLogin(){
@@ -544,8 +544,8 @@
 
 
 			$output = $this->_compileInfo();
-            $this->add('skin', $skin);
-            $this->add('output', $output);
+			$this->add('skin', $skin);
+			$this->add('output', $output);
 		}
 
 		// 회원 로그인 시 트리거
@@ -706,12 +706,12 @@
 		}
 
 		// 댓글 삭제 트리거
-        function triggerDeleteComment(&$comment){
-            if (!$comment->comment_srl) return new Object();
+		function triggerDeleteComment(&$comment){
+			if (!$comment->comment_srl) return new Object();
 
-            $args->comment_srl = $comment->comment_srl;
-            $output = executeQuery('socialxe.deleteSocialxe', $args);
-            if (!$output->toBool()) return $output;
+			$args->comment_srl = $comment->comment_srl;
+			$output = executeQuery('socialxe.deleteSocialxe', $args);
+			if (!$output->toBool()) return $output;
 
 			// 텍스타일이면 지지자 처리
 			$oModuleModel = &getModel('module');
@@ -730,17 +730,17 @@
 
 			return new Object();
 
-        }
+		}
 
-        // 텍스타일 메뉴 설정
-        function triggerGetTextyleCustomMenu(&$custom_menu) {
-            // menu 5(설정) 메뉴에 추가
-            $attache_menu5 = array(
-                'dispSocialxeTextyleTool' => Context::getLang('socialxe')
-            );
-            if(!$custom_menu->attached_menu[5]) $custom_menu->attached_menu[5] = array();
-            $custom_menu->attached_menu[5] = array_merge($custom_menu->attached_menu[5], $attache_menu5);
-        }
+		// 텍스타일 메뉴 설정
+		function triggerGetTextyleCustomMenu(&$custom_menu) {
+			// menu 5(설정) 메뉴에 추가
+			$attache_menu5 = array(
+				'dispSocialxeTextyleTool' => Context::getLang('socialxe')
+			);
+			if(!$custom_menu->attached_menu[5]) $custom_menu->attached_menu[5] = array();
+			$custom_menu->attached_menu[5] = array_merge($custom_menu->attached_menu[5], $attache_menu5);
+		}
 
 		// 텍스타일 발행 시 처리
 		function textylePostPublish($oModule){
@@ -839,5 +839,5 @@
 
 			return $output;
 		}
-    }
+	}
 ?>

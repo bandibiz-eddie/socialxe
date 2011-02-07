@@ -1,28 +1,28 @@
 <?php
 
-    require_once(_XE_PATH_.'modules/socialxe/sessionManager.php');
-    require_once(_XE_PATH_.'modules/socialxe/providerManager.php');
-    require_once(_XE_PATH_.'modules/socialxe/communicator.php');
-    require_once(_XE_PATH_.'modules/socialxe/provider.class.php');
-    require_once(_XE_PATH_.'modules/socialxe/provider.xe.php');
-    require_once(_XE_PATH_.'modules/socialxe/provider.twitter.php');
-    require_once(_XE_PATH_.'modules/socialxe/provider.me2day.php');
-    require_once(_XE_PATH_.'modules/socialxe/provider.facebook.php');
-    require_once(_XE_PATH_.'modules/socialxe/provider.yozm.php');
-    require_once(_XE_PATH_.'modules/socialxe/socialcomment.item.php');
+	require_once(_XE_PATH_.'modules/socialxe/sessionManager.php');
+	require_once(_XE_PATH_.'modules/socialxe/providerManager.php');
+	require_once(_XE_PATH_.'modules/socialxe/communicator.php');
+	require_once(_XE_PATH_.'modules/socialxe/provider.class.php');
+	require_once(_XE_PATH_.'modules/socialxe/provider.xe.php');
+	require_once(_XE_PATH_.'modules/socialxe/provider.twitter.php');
+	require_once(_XE_PATH_.'modules/socialxe/provider.me2day.php');
+	require_once(_XE_PATH_.'modules/socialxe/provider.facebook.php');
+	require_once(_XE_PATH_.'modules/socialxe/provider.yozm.php');
+	require_once(_XE_PATH_.'modules/socialxe/socialcomment.item.php');
 
-    class socialxe extends ModuleObject {
+	class socialxe extends ModuleObject {
 
-        var $hostname = 'socialxe.net';
-        var $query = '/?module=socialxeserver&act=procSocialxeserverAPI';
+		var $hostname = 'socialxe.net';
+		var $query = '/?module=socialxeserver&act=procSocialxeserverAPI';
 
-        var $action_forwards = array(
-            array('socialxe', 'view', 'dispSocialxeTextyleTool')
-        );
+		var $action_forwards = array(
+			array('socialxe', 'view', 'dispSocialxeTextyleTool')
+		);
 
-        var $add_triggers = array(
-            array('comment.deleteComment', 'socialxe', 'controller', 'triggerDeleteComment', 'after'),
-            array('textyle.getTextyleCustomMenu', 'socialxe', 'controller', 'triggerGetTextyleCustomMenu', 'after'),
+		var $add_triggers = array(
+			array('comment.deleteComment', 'socialxe', 'controller', 'triggerDeleteComment', 'after'),
+			array('textyle.getTextyleCustomMenu', 'socialxe', 'controller', 'triggerGetTextyleCustomMenu', 'after'),
 			array('member.deleteMember', 'socialxe', 'controller', 'triggerDeleteMember', 'after'),
 			array('member.doLogin', 'socialxe', 'controller', 'triggerLogin', 'after'),
 			array('module.dispAdditionSetup', 'socialxe', 'view', 'triggerDispAdditionSetup', 'before'),
@@ -30,129 +30,129 @@
 			array('document.insertDocument', 'socialxe', 'controller', 'triggerInsertDocument', 'after'),
 			array('document.deleteDocument', 'socialxe', 'controller', 'triggerDeleteDocument', 'after'),
 			array('module.deleteModule', 'socialxe', 'controller', 'deleteModuleSocial', 'after')
-        );
+		);
 
-        var $add_column = array(
-            array('socialxe', 'social_nick_name', 'varchar', 255, null, null),
+		var $add_column = array(
+			array('socialxe', 'social_nick_name', 'varchar', 255, null, null),
 			array('socialxe', 'module_srl', 'number', 11, 0, true)
-        );
+		);
 
 		var $add_index = array(
 			'socialxe.module_srl' => array('socialxe', 'idx_module_srl', array('module_srl'))
 		);
 
-        function socialxe(){
-            // 세션 관리자
-            $this->session = &socialxeSessionManager::getInstance();
+		function socialxe(){
+			// 세션 관리자
+			$this->session = &socialxeSessionManager::getInstance();
 
-            // 서비스 관리 클래스
-            $this->providerManager = &socialxeProviderManager::getInstance($this->session);
+			// 서비스 관리 클래스
+			$this->providerManager = &socialxeProviderManager::getInstance($this->session);
 
-            // 환경 설정
-            $this->config = $this->getConfig();
+			// 환경 설정
+			$this->config = $this->getConfig();
 
-            // 환경 설정값을 서비스 관리 클래스에 세팅
-            $this->providerManager->setConfig($this->config);
+			// 환경 설정값을 서비스 관리 클래스에 세팅
+			$this->providerManager->setConfig($this->config);
 
-            // 커뮤니케이터
-            $this->communicator = &socialxeCommunicator::getInstance($this->session, $this->providerManager, $this->config);
-        }
+			// 커뮤니케이터
+			$this->communicator = &socialxeCommunicator::getInstance($this->session, $this->providerManager, $this->config);
+		}
 
-        /**
-         * @brief 설치시 추가 작업이 필요할시 구현
-         **/
-        function moduleInstall() {
-            $oModuleController = &getController('module');
+		/**
+		* @brief 설치시 추가 작업이 필요할시 구현
+		**/
+		function moduleInstall() {
+			$oModuleController = &getController('module');
 
-            // aciton forward 일괄 추가
-            foreach($this->action_forwards as $item) {
-                $oModuleController->insertActionForward($item[0], $item[1], $item[2]);
-            }
+			// aciton forward 일괄 추가
+			foreach($this->action_forwards as $item) {
+				$oModuleController->insertActionForward($item[0], $item[1], $item[2]);
+			}
 
-            // $this->add_triggers 트리거 일괄 추가
-            foreach($this->add_triggers as $trigger) {
-                $oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-            }
-        }
+			// $this->add_triggers 트리거 일괄 추가
+			foreach($this->add_triggers as $trigger) {
+				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
+		}
 
-        /**
-         * @brief 설치가 이상이 없는지 체크하는 method
-         **/
-        function checkUpdate() {
-            $oDB = &DB::getInstance();
-            $oModuleModel = &getModel('module');
+		/**
+		* @brief 설치가 이상이 없는지 체크하는 method
+		**/
+		function checkUpdate() {
+			$oDB = &DB::getInstance();
+			$oModuleModel = &getModel('module');
 
-            // action forward 일괄 체크
-            foreach($this->action_forwards as $item) {
-                if(!$oModuleModel->getActionForward($item[2])) return true;
-            }
+			// action forward 일괄 체크
+			foreach($this->action_forwards as $item) {
+				if(!$oModuleModel->getActionForward($item[2])) return true;
+			}
 
-            // $this->add_triggers 트리거 일괄 검사
-            foreach($this->add_triggers as $trigger) {
-                if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
-            }
+			// $this->add_triggers 트리거 일괄 검사
+			foreach($this->add_triggers as $trigger) {
+				if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
+			}
 
-            // $this->add_column 컴럼 일괄 검사
-            foreach($this->add_column as $column){
-                if(!$oDB->isColumnExists($column[0], $column[1])) return true;
-            }
+			// $this->add_column 컴럼 일괄 검사
+			foreach($this->add_column as $column){
+				if(!$oDB->isColumnExists($column[0], $column[1])) return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        /**
-         * @brief 업데이트 실행
-         **/
-        function moduleUpdate() {
-            $oDB = &DB::getInstance();
-            $oModuleModel = &getModel('module');
-            $oModuleController = &getController('module');
+		/**
+		* @brief 업데이트 실행
+		**/
+		function moduleUpdate() {
+			$oDB = &DB::getInstance();
+			$oModuleModel = &getModel('module');
+			$oModuleController = &getController('module');
 
-            // action forward 일괄 업데이트
-            foreach($this->action_forwards as $item) {
-                if(!$oModuleModel->getActionForward($item[2])) {
-                    $oModuleController->insertActionForward($item[0], $item[1], $item[2]);
-                }
-            }
+			// action forward 일괄 업데이트
+			foreach($this->action_forwards as $item) {
+				if(!$oModuleModel->getActionForward($item[2])) {
+					$oModuleController->insertActionForward($item[0], $item[1], $item[2]);
+				}
+			}
 
-            // $this->add_triggers 트리거 일괄 업데이트
-            foreach($this->add_triggers as $trigger) {
-                if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) {
-                    $oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-                }
-            }
+			// $this->add_triggers 트리거 일괄 업데이트
+			foreach($this->add_triggers as $trigger) {
+				if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) {
+					$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+				}
+			}
 
-            // $this->add_column 컬럼 일괄 업데이트
-            foreach($this->add_column as $column){
-                if(!$oDB->isColumnExists($column[0], $column[1])){
+			// $this->add_column 컬럼 일괄 업데이트
+			foreach($this->add_column as $column){
+				if(!$oDB->isColumnExists($column[0], $column[1])){
 					$oDB->addColumn($column[0], $column[1], $column[2], $column[3], $column[4], $column[5]);
 					if ($index = $this->add_index[$column[0] . '.' . $column[1]])
 						$oDB->addIndex($index[0], $index[1], $index[2]);
 				}
-            }
+			}
 
-            return new Object(0, 'success_updated');
-        }
+			return new Object(0, 'success_updated');
+		}
 
-        /**
-         * @brief 캐시 파일 재생성
-         **/
-        function recompileCache() {
-        }
+		/**
+		* @brief 캐시 파일 재생성
+		**/
+		function recompileCache() {
+		}
 
-        // 환경설정
-        function getConfig(){
+		// 환경설정
+		function getConfig(){
 			// 전역 설정에 있으면 그걸 리턴~
 			if ($GLOBALS['socialxe_config']) return $GLOBALS['socialxe_config'];
 
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
+			// 설정 정보를 받아옴 (module model 객체를 이용)
+			$oModuleModel = &getModel('module');
 
-            // document_srl이 있으면 해당 글의 모듈 정보를...
-            $document_srl = Context::get('document_srl');
+			// document_srl이 있으면 해당 글의 모듈 정보를...
+			$document_srl = Context::get('document_srl');
 			$module_info = null;
-            if ($document_srl){
-                $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+			if ($document_srl){
+				$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
 				$oModuleModel->syncModuleToSite($module_info);
 			}
 
@@ -162,21 +162,21 @@
 			}
 
 			// 우선 기본 사이트 설정을 얻는다.
-            $default_config = $oModuleModel->getModuleConfig('socialxe');
+			$default_config = $oModuleModel->getModuleConfig('socialxe');
 
-            if (!$default_config->server_hostname) $default_config->server_hostname = $this->hostname;
-            if (!$default_config->server_query) $default_config->server_query = $this->query;
-            if (!$default_config->use_ssl) $default_config->use_ssl = 'Y';
-            if (!$default_config->hashtag) $default_config->hashtag = 'socialxe';
+			if (!$default_config->server_hostname) $default_config->server_hostname = $this->hostname;
+			if (!$default_config->server_query) $default_config->server_query = $this->query;
+			if (!$default_config->use_ssl) $default_config->use_ssl = 'Y';
+			if (!$default_config->hashtag) $default_config->hashtag = 'socialxe';
 			if (!$default_config->skin) $default_config->skin = 'default';
 			if (!$default_config->use_social_login) $default_config->use_social_login = 'N';
 			if (!$default_config->use_social_info) $default_config->use_social_info = 'N';
 
-            $provider_list = $this->providerManager->getFullProviderList();
-            foreach($provider_list as $provider){
-                if (!$default_config->select_service[$provider])
-                    $default_config->select_service[$provider] = 'Y';
-            }
+			$provider_list = $this->providerManager->getFullProviderList();
+			foreach($provider_list as $provider){
+				if (!$default_config->select_service[$provider])
+					$default_config->select_service[$provider] = 'Y';
+			}
 
 			// site_srl이 없으면 기본 설정을 사용.
 			if (!$module_info->site_srl){
@@ -214,22 +214,22 @@
 
 			$GLOBALS['socialxe_config'] = $config;
 
-            return $config;
-        }
+			return $config;
+		}
 
-        function getNotEncodedFullUrl() {
-            $num_args = func_num_args();
-            $args_list = func_get_args();
-            $request_uri = Context::getRequestUri();
-            if(!$num_args) return $request_uri;
+		function getNotEncodedFullUrl() {
+			$num_args = func_num_args();
+			$args_list = func_get_args();
+			$request_uri = Context::getRequestUri();
+			if(!$num_args) return $request_uri;
 
-            $url = Context::getUrl($num_args, $args_list, null, false);
-            if(!preg_match('/^http/i',$url)){
-                preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
-                $url = Context::getUrl($num_args, $args_list, null, false);
-                return substr($match[0],0,-1).$url;
-            }
-            return $url;
-        }
-    }
+			$url = Context::getUrl($num_args, $args_list, null, false);
+			if(!preg_match('/^http/i',$url)){
+				preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
+				$url = Context::getUrl($num_args, $args_list, null, false);
+				return substr($match[0],0,-1).$url;
+			}
+			return $url;
+		}
+	}
 ?>

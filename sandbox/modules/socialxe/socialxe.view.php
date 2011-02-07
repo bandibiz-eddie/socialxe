@@ -1,21 +1,21 @@
 <?php
 
-    class socialxeView extends socialxe {
+	class socialxeView extends socialxe {
 
-        /**
-         * @brief 초기화
-         **/
-        function init() {
-        }
+		/**
+		* @brief 초기화
+		**/
+		function init() {
+		}
 
-        // 로그인 화면(oauth 시작)
-        function dispSocialxeLogin(){
-            // 크롤러면 실행하지 않는다...
-            // 소셜XE 서버에 쓸데없는 요청이 들어올까봐...
-            if (isCrawler()){
-                Context::close();
-                exit;
-            }
+		// 로그인 화면(oauth 시작)
+		function dispSocialxeLogin(){
+			// 크롤러면 실행하지 않는다...
+			// 소셜XE 서버에 쓸데없는 요청이 들어올까봐...
+			if (isCrawler()){
+				Context::close();
+				exit;
+			}
 
 			// 로그인에 사용되는 세션을 초기화한다.
 			// js 사용시 최초에만 초기화하기 위해 js2 파라미터를 검사
@@ -27,35 +27,35 @@
 				$this->session->clearSession('info');
 			}
 
-            $provider = Context::get('provider'); // 서비스
-            $use_js = Context::get('js'); // JS 사용 여부
-            $widget_skin = Context::get('skin'); // 위젯의 스킨명
+			$provider = Context::get('provider'); // 서비스
+			$use_js = Context::get('js'); // JS 사용 여부
+			$widget_skin = Context::get('skin'); // 위젯의 스킨명
 
-            // 아무 것도 없는 레이아웃 적용
-            $template_path = sprintf("%stpl/",$this->module_path);
-            $this->setLayoutPath($template_path);
-            $this->setLayoutFile("popup_layout");
+			// 아무 것도 없는 레이아웃 적용
+			$template_path = sprintf("%stpl/",$this->module_path);
+			$this->setLayoutPath($template_path);
+			$this->setLayoutFile("popup_layout");
 
-            if ($provider == 'xe') return $this->stop('msg_invalid_request');
+			if ($provider == 'xe') return $this->stop('msg_invalid_request');
 
-            // JS 사용 여부 확인
-            if (($use_js || Context::get('mode') == 'socialLogin') && !Context::get('js2')){
-                // JS 사용 여부를 세션에 저장한다.
-                $this->session->setSession('js', $use_js);
-                $this->session->setSession('widget_skin', $widget_skin);
+			// JS 사용 여부 확인
+			if (($use_js || Context::get('mode') == 'socialLogin') && !Context::get('js2')){
+				// JS 사용 여부를 세션에 저장한다.
+				$this->session->setSession('js', $use_js);
+				$this->session->setSession('widget_skin', $widget_skin);
 
-                // 로그인 안내 페이지 표시후 진행할 URL
-                $url = getNotEncodedUrl('js', '', 'skin', '');
-                Context::set('url', $url);
+				// 로그인 안내 페이지 표시후 진행할 URL
+				$url = getNotEncodedUrl('js', '', 'skin', '');
+				Context::set('url', $url);
 
-                // 로그인 안내 페이지 표시
-                $this->setTemplatePath($template_path);
-                $this->setTemplateFile('login');
-                return;
-            }
+				// 로그인 안내 페이지 표시
+				$this->setTemplatePath($template_path);
+				$this->setTemplateFile('login');
+				return;
+			}
 
-            $callback_query = Context::get('query'); // 인증 후 돌아갈 페이지 쿼리
-            $this->session->setSession('callback_query', $callback_query);
+			$callback_query = Context::get('query'); // 인증 후 돌아갈 페이지 쿼리
+			$this->session->setSession('callback_query', $callback_query);
 
 			$mode = Context::get('mode'); // 작동 모드
 			$this->session->setSession('mode', $mode);
@@ -69,32 +69,32 @@
 			// 로그인 시도 중인 서비스는 로그아웃 시킨다.
 			$this->providerManager->doLogout($provider);
 
-            $output = $this->communicator->getLoginUrl($provider);
-            if (!$output->toBool()) return $output;
-            $url = $output->get('url');
+			$output = $this->communicator->getLoginUrl($provider);
+			if (!$output->toBool()) return $output;
+			$url = $output->get('url');
 
-            // 리다이렉트
-            header('Location: ' .$url);
-            Context::close();
-            exit;
-        }
+			// 리다이렉트
+			header('Location: ' .$url);
+			Context::close();
+			exit;
+		}
 
-        // 콜백 처리
-        function dispSocialxeCallback(){
-            $provider = Context::get('provider'); // 서비스
-            $verifier = Context::get('verifier');
-            $oSocialxeModel = &getModel('socialxe');
+		// 콜백 처리
+		function dispSocialxeCallback(){
+			$provider = Context::get('provider'); // 서비스
+			$verifier = Context::get('verifier');
+			$oSocialxeModel = &getModel('socialxe');
 			$oSocialxeController = &getController('socialxe');
 
-            // verifier가 없으면 원래 페이지로 돌아간다.
-            if (!$verifier){
-                $this->returnPage();
-                return;
-            }
+			// verifier가 없으면 원래 페이지로 돌아간다.
+			if (!$verifier){
+				$this->returnPage();
+				return;
+			}
 
-            // 처리
-            $output = $this->communicator->callback($provider, $verifier);
-            if (!$output->toBool()) return $output;
+			// 처리
+			$output = $this->communicator->callback($provider, $verifier);
+			if (!$output->toBool()) return $output;
 
 			$mode = $this->session->getSession('mode');
 			switch($mode){
@@ -119,27 +119,27 @@
 				break;
 			}
 
-            $this->returnPage();
-        }
+			$this->returnPage();
+		}
 
-        // 로그아웃
-        function dispSocialxeLogout(){
-            $use_js = Context::get('js'); // JS 사용 여부
-            $widget_skin = Context::get('skin'); // 위젯의 스킨명
-            $query = urldecode(Context::get('query')); // 로그아웃 후 돌아갈 페이지 쿼리
-            $provider = Context::get('provider'); // 서비스
+		// 로그아웃
+		function dispSocialxeLogout(){
+			$use_js = Context::get('js'); // JS 사용 여부
+			$widget_skin = Context::get('skin'); // 위젯의 스킨명
+			$query = urldecode(Context::get('query')); // 로그아웃 후 돌아갈 페이지 쿼리
+			$provider = Context::get('provider'); // 서비스
 			$info = Context::get('info'); // SocialXE info 위젯 여부
-            $oSocialxeController = &getController('socialxe');
+			$oSocialxeController = &getController('socialxe');
 
-            // 아무 것도 없는 레이아웃 적용
-            $template_path = sprintf("%stpl/",$this->module_path);
-            $this->setLayoutPath($template_path);
-            $this->setLayoutFile("popup_layout");
+			// 아무 것도 없는 레이아웃 적용
+			$template_path = sprintf("%stpl/",$this->module_path);
+			$this->setLayoutPath($template_path);
+			$this->setLayoutFile("popup_layout");
 
-            if ($provider == 'xe') return $this->stop('msg_invalid_request');
+			if ($provider == 'xe') return $this->stop('msg_invalid_request');
 
-            $output = $this->providerManager->doLogout($provider);
-            if (!$output->toBool()) return $output;
+			$output = $this->providerManager->doLogout($provider);
+			if (!$output->toBool()) return $output;
 
 			// 로그인되어 있지 않고, 로그인되어 있다면 소셜 정보 통합 기능을 사용하지 않을 때만 세션을 전송한다.
 			$is_logged = Context::get('is_logged');
@@ -147,12 +147,12 @@
 				$this->communicator->sendSession();
 			}
 
-            // 댓글 권한을 초기화한다...
-            unset($_SESSION['own_comment']);
+			// 댓글 권한을 초기화한다...
+			unset($_SESSION['own_comment']);
 
-            // JS 사용이면 XMLRPC 응답
-            if ($use_js){
-                Context::setRequestMethod('XMLRPC');
+			// JS 사용이면 XMLRPC 응답
+			if ($use_js){
+				Context::setRequestMethod('XMLRPC');
 
 				// info 위젯이면 info 컴파일
 				if ($info){
@@ -166,25 +166,25 @@
 
 				$this->add('skin', $widget_skin);
 				$this->add('output', $output);
-            }
+			}
 
-            // JS 사용이 아니면 돌아간다.
-            else{
-                $this->returnPage($query);
-            }
-        }
+			// JS 사용이 아니면 돌아간다.
+			else{
+				$this->returnPage($query);
+			}
+		}
 
-        // 원래 페이지로 돌아간다.
-        function returnPage($query = null){
+		// 원래 페이지로 돌아간다.
+		function returnPage($query = null){
 			$js = $this->session->getSession('js');
 			$skin = $this->session->getSession('widget_skin');
 			$mode = $this->session->getSession('mode');
 			$info = $this->session->getSession('info');
 
 			// 쿼리가 파라미터로 넘어왔으면 사용하고 아니면 세션을 사용
-            if (empty($query)){
-                $query = $this->session->getSession('callback_query');
-            }
+			if (empty($query)){
+				$query = $this->session->getSession('callback_query');
+			}
 
 			// 로그인되어 있지 않고, 로그인되어 있다면 소셜 정보 통합 기능을 사용하지 않을 때만 세션을 전송한다.
 			$is_logged = Context::get('is_logged');
@@ -198,73 +198,73 @@
 			$this->session->clearSession('callback_query');
 			$this->session->clearSession('widget_skin');
 
-            // JS 사용이면 창을 닫는다.
-            if ($js){
-                Context::set('skin', $skin);
+			// JS 사용이면 창을 닫는다.
+			if ($js){
+				Context::set('skin', $skin);
 				Context::set('info', $info);
-                $template_path = sprintf("%stpl/",$this->module_path);
-                $this->setTemplatePath($template_path);
-                $this->setTemplateFile('completeLogin');
-                return;
-            }
+				$template_path = sprintf("%stpl/",$this->module_path);
+				$this->setTemplatePath($template_path);
+				$this->setTemplateFile('completeLogin');
+				return;
+			}
 
-            // XE주소
-            $url = Context::getRequestUri();
+			// XE주소
+			$url = Context::getRequestUri();
 
-            // SSL 항상 사용이 아니면 https를 http로 변경.
-            // if(Context::get('_use_ssl') != 'always') {
-                // $url = str_replace('https', 'http', $url);
-            // }
+			// SSL 항상 사용이 아니면 https를 http로 변경.
+			// if(Context::get('_use_ssl') != 'always') {
+				// $url = str_replace('https', 'http', $url);
+			// }
 
-            // 쿼리가 있으면 붙인다.
-            if ($query){
+			// 쿼리가 있으면 붙인다.
+			if ($query){
 				if (strpos($query, 'http') !== false)
 					$url = urldecode($query);
 				else
 					$url .= '?' . urldecode($query);
 			}
 
-            header('Location: ' . $url);
-            Context::close();
-            exit;
-        }
+			header('Location: ' . $url);
+			Context::close();
+			exit;
+		}
 
-        // 텍스타일 설정화면
-        function dispSocialxeTextyleTool() {
-            // 텍스타일의 최신 버전이 아니면 직접 처리
-            $oTextyleView = &getView('textyle');
-            if (!method_exists($oTextyleView, 'initTool')){
-                $oTextyleModel = &getModel('textyle');
+		// 텍스타일 설정화면
+		function dispSocialxeTextyleTool() {
+			// 텍스타일의 최신 버전이 아니면 직접 처리
+			$oTextyleView = &getView('textyle');
+			if (!method_exists($oTextyleView, 'initTool')){
+				$oTextyleModel = &getModel('textyle');
 
-                $site_module_info = Context::get('site_module_info');
-                $textyle = $oTextyleModel->getTextyle($site_module_info->index_module_srl);
-                Context::set('textyle',$textyle);
+				$site_module_info = Context::get('site_module_info');
+				$textyle = $oTextyleModel->getTextyle($site_module_info->index_module_srl);
+				Context::set('textyle',$textyle);
 
-                Context::set('custom_menu', $oTextyleModel->getTextyleCustomMenu());
+				Context::set('custom_menu', $oTextyleModel->getTextyleCustomMenu());
 
-                $template_path = sprintf("%stpl",$oTextyleView->module_path);
-                $this->setLayoutPath($template_path);
-                $this->setLayoutFile('_tool_layout');
+				$template_path = sprintf("%stpl",$oTextyleView->module_path);
+				$this->setLayoutPath($template_path);
+				$this->setLayoutFile('_tool_layout');
 
-                if($_COOKIE['tclnb']) Context::addBodyClass('lnbClose');
-                else Context::addBodyClass('lnbToggleOpen');
+				if($_COOKIE['tclnb']) Context::addBodyClass('lnbClose');
+				else Context::addBodyClass('lnbToggleOpen');
 
-                // browser title 지정
-                Context::setBrowserTitle($textyle->get('browser_title') . ' - admin');
-                Context::addHtmlHeader('<link rel="shortcut icon" href="'.$textyle->getFaviconSrc().'" />');
-            }
+				// browser title 지정
+				Context::setBrowserTitle($textyle->get('browser_title') . ' - admin');
+				Context::addHtmlHeader('<link rel="shortcut icon" href="'.$textyle->getFaviconSrc().'" />');
+			}
 
-            // 설정 정보를 받아옴
-            Context::set('config',$this->config);
+			// 설정 정보를 받아옴
+			Context::set('config',$this->config);
 
-            // 서비스 목록
-            $provider_list = $this->providerManager->getFullProviderList();
-            Context::set('provider_list', $provider_list);
+			// 서비스 목록
+			$provider_list = $this->providerManager->getFullProviderList();
+			Context::set('provider_list', $provider_list);
 
-            // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('textyleConfig');
-        }
+			// 템플릿 파일 지정
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile('textyleConfig');
+		}
 
 		// 소셜 로그인 화면
 		function dispSocialxeLoginForm(){
@@ -294,7 +294,7 @@
 			$this->setTemplatePath($tpl_path);
 
 			// 템플릿 파일 지정
-            $this->setTemplateFile('social_login');
+			$this->setTemplateFile('social_login');
 		}
 
 		// 소셜 로그인 추가 입력 화면
@@ -323,7 +323,7 @@
 			$this->setTemplatePath($tpl_path);
 
 			// 템플릿 파일 지정
-            $this->setTemplateFile('social_login_additional');
+			$this->setTemplateFile('social_login_additional');
 		}
 
 		// 소셜 정보 보기/설정 화면
@@ -392,7 +392,7 @@
 			$this->setTemplatePath($tpl_path);
 
 			// 템플릿 파일 지정
-            $this->setTemplateFile('social_info');
+			$this->setTemplateFile('social_info');
 		}
 
 		// 모듈 추가 설정 트리거
@@ -420,5 +420,5 @@
 			return new Object();
 		}
 
-    }
+	}
 ?>
