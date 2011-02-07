@@ -33,11 +33,10 @@
                 (
             <!--@end-->
             <!--@if ($oComment->getSocialNickName())-->
-                <img src="./images/{$oComment->get('provider')}_small.png" alt="{$lang->provider[$oComment->get('provider')]}" class="iePngFix"/>
                 <!--@if ($oComment->get('link'))-->
-                    <a href="{$oComment->get('link')}" target="_blank">{$oComment->getSocialNickName()}</a>
+                    <a href="{$oComment->get('link')}" target="_blank"><img src="./images/{$oComment->get('provider')}_small.png" alt="{$lang->provider[$oComment->get('provider')]}" class="iePngFix"/> {$oComment->getSocialNickName()}</a>
                 <!--@else-->
-                    {$oComment->getSocialNickName()}
+                    <img src="./images/{$oComment->get('provider')}_small.png" alt="{$lang->provider[$oComment->get('provider')]}" class="iePngFix"/> {$oComment->getSocialNickName()}
                 <!--@end-->
             <!--@end-->
             <!--@if ($oComment->get('member_srl') && $oComment->getSocialNickName())-->
