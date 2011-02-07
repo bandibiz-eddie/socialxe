@@ -6,8 +6,8 @@
 {@$c = 0}
 <!--@foreach($comment_list as $oComment)-->
 {@$c++}
-<a name="comment_{$oComment->get('comment_srl')}"></a>
 <li id="social_comment_{$oComment->get('comment_srl')}">
+	<a name="comment_{$oComment->get('comment_srl')}"></a>
     <div class="profile_image">
         <!--@if ($oComment->get('link'))-->
             <a href="{$oComment->get('link')}" target="_blank">
