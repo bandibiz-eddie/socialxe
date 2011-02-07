@@ -50,7 +50,7 @@ class me2day{
 		$post_data['uid'] = $id;
 
 		foreach($post_data as $name => $val){
-			$body .= '&' . $name . '=' . $val;
+			$body .= '&' . $name . '=' . urlencode($val);
 		}
 		$body = substr($body, 1);
 
@@ -80,7 +80,7 @@ class me2day{
 		$post_data['uid'] = $id;
 
 		foreach($post_data as $name => $val){
-			$body .= '&' . $name . '=' . $val;
+			$body .= '&' . $name . '=' . urlencode($val);
 		}
 		$body = substr($body, 1);
 
