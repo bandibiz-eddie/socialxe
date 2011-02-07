@@ -113,6 +113,9 @@
 				$oTextyleController->updateTextyleSupporter($obj);
 			}
 
+			// 태그 제거 htmlspecialchars 복원
+			$args->content = str_replace(array('&amp;', '&quot;', '&#039;', '&lt;', '&gt;'), array('&', '"', '\'', '<', '>'), strip_tags($args->content));
+
 			// 소셜 서비스로 댓글 전송
 			$output = $this->sendSocialComment($args, $comment_srl, $msg);
 			if (!$output->toBool()){
