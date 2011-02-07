@@ -4,6 +4,7 @@
 	<description xml:lang="ko">
 		SocialXE의 소셜 통합 기능을 지원하기 위한 애드온입니다.
 		회원 메뉴에 소셜 아이디 설정 메뉴를 추가하고, 다른 회원의 아이디 클릭 시 소셜 정보 보기를 추가합니다.
+		텍스타일에서는 발행 화면에 SocialXE Info 위젯을 출력해주고, 발생 시 소셜 사이트로 동시에 발행해 줍니다.
 	</description>
 	<version>0.9</version>
 	<date>2011-01-11</date>
