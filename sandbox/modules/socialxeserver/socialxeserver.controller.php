@@ -79,6 +79,8 @@
 
 		// 클라이언트 삭제
 		function procSocialxeserverDeleteCheckedClient(){
+			if(!$this->grant->register) return $this->stop('msg_not_permitted');
+
 			// 선택된 글이 없으면 오류 표시
 			$cart = Context::get('cart');
 			if(!$cart) return $this->stop('msg_invalid_request');

@@ -34,7 +34,7 @@
 			Context::set('page_navigation', $output->page_navigation);
 
 			// 목록이 없으면 초기 등록 화면을
-			if (!$output->data)
+			if (!$output->data && !Context::get('domain'))
 				$this->setTemplateFile('empty');
 			else
 				$this->setTemplateFile('client_list');
