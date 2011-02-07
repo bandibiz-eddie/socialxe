@@ -3,11 +3,11 @@
     <title xml:lang="ko">SocialXE</title>
     <description xml:lang="ko">소셜 기능 사용을 지원합니다.</description>
     <version>1.0</version>
-    <date>2011-01-17</date>
+    <date>2011-02-07</date>
     <category>accessory</category>
     <license link="http://www.opensource.org/licenses/mit-license.php">MIT</license>
 
-    <author email_address="sinsy200@gmail.com" link="http://socialxe.net/">
+    <author email_address="flysky@flysky.kr" link="http://socialxe.net/">
         <name xml:lang="ko">난다날아</name>
     </author>
 </module>
