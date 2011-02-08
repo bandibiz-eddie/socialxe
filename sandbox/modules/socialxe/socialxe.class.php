@@ -140,6 +140,21 @@
 		function recompileCache() {
 		}
 
+		// 모듈 제거
+		function moduleUninstall(){
+			$oModuleController = &getController('module');
+
+			foreach($this->action_forwards as $item) {
+				$oModuleController->deleteActionForward($item[0], $item[1], $item[2]);
+			}
+
+			foreach($this->add_triggers as $trigger) {
+				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
+
+			return new Object();
+		}
+
 		// 환경설정
 		function getConfig(){
 			// 전역 설정에 있으면 그걸 리턴~
