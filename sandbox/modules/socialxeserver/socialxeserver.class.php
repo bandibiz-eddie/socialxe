@@ -47,6 +47,18 @@
 		function recompileCache() {
 		}
 
+		// 모듈 제거
+		function moduleUninstall(){
+			$oModuleController = &getController('module');
+
+			// 서비스 모듈 정보를 얻는다.
+			$oSocialxeserverModel = &getModel('socialxeserver');
+			$service_module_info = $oSocialxeserverModel->getServiceModuleInfo();
+			if (!$service_module_info) return new Object();
+
+			return $oModuleController->deleteModule($service_module_info->module_srl);
+		}
+
 		function getNotEncodedFullUrl() {
 			$num_args = func_num_args();
 			$args_list = func_get_args();
