@@ -165,7 +165,7 @@
 
 			// 대표 계정이 XE면 부계정의 정보를 넣는다.
 			if ($master_provider == 'xe'){
-				$args->provider = $slave_provider();
+				$args->provider = $slave_provider;
 				$args->id = $slave_id;
 				$args->comment_id = $output->get('comment_id');
 				$args->social_nick_name = $slave_nickname;
@@ -816,8 +816,16 @@
 
 				// 현재 로그인한 서비스와 액세스 정보를 얻는다.
 				$config->logged_provider_list = $this->providerManager->getLoggedProviderList();
+
 				$config->master_provider = $this->providerManager->getMasterProvider();
+				$config->master_id = $this->providerManager->getMasterProviderId();
+				$config->master_nickname = $this->providerManager->getMasterProviderNickName();
+				$config->master_profile_image = $this->providerManager->getMasterProviderProfileImage();
+
 				$config->slave_provider = $this->providerManager->getSlaveProvider();
+				$config->slave_id = $this->providerManager->getSlaveProviderId();
+				$config->slave_nickname = $this->providerManager->getSlaveProviderNickName();
+
 				foreach($config->logged_provider_list as $provider){
 					$config->access[$provider] = $this->providerManager->getAccess($provider);
 				}
@@ -844,7 +852,7 @@
 			$config = unserialize($output->data->config);
 
 			// 데이터 준비
-			$args->module_srl = $document->get('module_srl');
+			$args->module_srl = intVal($document->get('module_srl')) * -1;
 			$args->content = '';
 			$args->content_link = getNotEncodedFullUrl('', 'document_srl', $document->get('document_srl'));
 			$args->content_title = $document->getTitleText();
