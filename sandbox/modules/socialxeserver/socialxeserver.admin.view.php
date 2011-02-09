@@ -31,7 +31,7 @@
 			// 클라이언트 목록
 			$args->page = Context::get('page');
 			$args->domain = Context::get('domain');
-			$output = executeQuery('socialxeserver.getClientList', $args);
+			$output = executeQuery('socialxeserver.getAdminClientList', $args);
 			if (!$output->toBool()) return $output;
 
 			// 템플릿에 쓰기 위해서 comment_model::getTotalCommentList() 의 return object에 있는 값들을 세팅
