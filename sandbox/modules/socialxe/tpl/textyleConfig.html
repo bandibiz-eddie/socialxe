@@ -49,6 +49,12 @@
 			<!--@end-->
 		</fieldset>
 
+		<fieldset>
+			<h4 class="h4">{$lang->use_social_info}</h4>
+			<input type="checkbox" name="use_social_info" value="Y" <!--@if($config->use_social_info=='Y')-->checked="checked"<!--@end-->/>
+			<p>{$lang->about_use_social_info}</p>
+		</fieldset>
+
 		<div class="buttonArea">
 			<span class="buttonAction actionBlue"><input type="submit" value="{$lang->cmd_apply}" /></span>
 		</div>

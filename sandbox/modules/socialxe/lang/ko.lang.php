@@ -14,7 +14,7 @@
 	$lang->use_social_login = '소셜 로그인 사용';
 	$lang->about_use_social_login = '사이트에 별도의 회원가입 없이 소셜 네트워크 아이디로 로그인 가능하게 하려면 체크하세요';
 	$lang->use_social_info = '소셜 정보 통합 사용';
-	$lang->about_use_social_info = '회원 정보에 소셜 정보를 통합할 수 있도록 합니다.';
+	$lang->about_use_social_info = '회원 정보에 소셜 정보를 통합하고 글, 댓글에 대해 자동으로 소셜 연동이 되도록 합니다.';
 	$lang->about_part_social_info = '이 모듈에서 쓰는 글, 댓글에 대해 소셜 통합 기능을 이용할 수 있도록 합니다.';
 	$lang->bitly_username = 'bit.ly Username';
 	$lang->bitly_api_key = 'bit.ly API Key';

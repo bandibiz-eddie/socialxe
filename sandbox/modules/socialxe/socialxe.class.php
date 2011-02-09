@@ -224,7 +224,7 @@
 				// 소셜 로그인, 소셜 통합은 기본 사이트 설정을 따른다.
 				$config->skin = $default_config->skin;
 				$config->use_social_login = $default_config->use_social_login;
-				$config->use_social_info = $default_config->use_social_info;
+				//$config->use_social_info = $default_config->use_social_info;
 			}
 
 			$GLOBALS['socialxe_config'] = $config;
