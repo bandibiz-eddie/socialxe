@@ -687,12 +687,19 @@
 				}
 			}
 
-			// 보통 댓글이면 글을 부모로 이동하도록 한다.
+			// depth 0
 			else if (!$comment->parent_srl){
-				$args->parent_srl = $comment->document_srl;
+				// 글의 소셜 정보를 가져온다.
+				$output = $oSocialxeModel->getSocialByCommentSrl($comment->document_srl);
+
+				// 내용에 글의 사용자에게 보내는 멘션 형식을 포함시킨다.
+				if ($output->data){
+					$mention_type = $this->providerManager->getReplyPrefix($output->data->provider, $output->data->id, $output->data->social_nick_name);
+					$args->content = $mention_type . ' ' . $args->content;
+				}
 			}
 
-
+			// depth 1
 			else{
 				$args->parent_srl = $comment->parent_srl;
 			}

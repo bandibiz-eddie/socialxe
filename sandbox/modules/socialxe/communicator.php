@@ -151,17 +151,18 @@ class socialxeCommunicator{
 		$reply_provider_list = $this->providerManager->getReplyProviderList($comment->content);
 
 		// 보낼 필요가 있는지 확인
+		if (count($reply_provider_list) == 0){
+			// 대댓글이면
+			if ($args->parent_srl){
+				// 부모 댓글에 소셜 정보가 없으면 리턴~
+				if (!$comment->parent->provider || $comment->parent->provider == 'xe') return new Object();
+			}
 
-		// 대댓글이면
-		if ($args->parent_srl){
-			// 부모 댓글에 소셜 정보가 없으면 리턴~
-			if (!$comment->parent->provider || $comment->parent->provider == 'xe') return new Object();
-		}
-
-		// 대댓글이 아니면
-		else{
-			// 로그인한 소셜 서비스가 없으면 리턴~
-			if (!count($logged_provider_list)) return new Object();
+			// 대댓글이 아니면
+			else{
+				// 로그인한 소셜 서비스가 없으면 리턴~
+				if (!count($logged_provider_list)) return new Object();
+			}
 		}
 
 		// 생성된 짧은 주소가 있는지 확인한다.
