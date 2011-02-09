@@ -73,3 +73,8 @@ function getInfoAutoLoginKey(url, skin){
 		exec_xml('socialxe', 'procSocialxeSetAutoLoginKey', params, replaceInfo, response_tags);
 	});
 }
+
+// 현재 화면의 이름 입력칸의 값을 대표계정의 닉네임으로 변경한다.
+function autoInputName(name){
+	jQuery("input[name=nick_name]").val(name);
+}
