@@ -143,21 +143,41 @@
 			// 추가 정보 준비
 			$args->comment_srl = $comment_srl;
 
+			if ($manual_data){
+				$master_provider = $manual_data->master_provider;
+				$master_id = $manual_data->master_id;
+				$master_nickname = $manual_data->master_nickname;
+				$master_profile_image = $manual_data->master_profile_image;
+
+				$slave_provider = $manual_data->slave_provider;
+				$slave_id = $manual_data->slave_id;
+				$slave_nickname = $manual_data->slave_nickname;
+			}else{
+				$master_provider = $this->providerManager->getMasterProvider();
+				$master_id = $this->providerManager->getMasterProviderId();
+				$master_nickname = $this->providerManager->getMasterProviderNickName();
+				$master_profile_image = $this->providerManager->getMasterProviderProfileImage();
+
+				$slave_provider = $this->providerManager->getSlaveProvider();
+				$slave_id = $this->providerManager->getSlaveProviderId();
+				$slave_nickname = $this->providerManager->getSlaveProviderNickName();
+			}
+
 			// 대표 계정이 XE면 부계정의 정보를 넣는다.
-			if ($this->providerManager->getMasterProvider() == 'xe'){
-				$args->provider = $this->providerManager->getSlaveProvider();
-				$args->id = $this->providerManager->getSlaveProviderId();
+			if ($master_provider == 'xe'){
+				$args->provider = $slave_provider();
+				$args->id = $slave_id;
 				$args->comment_id = $output->get('comment_id');
-				$args->social_nick_name = $this->providerManager->getSlaveProviderNickName();
+				$args->social_nick_name = $slave_nickname;
 			}
 
 			// 대표 계정이 XE가 아니면 대표 계정의 정보를 넣는다.
 			else{
-				$args->provider = $this->providerManager->getMasterProvider();
-				$args->id = $this->providerManager->getMasterProviderId();
-				$args->profile_image = $this->providerManager->getMasterProviderProfileImage();
+				$args->provider = $master_provider;
+				$args->id = $master_id;
+				$args->profile_image = $master_profile_image;
 				$args->comment_id = $output->get('comment_id');
-				$args->social_nick_name = $this->providerManager->getMasterProviderNickName();
+				$args->social_nick_name = $master_nickname;
 			}
 
 			// 추가 정보 삽입
