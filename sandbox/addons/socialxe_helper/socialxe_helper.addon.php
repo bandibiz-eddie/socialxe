@@ -72,6 +72,8 @@
 		$output = preg_replace_callback($pattern, create_function('$matches',
 						'$social_info = $GLOBALS["social_info"][$matches[1]];' .
 						'if (!$social_info->provider || $social_info->provider == "xe") return $mathces[0];' .
+						'$oSocialxeModel = &getModel("socialxe");' .
+						'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id);' .
 						'$lang_provider = Context::getLang("provider");' .
 						'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;">\' . Context::getLang("prefix_social_info") . \'<a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div><div style="clear:both;"></div>\';'
 					), $output);
