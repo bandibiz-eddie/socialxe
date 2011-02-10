@@ -1,7 +1,7 @@
 <?php
 
 if (!class_exists("Services_JSON_SocialXE")){
-    require_once(_XE_PATH_.'modules/socialxe/JSON.php');
+    require_once(_XE_PATH_.'modules/socialxeserver/JSON.php');
 }
 
 /**
