@@ -49,11 +49,11 @@
 			// 도메인 확인
 			$oSocialxeserverModel = &getModel('socialxeserver');
 			$domain_array = explode(',', $domain);
-			foreach($domain_array as &$val){
-				$val = trim(str_replace(array('http://', 'www.'), '', $val));
-				$output = $oSocialxeserverModel->isExsistDomain($val, $client_srl);
+			foreach($domain_array as $name => $val){
+				$domain_array[$name] = trim(str_replace(array('http://', 'www.'), '', $val));
+				$output = $oSocialxeserverModel->isExsistDomain($domain_array[$name], $client_srl);
 				if (!$output->toBool()) return $output;
-				if ($output->get('result')) return $this->stop(Context::getLang('msg_exsist_domain') . '(' . $val . ')');
+				if ($output->get('result')) return $this->stop(Context::getLang('msg_exsist_domain') . '(' . $domain_array[$name] . ')');
 			}
 
 			// 수정

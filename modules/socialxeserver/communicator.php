@@ -540,9 +540,9 @@ class socialxeServerCommunicator {
 		$this->request_data = unserialize(urldecode(base64_decode(Context::get('data'))));
 
 		if (is_array($this->request_data)){
-			foreach($this->request_data as &$val){
+			foreach($this->request_data as $name => $val){
 				if (($tmp = @unserialize($val)) !== false)
-					$val = $tmp;
+					$this->request_data[$name] = $tmp;
 			}
 		}
 
