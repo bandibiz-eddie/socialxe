@@ -27,6 +27,56 @@
 		}
 	}
 
+	// 현재 화면의 글, 댓글 번호를 수집하여 소셜 전송 정보를 출력해준다.
+	if($called_position == 'before_display_content' && Context::getResponseMethod() == 'HTML'){
+		// 댓글
+		$pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
+		unset($matches);
+		preg_match_all($pattern, $output, $matches);
+		$comment_srls = $matches[1];
+
+		// 문서
+		$pattern = "/<!--BeforeDocument\((.*),.*\)-->/U";
+		unset($matches);
+		preg_match_all($pattern, $output, $matches);
+		$document_srls = $matches[1];
+
+		// 문서 번호와 댓글 번호를 합친다.
+		$srls = array_merge($comment_srls, $document_srls);
+
+		// 해당 소셜 정보를 가져온다.
+		$args->srls = $srls;
+		$res = executeQueryArray('addons.socialxe_helper.getSocialxes', $args);
+		if (!$res->data) return;
+
+		// 소셜 정보를 가공
+		foreach($res->data as $val){
+			$GLOBALS['social_info'][$val->comment_srl]->provider = $val->provider;
+			$GLOBALS['social_info'][$val->comment_srl]->id = $val->id;
+			$GLOBALS['social_info'][$val->comment_srl]->social_nick_name = $val->social_nick_name;
+		}
+
+		// 댓글의 소셜 정보 출력
+		$pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
+		$output = preg_replace_callback($pattern, create_function('$matches',
+						'$social_info = $GLOBALS["social_info"][$matches[1]];' .
+						'if (!$social_info->provider || $social_info->provider == "xe") return $mathces[0];' .
+						'$oSocialxeModel = &getModel("socialxe");' .
+						'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id);' .
+						'$lang_provider = Context::getLang("provider");' .
+						'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;"><a href="\' . $link . \'" target="_blank"><img src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . Context::getLang("suffix_social_info") . \'" title="\' . $lang_provider[$social_info->provider] . Context::getLang("suffix_social_info") . \'" /></a></div>\';'
+					), $output);
+
+		// 문서의 소셜 정보 출력
+		$pattern = "/<!--BeforeDocument\((.*),.*\)-->/U";
+		$output = preg_replace_callback($pattern, create_function('$matches',
+						'$social_info = $GLOBALS["social_info"][$matches[1]];' .
+						'if (!$social_info->provider || $social_info->provider == "xe") return $mathces[0];' .
+						'$lang_provider = Context::getLang("provider");' .
+						'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;"><a href="\' . $link . \'" target="_blank"><img src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . Context::getLang("suffix_social_info") . \'" title="\' . $lang_provider[$social_info->provider] . Context::getLang("suffix_social_info") . \'" /></a></div><div style="clear:both;"></div>\';'
+					), $output);
+	}
+
 	// 텍스타일의 발행 화면에 SocialXE Info 위젯 표시
 	if($called_position == 'before_display_content' && Context::get('act') == 'dispTextyleToolPostManagePublish'){
 		$oTemplate = &TemplateHandler::getInstance();
