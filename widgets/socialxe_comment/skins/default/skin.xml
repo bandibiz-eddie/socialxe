@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">SocialXE 댓글 기본 스킨</title>
+	<description xml:lang="ko">SocialXE 댓글을 출력하는 기본 스킨입니다.</description>
+	<version>1.0</version>
+	<date>2011-02-07</date>
+	<link>http://socialxe.net</link>
+
+	<author email_address="flysky@flysky.kr" link="http://socialxe.net">
+		<name xml:lang="ko">난다날아</name>
+	</author>
+
+	<colorset>
+		<color name="white">
+			<title xml:lang="ko">하얀색(기본)</title>
+			<title xml:lang="jp">白（デフォルト）</title>
+			<title xml:lang="zh-CN">白色（默认）</title>
+			<title xml:lang="en">White (default)</title>
+			<title xml:lang="zh-TW">白色(預設)</title>
+		</color>
+		<color name="black">
+			<title xml:lang="ko">검은색</title>
+			<title xml:lang="jp">黒</title>
+			<title xml:lang="en">Black</title>
+			<title xml:lang="zh-CN">黑色</title>
+			<title xml:lang="zh-TW">黑色</title>
+		</color>
+	</colorset>
+</skin>
