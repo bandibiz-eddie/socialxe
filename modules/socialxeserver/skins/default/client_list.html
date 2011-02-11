@@ -11,7 +11,7 @@
 <!-- 검색 -->
 <div class="fl">
 	<form action="./" method="get" class="adminSearch">
-	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="act" value="{$act}" />
 		<fieldset>
 			<label for="domain">{$lang->domain}</label>
@@ -23,6 +23,7 @@
 </div>
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 모듈 선택 -->

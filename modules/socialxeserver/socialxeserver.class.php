@@ -11,6 +11,10 @@
 
 	class socialxeserver extends ModuleObject {
 
+		var $add_triggers = array(
+			array('member.deleteMember', 'socialxeserver', 'controller', 'triggerDeleteMember', 'after')
+		);
+
 		function socialxeserver(){
 			// 설정 정보를 받아옴 (module model 객체를 이용)
 			$oModuleModel = &getModel('module');
@@ -24,6 +28,11 @@
 		* @brief 설치시 추가 작업이 필요할시 구현
 		**/
 		function moduleInstall() {
+			// $this->add_triggers 트리거 일괄 추가
+			foreach($this->add_triggers as $trigger) {
+				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
+
 			return new Object();
 		}
 
@@ -31,6 +40,13 @@
 		* @brief 설치가 이상이 없는지 체크하는 method
 		**/
 		function checkUpdate() {
+			$oModuleModel = &getModel('module');
+
+			// $this->add_triggers 트리거 일괄 검사
+			foreach($this->add_triggers as $trigger) {
+				if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
+			}
+
 			return false;
 		}
 
@@ -38,7 +54,17 @@
 		* @brief 업데이트 실행
 		**/
 		function moduleUpdate() {
-			return new Object();
+			$oModuleModel = &getModel('module');
+			$oModuleController = &getController('module');
+
+			// $this->add_triggers 트리거 일괄 업데이트
+			foreach($this->add_triggers as $trigger) {
+				if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) {
+					$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+				}
+			}
+
+			return new Object(0, 'success_updated');
 		}
 
 		/**
@@ -50,6 +76,10 @@
 		// 모듈 제거
 		function moduleUninstall(){
 			$oModuleController = &getController('module');
+
+			foreach($this->add_triggers as $trigger) {
+				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
 
 			// 서비스 모듈 정보를 얻는다.
 			$oSocialxeserverModel = &getModel('socialxeserver');

@@ -27,7 +27,7 @@
 	$lang->cmd_insert_service_module = '서비스 모듈 생성';
 	$lang->cmd_create_client = '클라이언트 등록';
 
-	$lang->about_client_domain = '클라이언트 도메인을 콤마(,)로 구분하여 입력해주세요. http://는 생략해주세요.';
+	$lang->about_client_domain = '클라이언트 도메인을 콤마(,)로 구분하여 입력해주세요. http://와 www.는 생략해주세요.';
 	$lang->about_insert_service_module = '사용자가 직접 클라이언트 등록을 하고 자신의 도메인을 관리하기 위해서는 서비스 모듈을 생성하여야 합니다.';
 
 	$lang->msg_invalid_provider = '올바른 서비스 제공자가 아닙니다.';
@@ -41,6 +41,7 @@
 	$lang->msg_error_yozm = '요즘에 접속할 수 없습니다. 페이지를 새로고치거나 잠시 후 다시 시도해주세요.';
 	$lang->msg_error_yozm_not_joined = '요즘 사용자가 아닙니다.';
 	$lang->msg_exsist_domain = '이미 등록된 도메인입니다.';
+	$lang->msg_check_input_domain = '입력 값 중 유효한 도메인이 하나도 없습니다. 제대로 입력하셨나요?';
 
 	$lang->provider['twitter'] = '트위터';
 	$lang->provider['me2day'] = '미투데이';

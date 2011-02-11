@@ -9,6 +9,8 @@ class me2day{
 
 	var $api_url = 'http://me2day.net/api/'; // 미투데이 api 경로
 
+	var $useragent = 'SocialXE Communicator';
+
 	function me2day($api_key){
 		$this->api_key = $api_key;
 	}
@@ -17,7 +19,8 @@ class me2day{
 	function getAuthUrl(){
 		$url = $this->api_url . 'get_auth_url.json?akey=' . $this->api_key;
 
-		$content = $this->getRemoteResource($url);
+		$headers = array('User-Agent' => $this->useragent);
+		$content = $this->getRemoteResource($url, null, 30, 'GET', null, $headers);
 
 		// XML 파싱
 		$json = new Services_JSON_SocialXE();
@@ -30,7 +33,8 @@ class me2day{
 	function getPerson($id){
 		$url = $this->api_url . 'get_person/' . $id . '.json';
 
-		$content = $this->getRemoteResource($url);
+		$headers = array('User-Agent' => $this->useragent);
+		$content = $this->getRemoteResource($url, null, 30, 'GET', null, $headers);
 
 		// XML 파싱
 		$json = new Services_JSON_SocialXE();
@@ -54,7 +58,8 @@ class me2day{
 		}
 		$body = substr($body, 1);
 
-		$content = $this->getRemoteResource($url, $body, 3, 'POST', 'application/x-www-form-urlencoded');
+		$headers = array('User-Agent' => $this->useragent);
+		$content = $this->getRemoteResource($url, $body, 30, 'POST', 'application/x-www-form-urlencoded', $headers);
 
 		// JSON 디코딩
 		$json = new Services_JSON_SocialXE();
@@ -84,7 +89,8 @@ class me2day{
 		}
 		$body = substr($body, 1);
 
-		$content = $this->getRemoteResource($url, $body, 3, 'POST', 'application/x-www-form-urlencoded');
+		$headers = array('User-Agent' => $this->useragent);
+		$content = $this->getRemoteResource($url, $body, 3, 'POST', 'application/x-www-form-urlencoded', $headers);
 
 		// JSON 디코딩
 		$json = new Services_JSON_SocialXE();
