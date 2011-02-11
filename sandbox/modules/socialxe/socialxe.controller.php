@@ -690,6 +690,11 @@
 			$config = $oSocialxeModel->getModulePartConfig($document->module_srl);
 			if ($config->use_social_info != Y) return new Object();
 
+			// 글이 비밀글인지 확인
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument($comment->document_srl);
+			if ($oDocument->isSecret()) return new Object();
+
 			// 비밀 댓글인지 확인
 			if ($comment->is_secret == 'Y') return new Object();
 
@@ -734,8 +739,6 @@
 			}
 
 			if (!$args->parent_srl){
-				$oDocumentModel = &getModel('document');
-				$oDocument = $oDocumentModel->getDocument($comment->document_srl);
 				$args->content_title = $oDocument->getTitleText();
 			}
 
