@@ -49,12 +49,38 @@
 			// 도메인 확인
 			$oSocialxeserverModel = &getModel('socialxeserver');
 			$domain_array = explode(',', $domain);
+			$domain_array2 = array();
 			foreach($domain_array as $name => $val){
-				$domain_array[$name] = trim(str_replace(array('http://', 'www.'), '', $val));
-				$output = $oSocialxeserverModel->isExsistDomain($domain_array[$name], $client_srl);
+				// http:// 를 일부러 붙여서 url 형식으로 만들어 준다
+				if (strpos($val, 'http') !== 0)
+					$val = 'http://' . $val;
+
+				// parse_url()을 이용하여 분석한다.
+				$url_info = parse_url($val);
+
+				// 우리가 필요한 건 오직! 도메인이다!!
+				if (!$url_info['host']) continue;
+
+				// www 따위는 버려라!
+				$domain = trim(str_replace('www.', '', $url_info['host']));
+
+				// 이미 추가된 도메인인지 확인
+				$output = $oSocialxeserverModel->isExsistDomain($domain, $client_srl);
 				if (!$output->toBool()) return $output;
-				if ($output->get('result')) return $this->stop(Context::getLang('msg_exsist_domain') . '(' . $domain_array[$name] . ')');
+				if ($output->get('result')) return $this->stop(Context::getLang('msg_exsist_domain') . '(' . $domain . ')');
+
+				// 결과 배열
+				$domain_array2[] = $domain;
 			}
+
+			// 배열 중복값을 없앤다.
+			$domain_array2 = array_unique($domain_array2);
+
+			// 개수가 0이면 오류!
+			if (!count($domain_array2)) return $this->stop('msg_check_input_domain');
+
+			// 다시 붙인다.
+			$domain = implode(',', $domain_array2);
 
 			// 수정
 			if ($client_srl){

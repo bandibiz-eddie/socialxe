@@ -41,6 +41,7 @@
 	$lang->msg_error_yozm = '요즘에 접속할 수 없습니다. 페이지를 새로고치거나 잠시 후 다시 시도해주세요.';
 	$lang->msg_error_yozm_not_joined = '요즘 사용자가 아닙니다.';
 	$lang->msg_exsist_domain = '이미 등록된 도메인입니다.';
+	$lang->msg_check_input_domain = '입력 값 중 유효한 도메인이 하나도 없습니다. 제대로 입력하셨나요?';
 
 	$lang->provider['twitter'] = '트위터';
 	$lang->provider['me2day'] = '미투데이';
