@@ -28,6 +28,8 @@
 		* @brief 설치시 추가 작업이 필요할시 구현
 		**/
 		function moduleInstall() {
+			$oModuleController = &getController('module');
+
 			// $this->add_triggers 트리거 일괄 추가
 			foreach($this->add_triggers as $trigger) {
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
