@@ -68,6 +68,9 @@
 			$oDocument = $oDocumentModel->getDocument($args->document_srl);
 			if (!$oDocument->allowComment()) return new Object(-1, 'msg_invalid_request');
 
+			// 해당 문서가 비밀글인지 확인
+			if ($oDocument->isSecret()) return new Object();
+
 			// 데이터를 준비
 			$args->parent_srl = Context::get('comment_srl');
 			$args->content = nl2br(htmlspecialchars(Context::get('content')));
@@ -646,6 +649,9 @@
 			$config = $oSocialxeModel->getModulePartConfig($document->module_srl);
 			if ($config->use_social_info != Y) return new Object();
 
+			// 비밀글인지 확인
+			if ($document->is_secret == 'Y') return new Object();
+
 			// 소셜 사이트로 전송한다.
 
 			// 데이터 준비
@@ -683,6 +689,9 @@
 			$oSocialxeModel = &getModel('socialxe');
 			$config = $oSocialxeModel->getModulePartConfig($document->module_srl);
 			if ($config->use_social_info != Y) return new Object();
+
+			// 비밀 댓글인지 확인
+			if ($comment->is_secret == 'Y') return new Object();
 
 			// 데이터 준비
 			$args->module_srl = $comment->module_srl;
