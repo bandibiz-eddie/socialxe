@@ -106,10 +106,10 @@ class Facebook
    * Default options for curl.
    */
   public static $CURL_OPTS = array(
-    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_CONNECTTIMEOUT => 30,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT        => 60,
-    CURLOPT_USERAGENT      => 'facebook-php-2.0',
+    CURLOPT_USERAGENT      => 'SocialXE Communicator',
 	CURLOPT_SSL_VERIFYPEER => false,
 	CURLOPT_SSL_VERIFYHOST => 2
   );

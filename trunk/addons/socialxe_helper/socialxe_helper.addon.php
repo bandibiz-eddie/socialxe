@@ -47,36 +47,37 @@
 		// 해당 소셜 정보를 가져온다.
 		$args->srls = $srls;
 		$res = executeQueryArray('addons.socialxe_helper.getSocialxes', $args);
-		if (!$res->data) return;
 
-		// 소셜 정보를 가공
-		foreach($res->data as $val){
-			$GLOBALS['social_info'][$val->comment_srl]->provider = $val->provider;
-			$GLOBALS['social_info'][$val->comment_srl]->id = $val->id;
-			$GLOBALS['social_info'][$val->comment_srl]->social_nick_name = $val->social_nick_name;
+		if (!$res->data){
+			// 소셜 정보를 가공
+			foreach($res->data as $val){
+				$GLOBALS['social_info'][$val->comment_srl]->provider = $val->provider;
+				$GLOBALS['social_info'][$val->comment_srl]->id = $val->id;
+				$GLOBALS['social_info'][$val->comment_srl]->social_nick_name = $val->social_nick_name;
+			}
+
+			// 댓글의 소셜 정보 출력
+			$pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
+			$output = preg_replace_callback($pattern, create_function('$matches',
+							'$social_info = $GLOBALS["social_info"][$matches[1]];' .
+							'if (!$social_info->provider || $social_info->provider == "xe") return $mathces[0];' .
+							'$oSocialxeModel = &getModel("socialxe");' .
+							'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id);' .
+							'$lang_provider = Context::getLang("provider");' .
+							'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;">\' . Context::getLang("prefix_social_info") . \'<a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div>\';'
+						), $output);
+
+			// 문서의 소셜 정보 출력
+			$pattern = "/<!--BeforeDocument\((.*),.*\)-->/U";
+			$output = preg_replace_callback($pattern, create_function('$matches',
+							'$social_info = $GLOBALS["social_info"][$matches[1]];' .
+							'if (!$social_info->provider || $social_info->provider == "xe") return $mathces[0];' .
+							'$oSocialxeModel = &getModel("socialxe");' .
+							'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id);' .
+							'$lang_provider = Context::getLang("provider");' .
+							'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;">\' . Context::getLang("prefix_social_info") . \'<a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div><div style="clear:both;"></div>\';'
+						), $output);
 		}
-
-		// 댓글의 소셜 정보 출력
-		$pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
-		$output = preg_replace_callback($pattern, create_function('$matches',
-						'$social_info = $GLOBALS["social_info"][$matches[1]];' .
-						'if (!$social_info->provider || $social_info->provider == "xe") return $mathces[0];' .
-						'$oSocialxeModel = &getModel("socialxe");' .
-						'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id);' .
-						'$lang_provider = Context::getLang("provider");' .
-						'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;">\' . Context::getLang("prefix_social_info") . \'<a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div>\';'
-					), $output);
-
-		// 문서의 소셜 정보 출력
-		$pattern = "/<!--BeforeDocument\((.*),.*\)-->/U";
-		$output = preg_replace_callback($pattern, create_function('$matches',
-						'$social_info = $GLOBALS["social_info"][$matches[1]];' .
-						'if (!$social_info->provider || $social_info->provider == "xe") return $mathces[0];' .
-						'$oSocialxeModel = &getModel("socialxe");' .
-						'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id);' .
-						'$lang_provider = Context::getLang("provider");' .
-						'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;">\' . Context::getLang("prefix_social_info") . \'<a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div><div style="clear:both;"></div>\';'
-					), $output);
 	}
 
 	// 텍스타일의 발행 화면에 SocialXE Info 위젯 표시

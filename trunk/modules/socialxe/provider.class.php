@@ -23,6 +23,8 @@ class socialxeProvider{
 
 	// 로그인 여부 갱신
 	function syncLogin(){
+		$this->setLogin(false);
+
 		// 관련 세션
 		$session = $this->session->getSession($this->name);
 
@@ -45,6 +47,7 @@ class socialxeProvider{
 
 	// 로그인 여부
 	function isLogged(){
+		$this->syncLogin();
 		return $this->is_logged;
 	}
 
