@@ -499,7 +499,6 @@ class socialxeServerCommunicator {
 
 	// 클라이언트의 사용 도메인인지 확인
 	function _checkClientDomain($client_srl, $domain){
-	debugPrint($domain);
 		// 해당 클라이언트 정보 가져오기
 		$output = $this->_getClientInfoBySrl($client_srl);
 		if (!$output->toBool()) return $output;
