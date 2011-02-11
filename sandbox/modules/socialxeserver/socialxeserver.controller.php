@@ -69,6 +69,7 @@
 				$token = md5($domain);
 
 				// DB 입력
+				$args->client_srl = getNextSequence();
 				$args->domain = $domain;
 				$args->client_token = $token;
 				$args->member_srl = $member_srl;
