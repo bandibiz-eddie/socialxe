@@ -13,6 +13,8 @@ class yozm {
 	var $timeout = 30;
 	var $connecttimeout = 30;
 
+	var $useragent = 'SocialXE Communicator';
+
 	// 생성자
 	function yozm($consumer_key, $consumer_secret, $oauth_token = null, $oauth_token_secret = null){
 		$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
@@ -96,12 +98,12 @@ class yozm {
 		$this->http_info = array();
 		$ci = curl_init();
 		/* Curl settings */
-		// curl_setopt($ci, CURLOPT_USERAGENT, $this->useragent);
+		curl_setopt($ci, CURLOPT_USERAGENT, $this->useragent);
 		curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
 		curl_setopt($ci, CURLOPT_TIMEOUT, $this->timeout);
 		curl_setopt($ci, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ci, CURLOPT_HTTPHEADER, array('Expect:'));
-		// curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
+		curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ci, CURLOPT_HEADERFUNCTION, array($this, 'getHeader'));
 		curl_setopt($ci, CURLOPT_HEADER, FALSE);
 
