@@ -100,5 +100,13 @@
 			$args->client_srls = implode(',', $client_srl_list);
 			return executeQuery('socialxeserver.deleteClient', $args);
 		}
+
+		// 회원 탈퇴 트리거
+		function triggerDeleteMember(&$member_info){
+			// 회원과 연결된 클라이언트를 삭제한다.
+			$args->member_srl = $member_info->member_srl;
+			$output = executeQuery('socialxeserver.deleteClientByMemberSrl', $args);
+			return $output;
+		}
 	}
 ?>
