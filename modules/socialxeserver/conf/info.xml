@@ -2,8 +2,8 @@
 <module version="0.2">
 	<title xml:lang="ko">SocialXE 서버</title>
 	<description xml:lang="ko">SocialXE 서버</description>
-	<version>1.0.3</version>
-	<date>2011-02-11</date>
+	<version>1.0.4</version>
+	<date>2011-02-12</date>
 	<category>accessory</category>
 	<license link="http://www.opensource.org/licenses/mit-license.php">MIT</license>
 
