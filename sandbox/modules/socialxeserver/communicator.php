@@ -152,7 +152,7 @@ class socialxeServerCommunicator {
 
 		// 요청이 온 사이트의 XE 위치를 세션에 저장한다.
 		$callback = $referer_info['scheme'] . '://' . $referer_info['host'];
-		if ( ($referer_info['scheme'] == 'https' && $referer_info['port'] && $referer_info['port'] != 433) ||
+		if ( ($referer_info['scheme'] == 'https' && $referer_info['port'] && $referer_info['port'] != 443) ||
 				($referer_info['scheme'] == 'http' && $referer_info['port'] && $referer_info['port'] != 80) ){
 			$callback .= ':' . $referer_info['port'];
 		}
