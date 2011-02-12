@@ -46,7 +46,7 @@
 	<tr>
 		<td class="number center">{$no}</td>
 		<td class="center"><input type="checkbox" name="cart" value="{$val->client_srl}" /></td>
-		<td class="center">{$val->nick_name}</td>
+		<td class="center"><a href="#popup_menu_area" class="member_{$val->member_srl}" onclick="return false">{$val->nick_name}</a></td>
 		<td class="center">{$val->client_token}</td>
 		<td class="left">
 			{@$domain_array = explode(',', $val->domain)}
