@@ -8,7 +8,7 @@
 	$lang->me2day_user_id = '미투데이 아이디';
 	$lang->me2day_application_key = '미투데이 어플리케이션 키';
 	$lang->facebook_app_id = '페이스북 App ID';
-	$lang->facebook_app_secret = '페이스복 App Secret';
+	$lang->facebook_app_secret = '페이스북 App Secret';
 	$lang->yozm_consumer_key = '요즘 Consumer Key';
 	$lang->yozm_consumer_key_secret = '요즘 Consumer Key Secret';
 	$lang->yozm_access_token = '요즘 Access Token';
