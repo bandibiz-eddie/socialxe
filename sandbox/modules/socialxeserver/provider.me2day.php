@@ -100,7 +100,7 @@ function send($comment, $access, $uselang = 'en', $use_socialxe = false){
 	if (!$lang->notify) $lang->notify = $this->lang->notify['en'];
 
 	// 태그 준비. 태그는 그냥 150자 넘으면 자른다
-	$tag = cut_str($comment->hashtag, $max_length-3, '...');
+	$tag = $this->cut_str($comment->hashtag, $max_length-3, '...');
 
 	// 내용 준비
 		$before = array('"');
@@ -117,12 +117,12 @@ function send($comment, $access, $uselang = 'en', $use_socialxe = false){
 	$content = $title . '」 ' . $comment->content;
 
 	// 150자 체크
-		$content = cut_str($content, $max_length-3, '...');
+		$content = $this->cut_str($content, $max_length-3, '...');
 
 	// URL 삽입
 	$temp = explode('」', $content);
 	if (count($temp) > 1){
-	$temp[0] = '「"' . cut_str($temp[0], 149, '') . '":' . $comment->content_link . ' ';
+	$temp[0] = '「"' . $this->cut_str($temp[0], 149, '') . '":' . $comment->content_link . ' ';
 	$content = implode('」', $temp);
 	}
 

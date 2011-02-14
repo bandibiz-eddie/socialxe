@@ -123,7 +123,7 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
 		$content2 = '「' . $title . '」 ' . $comment->content;
 
 		// 내용 길이가 최대 길이를 넘는지 확인
-		$content = cut_str($content2, $max_length-3, '...');
+		$content = $this->cut_str($content2, $max_length-3, '...');
 
 		// 부모 댓글이 페이스북이면 댓글 처리
 		if ($comment->parent && $comment->parent->provider == 'facebook'){
