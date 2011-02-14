@@ -11,6 +11,10 @@
 			$tpl_path = sprintf('%sskins/%s', $this->module_path, $this->module_info->skin);
 			if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 			$this->setTemplatePath($tpl_path);
+
+			// 서비스 모듈 정보
+			$oSocialxeserverModel = &getModel('socialxeserver');
+			Context::set('service_module_info', $oSocialxeserverModel->getServiceModuleInfo());
 		}
 
 		// 클라이언트 목록
