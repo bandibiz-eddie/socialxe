@@ -48,7 +48,7 @@
 		$args->srls = $srls;
 		$res = executeQueryArray('addons.socialxe_helper.getSocialxes', $args);
 
-		if (!$res->data){
+		if ($res->data){
 			// 소셜 정보를 가공
 			foreach($res->data as $val){
 				$GLOBALS['social_info'][$val->comment_srl]->provider = $val->provider;
