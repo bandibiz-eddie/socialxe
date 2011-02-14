@@ -687,7 +687,7 @@
 
 			// 현재 모듈이 소셜 통합 기능 사용 중인지 확인한다.
 			$oSocialxeModel = &getModel('socialxe');
-			$config = $oSocialxeModel->getModulePartConfig($document->module_srl);
+			$config = $oSocialxeModel->getModulePartConfig($comment->module_srl);
 			if ($config->use_social_info != Y) return new Object();
 
 			// 글이 비밀글인지 확인
