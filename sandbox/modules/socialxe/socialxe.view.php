@@ -63,6 +63,9 @@
 			$mid = Context::get('mid'); // 소셜 로그인 처리 중인 mid
 			$this->session->setSession('mid', $mid);
 
+			$vid = Context::get('vid'); // 소셜 로그인 처리 중인 vid
+			$this->session->setSession('vid', $vid);
+
 			$info = Context::get('info'); // SocialXE info 위젯 여부
 			$this->session->setSession('info', $info);
 
@@ -105,7 +108,7 @@
 
 					// 최초 로그인으로 추가 정보 입력이 필요할 경우
 					if ($output->get('first')){
-						$url = $this->getNotEncodedFullUrl('', 'mid', $this->session->getSession('mid'), 'act', 'dispSocialxeLoginAdditional', 'provider', $provider);
+						$url = $this->getNotEncodedFullUrl('', 'vid', $this->session->getSession('vid'), 'mid', $this->session->getSession('mid'), 'act', 'dispSocialxeLoginAdditional', 'provider', $provider);
 						header('Location: ' . $url);
 						Context::close();
 						exit;
