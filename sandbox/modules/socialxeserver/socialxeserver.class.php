@@ -1,14 +1,5 @@
 <?php
 
-	require_once(_XE_PATH_.'modules/socialxeserver/sessionManager.php');
-	require_once(_XE_PATH_.'modules/socialxeserver/communicator.php');
-	require_once(_XE_PATH_.'modules/socialxeserver/providerManager.php');
-	require_once(_XE_PATH_.'modules/socialxeserver/provider.class.php');
-	require_once(_XE_PATH_.'modules/socialxeserver/provider.twitter.php');
-	require_once(_XE_PATH_.'modules/socialxeserver/provider.me2day.php');
-	require_once(_XE_PATH_.'modules/socialxeserver/provider.facebook.php');
-	require_once(_XE_PATH_.'modules/socialxeserver/provider.yozm.php');
-
 	class socialxeserver extends ModuleObject {
 
 		var $add_triggers = array(
@@ -16,6 +7,18 @@
 		);
 
 		function socialxeserver(){
+			// 지원 환경 체크
+			if (!$this->isSupported()) return;
+
+			require_once(_XE_PATH_.'modules/socialxeserver/sessionManager.php');
+			require_once(_XE_PATH_.'modules/socialxeserver/communicator.php');
+			require_once(_XE_PATH_.'modules/socialxeserver/providerManager.php');
+			require_once(_XE_PATH_.'modules/socialxeserver/provider.class.php');
+			require_once(_XE_PATH_.'modules/socialxeserver/provider.twitter.php');
+			require_once(_XE_PATH_.'modules/socialxeserver/provider.me2day.php');
+			require_once(_XE_PATH_.'modules/socialxeserver/provider.facebook.php');
+			require_once(_XE_PATH_.'modules/socialxeserver/provider.yozm.php');
+
 			// 설정 정보를 받아옴 (module model 객체를 이용)
 			$oModuleModel = &getModel('module');
 			$this->config = $oModuleModel->getModuleConfig('socialxeserver');
@@ -28,6 +31,8 @@
 		* @brief 설치시 추가 작업이 필요할시 구현
 		**/
 		function moduleInstall() {
+			if (!$this->isSupported()) return new Object();
+
 			$oModuleController = &getController('module');
 
 			// $this->add_triggers 트리거 일괄 추가
@@ -42,6 +47,8 @@
 		* @brief 설치가 이상이 없는지 체크하는 method
 		**/
 		function checkUpdate() {
+			if (!$this->isSupported()) return false;
+
 			$oModuleModel = &getModel('module');
 
 			// $this->add_triggers 트리거 일괄 검사
@@ -56,6 +63,8 @@
 		* @brief 업데이트 실행
 		**/
 		function moduleUpdate() {
+			if (!$this->isSupported()) return new Object();
+
 			$oModuleModel = &getModel('module');
 			$oModuleController = &getController('module');
 
@@ -89,6 +98,13 @@
 			if (!$service_module_info) return new Object();
 
 			return $oModuleController->deleteModule($service_module_info->module_srl);
+		}
+
+		function isSupported(){
+			if (version_compare(PHP_VERSION, '5.0.0', '<')) return false;
+			if (!function_exists('curl_init')) return false;
+			if (!function_exists('json_decode')) return false;
+			return true;
 		}
 
 		function getNotEncodedFullUrl() {

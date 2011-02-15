@@ -42,6 +42,7 @@
 	$lang->msg_error_yozm_not_joined = '요즘 사용자가 아닙니다.';
 	$lang->msg_exsist_domain = '이미 등록된 도메인입니다.';
 	$lang->msg_check_input_domain = '입력 값 중 유효한 도메인이 하나도 없습니다. 제대로 입력하셨나요?';
+	$lang->msg_check_support = '현재 환경에서 SocialXE 서버를 실행할 수 없습니다. 실행 환경을 확인하세요.';
 
 	$lang->provider['twitter'] = '트위터';
 	$lang->provider['me2day'] = '미투데이';

@@ -6,6 +6,7 @@
 		* @brief 초기화
 		**/
 		function init() {
+			if (!$this->isSupported()) return $this->stop('msg_check_support');
 		}
 
 		// API 요청 처리

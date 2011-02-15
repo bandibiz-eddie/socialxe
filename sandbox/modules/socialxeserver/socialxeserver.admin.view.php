@@ -6,6 +6,8 @@
 		* @brief 초기화
 		**/
 		function init() {
+			if (!$this->isSupported()) return $this->stop('msg_check_support');
+
 			// 서비스 모듈 정보를 얻는다.
 			$oSocialxeserverModel = &getModel('socialxeserver');
 			$this->service_module_info = $oSocialxeserverModel->getServiceModuleInfo();
