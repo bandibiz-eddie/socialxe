@@ -74,8 +74,8 @@
 		}
 
 		// 소셜 서비스 페이지 링크
-		function getAuthorLink($provider, $id){
-			return $this->providerManager->getAuthorLink($provider, $id);
+		function getAuthorLink($provider, $id, $nick_name){
+			return $this->providerManager->getAuthorLink($provider, $id, $nick_name);
 		}
 
 		// 아이디를 받아 소셜 서비스의 리플 형식으로 반환
@@ -292,6 +292,7 @@
 			$social_info = array();
 			foreach($output->data as $val){
 				$social_info[$val->provider]['id'] = $val->id;
+				$social_info[$val->provider]['nick_name'] = $val->nick_name;
 				$social_info[$val->provider]['session'] = unserialize($val->access);
 				$social_info[$val->provider]['send'] = $val->send;
 			}

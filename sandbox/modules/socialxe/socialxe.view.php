@@ -366,7 +366,8 @@
 			foreach($provider_list as $provider){
 				if ($social_info[$provider]){
 					$member_social_info[$provider]['id'] = $social_info[$provider]['id'];
-					$member_social_info[$provider]['link'] = $this->providerManager->getAuthorLink($provider, $social_info[$provider]['id']);
+					$member_social_info[$provider]['nick_name'] = $social_info[$provider]['nick_name'];
+					$member_social_info[$provider]['link'] = $this->providerManager->getAuthorLink($provider, $social_info[$provider]['id'], $social_info[$provider]['nick_name']);
 					$member_social_info[$provider]['send'] = $social_info[$provider]['send'];
 				}else{
 					$member_social_info[$provider] = null;
