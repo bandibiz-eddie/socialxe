@@ -310,6 +310,25 @@
 			$output = executeQuery('socialxe.getMemberBySocialId', $args);
 			if (!$output->toBool()) return $output;
 
+			// 트위터의 경우 하위 호환성을 위해
+			// 검색된 결과가 없으면 nick_name을 이용하여 다시 검색해본다.
+			if ($provider == 'twitter' && !$output->data){
+				$args->id = $this->providerManager->getProviderNickName($provider);
+				$output = executeQuery('socialxe.getMemberBySocialId', $args);
+				if (!$output->toBool()) return $output;
+
+				// 검색된 결과가 있으면(예전 방식의 아이디 형식으로 저장되어 있으면)
+				// 새로운 방식의 아이디 형식으로 변환시켜준다.
+				if ($output->data){
+					unset($args);
+					$args->member_srl = $output->data->member_srl;
+					$args->provider = $provider;
+					$args->id = $id;
+					$output2 = executeQuery('socialxe.updateSocialInfo', $args);
+					if (!$output2->toBool()) return $output2;
+				}
+			}
+
 			// 만약 가입된 회원이 없으면 가입 처리를 위해 일단 리턴한다.
 			if (!$output->data){
 				$result = new Object();
@@ -329,6 +348,18 @@
 			//TODO XE 자동 로그인 버그 때문에 일단 자동 로그인은 해제
 			// http://xe.xpressengine.net/19469260
 			$oMemberController->doLogin($member_info->user_id, '', false);
+
+			// 액세스 토큰을 갱신한다.
+			$session->access = $this->providerManager->getAccess($provider);
+			$session->account = $this->providerManager->getAccount($provider);
+
+			unset($args);
+			$args->member_srl = $member_srl;
+			$args->access = serialize($session);
+			$args->nick_name = $this->providerManager->getProviderNickName($provider);
+			$args->provider = $provider;
+			$output = executeQuery('socialxe.updateSocialInfo', $args);
+			if (!$output->toBool()) return $output;
 
 			return new Object();
 		}
@@ -397,6 +428,7 @@
 			$args->member_srl = $member_srl;
 			$args->provider = $provider;
 			$args->id = $id;
+			$args->nick_name = $this->providerManager->getProviderNickName($provider);
 			$args->access = serialize($session);
 			$output = executeQuery('socialxe.addSocialInfoToMember', $args);
 			if (!$output->toBool()){
@@ -480,6 +512,7 @@
 			$session->access = $this->providerManager->getAccess($provider);
 			$session->account = $this->providerManager->getAccount($provider);
 			$args->member_srl = $logged_info->member_srl;
+			$args->nick_name = $this->providerManager->getProviderNickName($provider);
 			$args->access = serialize($session);
 			$output = executeQuery('socialxe.addSocialInfoToMember', $args);
 			if (!$output->toBool()) return $output;
@@ -687,7 +720,7 @@
 
 			// 현재 모듈이 소셜 통합 기능 사용 중인지 확인한다.
 			$oSocialxeModel = &getModel('socialxe');
-			$config = $oSocialxeModel->getModulePartConfig($document->module_srl);
+			$config = $oSocialxeModel->getModulePartConfig($comment->module_srl);
 			if ($config->use_social_info != Y) return new Object();
 
 			// 글이 비밀글인지 확인

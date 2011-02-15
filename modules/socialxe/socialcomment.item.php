@@ -25,7 +25,7 @@
 
 			// 소셜 정보를 추가한다.
 			$oSocialxeModel = &getModel('socialxe');
-			$this->add('link', $oSocialxeModel->getAuthorLink($this->get('provider'), $this->get('id')));
+			$this->add('link', $oSocialxeModel->getAuthorLink($this->get('provider'), $this->get('id'), $this->get('social_nick_name')));
 
 			// 대댓글 개수
 			if ($this->get('sub_comment_count') === null){

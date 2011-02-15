@@ -6,6 +6,7 @@
 		<column name="member_srl" var="member_srl" notnull="notnull" filter="number" />
 		<column name="provider" var="provider" notnull="notnull" />
 		<column name="id" var="id" notnull="notnull" />
+		<column name="nick_name" var="nick_name" notnull="notnull" />
 		<column name="access" var="access" notnull="notnull" />
 	</columns>
 </query>

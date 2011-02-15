@@ -8,7 +8,7 @@
 	$lang->me2day_user_id = '미투데이 아이디';
 	$lang->me2day_application_key = '미투데이 어플리케이션 키';
 	$lang->facebook_app_id = '페이스북 App ID';
-	$lang->facebook_app_secret = '페이스복 App Secret';
+	$lang->facebook_app_secret = '페이스북 App Secret';
 	$lang->yozm_consumer_key = '요즘 Consumer Key';
 	$lang->yozm_consumer_key_secret = '요즘 Consumer Key Secret';
 	$lang->yozm_access_token = '요즘 Access Token';
@@ -42,6 +42,7 @@
 	$lang->msg_error_yozm_not_joined = '요즘 사용자가 아닙니다.';
 	$lang->msg_exsist_domain = '이미 등록된 도메인입니다.';
 	$lang->msg_check_input_domain = '입력 값 중 유효한 도메인이 하나도 없습니다. 제대로 입력하셨나요?';
+	$lang->msg_check_support = '현재 환경에서 SocialXE 서버를 실행할 수 없습니다. 실행 환경을 확인하세요.';
 
 	$lang->provider['twitter'] = '트위터';
 	$lang->provider['me2day'] = '미투데이';

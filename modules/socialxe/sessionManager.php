@@ -6,7 +6,7 @@ class socialxeSessionManager{
 	// 생성자
 	function socialxeSessionManager(){
 		// 도메인 정보를 세팅
-		$this->domain = $_SERVER['HTTP_HOST'];
+		$this->domain = 'dummy';
 	}
 
 	// 인스턴스 얻기

@@ -18,7 +18,7 @@ class socialxeProviderTwitter extends socialxeProvider{
 	// 아이디
 	function getId(){
 		if (!$this->isLogged())   return;
-		return $this->access->screen_name;
+		return $this->access->user_id;
 	}
 
 	// 닉네임
@@ -34,13 +34,13 @@ class socialxeProviderTwitter extends socialxeProvider{
 	}
 
 	// 링크
-	function getAuthorLink($id){
-		return 'http://twitter.com/' . $id;
+	function getAuthorLink($id, $nick_name){
+		return 'http://twitter.com/' . $nick_name;
 	}
 
 	// 리플 형식 반환
 	function getReplyPrefix($id, $nick_name){
-		return '@' . $id;
+		return '@' . $nick_name;
 	}
 
 	// 리플 형식이 포함되었는지 확인

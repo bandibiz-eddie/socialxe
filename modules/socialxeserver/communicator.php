@@ -151,8 +151,12 @@ class socialxeServerCommunicator {
 		if (!$output->toBool()) return $output;
 
 		// 요청이 온 사이트의 XE 위치를 세션에 저장한다.
-		$callback = $referer_info['scheme'] . '://' . $referer_info['host'] . '/';
-		if ($this->request_data['xe']) $callback .= $this->request_data['xe'];
+		$callback = $referer_info['scheme'] . '://' . $referer_info['host'];
+		if ( ($referer_info['scheme'] == 'https' && $referer_info['port'] && $referer_info['port'] != 443) ||
+				($referer_info['scheme'] == 'http' && $referer_info['port'] && $referer_info['port'] != 80) ){
+			$callback .= ':' . $referer_info['port'];
+		}
+		if ($this->request_data['xe']) $callback .= '/' . $this->request_data['xe'];
 		$this->session->setSession('callback', $callback);
 
 		// 로그인 URL을 얻는다.

@@ -45,7 +45,7 @@ class socialxeProviderXE extends socialxeProvider{
 	}
 
 	// 링크
-	function getAuthorLink($id){
+	function getAuthorLink($id, $nick_name){
 		return;
 	}
 

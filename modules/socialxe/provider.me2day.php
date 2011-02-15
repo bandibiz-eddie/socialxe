@@ -34,7 +34,7 @@ class socialxeProviderMe2day extends socialxeProvider{
 	}
 
 	// 링크
-	function getAuthorLink($id){
+	function getAuthorLink($id, $nick_name){
 		return 'http://me2day.net/' . $id;
 	}
 

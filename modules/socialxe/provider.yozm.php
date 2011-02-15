@@ -34,7 +34,7 @@ class socialxeProviderYozm extends socialxeProvider{
 	}
 
 	// 링크
-	function getAuthorLink($id){
+	function getAuthorLink($id, $nick_name){
 		return 'http://yozm.daum.net/' . $id;
 	}
 

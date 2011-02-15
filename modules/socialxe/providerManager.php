@@ -389,10 +389,10 @@ class socialxeProviderManager{
 	}
 
 	// 소셜 서비스 링크
-	function getAuthorLink($provider, $id){
+	function getAuthorLink($provider, $id, $nick_name){
 		if (!$this->inProvider($provider)) return;
 
-		return $this->provider[$provider]->getAuthorLink($id);
+		return $this->provider[$provider]->getAuthorLink($id, $nick_name);
 	}
 
 	// 소셜 서비스의 리플 형식으로 반환

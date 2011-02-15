@@ -34,7 +34,7 @@ class socialxeProviderFacebook extends socialxeProvider{
 	}
 
 	// 링크
-	function getAuthorLink($id){
+	function getAuthorLink($id, $nick_name){
 		return 'http://www.facebook.com/profile.php?id=' . $id;
 	}
 

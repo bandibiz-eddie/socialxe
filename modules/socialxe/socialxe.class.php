@@ -32,9 +32,11 @@
 			array('module.deleteModule', 'socialxe', 'controller', 'deleteModuleSocial', 'after')
 		);
 
+		// 테이블명, 컬럼명, 종류, 길이, default, notnull
 		var $add_column = array(
 			array('socialxe', 'social_nick_name', 'varchar', 255, null, null),
-			array('socialxe', 'module_srl', 'number', 11, 0, true)
+			array('socialxe', 'module_srl', 'number', 11, 0, true),
+			array('socialxe_info', 'nick_name', 'varchar', 100, null, true)
 		);
 
 		var $add_index = array(

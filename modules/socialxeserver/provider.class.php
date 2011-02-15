@@ -35,6 +35,53 @@ class socialxeServerProvider {
 		return;
 	}
 
+	function cut_str($string,$cut_size=0,$tail = '...'){
+		if($cut_size<1 || !$string) return $string;
+
+		$string_length = strlen($string);
+		$char_count = 0;
+
+		$idx = 0;
+		while($idx < $string_length && $char_count < $cut_size) {
+			$c = ord(substr($string, $idx,1));
+			$char_count++;
+			if($c<128){
+				$idx++;
+			}else if (191<$c && $c < 224){
+				$idx += 2;
+			}else{
+				$idx += 3;
+			}
+		}
+
+		$output = substr($string,0,$idx);
+		if(strlen($output)<$string_length) $output .= $tail;
+
+		return $output;
+	}
+
+	function strlen($string){
+		if (!$string) return 0;
+
+		$string_length = strlen($string);
+		$char_count = 0;
+
+		$idx = 0;
+		while($idx < $string_length){
+			$c = ord(substr($string, $idx,1));
+			$char_count++;
+			if($c<128){
+				$idx++;
+			}else if (191<$c && $c < 224){
+				$idx += 2;
+			}else{
+				$idx += 3;
+			}
+		}
+
+		return $char_count;
+	}
+
 	function getNotEncodedFullUrl() {
 		$num_args = func_num_args();
 		$args_list = func_get_args();
