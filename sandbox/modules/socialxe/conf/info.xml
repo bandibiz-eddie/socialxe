@@ -2,8 +2,8 @@
 <module version="0.2">
 	<title xml:lang="ko">SocialXE</title>
 	<description xml:lang="ko">소셜 기능 사용을 지원합니다.</description>
-	<version>1.0.1</version>
-	<date>2011-02-11</date>
+	<version>1.0.2</version>
+	<date>2011-02-15</date>
 	<category>accessory</category>
 	<license link="http://www.opensource.org/licenses/mit-license.php">MIT</license>
 
