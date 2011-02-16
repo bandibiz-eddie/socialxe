@@ -2,8 +2,8 @@
 <widget version="0.2">
 	<title xml:lang="ko">SocialXE 댓글</title>
 	<description xml:lang="ko">SocialXE 댓글</description>
-	<version>1.0</version>
-	<date>2011-02-07</date>
+	<version>1.0.1</version>
+	<date>2011-02-16</date>
 	<license>MIT</license>
 
 	<author email_address="flysky@flysky.kr" link="http://socialxe.net">
