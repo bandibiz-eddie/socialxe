@@ -127,7 +127,7 @@ class socialxeServerProviderTwitter extends socialxeServerProvider{
 
 		// 부모 댓글이 트위터면 멘션 처리
 		if ($comment->parent && $comment->parent->provider == 'twitter'){
-			$content2 = '@' . $comment->parent->id . ' ' . $content2;
+			$content2 = '@' . $comment->parent->social_nick_name . ' ' . $content2;
 			$reply_id = $comment->parent->comment_id;
 			$result->add('reply', true);
 		}

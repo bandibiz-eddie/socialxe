@@ -125,12 +125,15 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
 		// 내용 길이가 최대 길이를 넘는지 확인
 		$content = $this->cut_str($content2, $max_length-3, '...');
 
+		// 1x1 투명 gif 파일...
+		$image = Context::getRequestUri() . 'modules/socialxeserver/tpl/images/blank.gif';
+
 		// 부모 댓글이 페이스북이면 댓글 처리
 		if ($comment->parent && $comment->parent->provider == 'facebook'){
 			$reply_id = $comment->parent->comment_id;
 
 			try{
-				$output = $fb->api($comment->parent->id . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => '0'));
+				$output = $fb->api($comment->parent->id . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => $image));
 			}catch(FacebookApiException $e){
 				$output->error = $e->__toString();
 			}
@@ -140,7 +143,7 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
 		// 댓글 전송
 		else{
 			try{
-				$output = $fb->api($fb->getUser() . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => '0'));
+				$output = $fb->api($fb->getUser() . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => $image));
 			}catch(FacebookApiException $e){
 				$output->error = $e->__toString();
 			}
