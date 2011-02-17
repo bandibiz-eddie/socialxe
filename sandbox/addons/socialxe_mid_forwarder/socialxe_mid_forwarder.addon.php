@@ -2,6 +2,7 @@
 	if(!defined("__ZBXE__")) exit();
 
 	if($called_position != 'before_module_init') return;
+	if(!Context::get('document_srl')) return;
 
 	// 데이터 준비
 	$document_srls = explode(',', $addon_info->document_srls);
