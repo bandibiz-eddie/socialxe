@@ -4,9 +4,9 @@
 	if($called_position != 'before_module_init') return;
 
 	// 데이터 준비
-	$mids = explode(',', $addon_info->mids);
-	foreach($mids as $no => $val){
-		$mids[$no] = trim($val);
+	$document_srls = explode(',', $addon_info->document_srls);
+	foreach($document_srls as $no => $val){
+		$document_srls[$no] = trim($val);
 	}
 
 	$forward_mids = explode(',', $addon_info->forward_mids);
@@ -14,8 +14,8 @@
 		$forward_mids[$no] = trim($val);
 	}
 
-	// 현재 mid 검사
-	$index = array_search(Context::get('mid'), $mids);
+	// 현재 document_srl 검사
+	$index = array_search(Context::get('document_srl'), $document_srls);
 	if ($index === false) return;
 
 	// mid 변경
