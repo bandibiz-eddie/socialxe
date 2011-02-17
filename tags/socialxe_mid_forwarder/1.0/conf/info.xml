@@ -13,14 +13,14 @@
 	</author>
 
 	<extra_vars>
-		<var name="mids" type="text">
-			<title xml:lang="ko">원본 mid 목록</title>
-			<description xml:lang="ko">원본 mid 목록을 콤마(,)로 구분하여 적어주세요.</description>
+		<var name="document_srls" type="text">
+			<title xml:lang="ko">원본 document_srl 목록</title>
+			<description xml:lang="ko">원본 document_srl 목록을 콤마(,)로 구분하여 적어주세요.</description>
 		</var>
 
 		<var name="forward_mids" type="text">
 			<title xml:lang="ko">목표 mid 목록</title>
-			<description xml:lang="ko">원본 mid 목록의 순서대로 목표 mid 목록을 콤마(,)로 구분하여 적어주세요.</description>
+			<description xml:lang="ko">원본 document_srl 목록의 순서대로 목표 mid 목록을 콤마(,)로 구분하여 적어주세요.</description>
 		</var>
 	</extra_vars>
 </addon>
