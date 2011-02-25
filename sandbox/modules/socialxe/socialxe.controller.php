@@ -685,6 +685,9 @@
 			// 비밀글인지 확인
 			if ($document->is_secret == 'Y') return new Object();
 
+			// 임시저장인지 확인
+			if ($document->act == 'procMemberSaveDocument') return new Object();
+
 			// 소셜 사이트로 전송한다.
 
 			// 데이터 준비
