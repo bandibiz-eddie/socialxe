@@ -2,7 +2,7 @@
 <widget version="0.2">
 	<title xml:lang="ko">SocialXE 정보</title>
 	<description xml:lang="ko">현재 자신의 소셜 로그인 상태를 출력해줍니다.</description>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<date>2011-02-17</date>
 	<license>MIT</license>
 

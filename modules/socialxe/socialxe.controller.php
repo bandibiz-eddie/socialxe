@@ -68,15 +68,15 @@
 			$oDocument = $oDocumentModel->getDocument($args->document_srl);
 			if (!$oDocument->allowComment()) return new Object(-1, 'msg_invalid_request');
 
-			// 해당 문서가 비밀글인지 확인
-			if ($oDocument->isSecret()) return new Object();
-
 			// 데이터를 준비
 			$args->parent_srl = Context::get('comment_srl');
 			$args->content = nl2br(htmlspecialchars(Context::get('content')));
 			$args->nick_name = $this->providerManager->getMasterProviderNickName();
 			$args->content_link = Context::get('content_link');
 			$args->content_title = Context::get('content_title');
+
+			// 해당 문서가 비밀글인지 확인
+			if ($oDocument->isSecret()) $args->is_secret = 'Y';
 
 			// 댓글의 moduel_srl
 			$oModuleModel = &getModel('module');
@@ -138,10 +138,15 @@
 		// 소셜 사이트로 전송
 		function sendSocialComment($args, $comment_srl, &$msg, $manual_data = null){
 			// 소셜 서비스로 댓글 전송
-			$output = $this->communicator->sendComment($args, $manual_data);
-			if (!$output->toBool()) return $output;
+			if ($args->is_secret != 'Y'){
+				$output = $this->communicator->sendComment($args, $manual_data);
+				if (!$output->toBool()) return $output;
 
-			$msg = $output->get('msg');
+				$msg = $output->get('msg');
+			}else{
+				// $output이 아래에서 쓰이기 때문에 빈 Object를 만든다.
+				$output = new Object();
+			}
 
 			// 추가 정보 준비
 			$args->comment_srl = $comment_srl;
@@ -684,6 +689,9 @@
 
 			// 비밀글인지 확인
 			if ($document->is_secret == 'Y') return new Object();
+
+			// 임시저장인지 확인
+			if ($document->act == 'procMemberSaveDocument') return new Object();
 
 			// 소셜 사이트로 전송한다.
 
