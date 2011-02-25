@@ -29,7 +29,9 @@
 			array('comment.insertComment', 'socialxe', 'controller', 'triggerInsertComment', 'after'),
 			array('document.insertDocument', 'socialxe', 'controller', 'triggerInsertDocument', 'after'),
 			array('document.deleteDocument', 'socialxe', 'controller', 'triggerDeleteDocument', 'after'),
-			array('module.deleteModule', 'socialxe', 'controller', 'deleteModuleSocial', 'after')
+			array('module.deleteModule', 'socialxe', 'controller', 'deleteModuleSocial', 'after'),
+			array('document.updateDocument', 'socialxe', 'controller', 'triggerBeforeUpdateDocument', 'before'),
+			array('document.updateDocument', 'socialxe', 'controller', 'triggerAfterUpdateDocument', 'after')
 		);
 
 		// 테이블명, 컬럼명, 종류, 길이, default, notnull

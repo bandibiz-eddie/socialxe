@@ -690,11 +690,49 @@
 			// 비밀글인지 확인
 			if ($document->is_secret == 'Y') return new Object();
 
-			// 임시저장인지 확인
-			if ($document->act == 'procMemberSaveDocument') return new Object();
+			// 임시저장, 게시물 관리 때는 실행하지 않는다.
+			if (in_array(Context::get('act'), array('procMemberSaveDocument', 'procDocumentManageCheckedDocument'))) return new Object();
 
 			// 소셜 사이트로 전송한다.
+			$this->sendDocumentToSocial($document, $module_info);
 
+			return new Object();
+		}
+
+		// 글 업데이트 전 트리거
+		function triggerBeforeUpdateDocument(&$obj){
+			// 게시물 관리 때는 실행하지 않는다.
+			if (Context::get('act') == 'procDocumentManageCheckedDocument') return new Object();
+
+			// 글을 가져온다.
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+
+			// 글의 module_srl과 obj의 module_srl이 다르다면 임시저장된 글을 등록한다고 판단할 수 있다.
+			if ($oDocument->get('module_srl') == $obj->module_srl) return new Object();
+
+			// 글 업데이트 후 트리거에서 실행하도록 글로벌 변수를 하나 설정한다.
+			$GLOBALS['socialxe_update_document_flag'] = true;
+
+			return new Object();
+		}
+
+		// 글 업데이트 후 트리거
+		function triggerAfterUpdateDocument(&$obj){
+			// 플래그 설정되었는지 확인
+			if (!$GLOBALS['socialxe_update_document_flag']) return new Object();
+
+			// 비밀글인지 확인
+			if ($obj->is_secret == 'Y') return new Object();
+
+			// 소셜 전송
+			$this->sendDocumentToSocial($obj, null);
+
+			return new Object();
+		}
+
+		// 글을 소셜 전송
+		function sendDocumentToSocial($document, $module_info){
 			// 데이터 준비
 			$args->module_srl = $document->module_srl;
 			$args->content = '';
@@ -710,8 +748,6 @@
 			// 소셜 서비스로 전송
 			$output = $this->sendSocialComment($args, $document->document_srl, $msg);
 			// 에러는 무시하자...
-
-			return new Object();
 		}
 
 		// 글 삭제 트리거
