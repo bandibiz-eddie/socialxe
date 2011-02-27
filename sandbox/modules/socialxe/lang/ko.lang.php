@@ -12,7 +12,7 @@
 	$lang->about_hashtag = '소셜 서비스로 글이 전송될 때 표시될 태그를 설정하세요. (#생략하고 작성)';
 	$lang->select_service = '서비스 선택';
 	$lang->use_social_login = '소셜 로그인 사용';
-	$lang->about_use_social_login = '사이트에 별도의 회원가입 없이 소셜 네트워크 아이디로 로그인 가능하게 하려면 체크하세요';
+	$lang->about_use_social_login = '사이트에 별도의 회원가입 없이 소셜 네트워크 아이디로 로그인 가능하게 하려면 체크하세요.';
 	$lang->use_social_info = '소셜 정보 통합 사용';
 	$lang->about_use_social_info = '회원 정보에 소셜 정보를 통합하고 글, 댓글에 대해 자동으로 소셜 연동이 되도록 합니다.';
 	$lang->about_part_social_info = '이 모듈에서 쓰는 글, 댓글에 대해 소셜 통합 기능을 이용할 수 있도록 합니다.';
@@ -43,7 +43,7 @@
 	$lang->bitly_summary = 'bit.ly 통계 페이지';
 	$lang->bitly_info = '정보 페이지';
 
-	$lang->msg_login = '선택하신 서비스로 로그인 요청 중입니다.<br/>잠시만 기다려주세요.';
+	$lang->msg_login = '선택하신 서비스로 로그인 요청 중입니다.<br />잠시만 기다려주세요.';
 	$lang->msg_request_error = 'SocialXE 서버에 API 요청이 실패했습니다.';
 	$lang->msg_invalid_provider = '올바른 서비스 제공자가 아닙니다.';
 	$lang->msg_invalid_request_client = '인증된 클라이언트가 아닙니다.';
