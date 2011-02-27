@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
 	<title xml:lang="ko">SocialXE mid 포워더</title>
+	<title xml:lang="en">SocialXE mid Forwarder</title>
 	<description xml:lang="ko">
 		페이지에 SocialXE 댓글 위젯을 넣었을 경우 더미 게시판으로 접근을 위젯이 달린 페이지로 보낼 때 사용합니다.
+	</description>
+	<description xml:lang="en">
+		If you put a SocialXE Comment widget on a page, this addon would redirect a request to a dummy post of a board to the page.
 	</description>
 	<license>MIT</license>
 	<version>1.0</version>
@@ -10,17 +14,22 @@
 
 	<author email_address="flysky@flysky.kr" link="http://socialxe.net/">
 		<name xml:lang="ko">난다날아</name>
+		<name xml:lang="en">flysky</name>
 	</author>
 
 	<extra_vars>
 		<var name="document_srls" type="text">
 			<title xml:lang="ko">원본 document_srl 목록</title>
+			<title xml:lang="en">Original document_srl list</title>
 			<description xml:lang="ko">원본 document_srl 목록을 콤마(,)로 구분하여 적어주세요.</description>
+			<description xml:lang="en">Write original document_srl list with comma(,) to divide each documents.</description>
 		</var>
 
 		<var name="forward_mids" type="text">
 			<title xml:lang="ko">목표 mid 목록</title>
+			<title xml:lang="en">Target mid list</title>
 			<description xml:lang="ko">원본 document_srl 목록의 순서대로 목표 mid 목록을 콤마(,)로 구분하여 적어주세요.</description>
+			<description xml:lang="en">As the order of writen original document_srl list before, write target each mid divided by comma(,).</description>
 		</var>
 	</extra_vars>
 </addon>

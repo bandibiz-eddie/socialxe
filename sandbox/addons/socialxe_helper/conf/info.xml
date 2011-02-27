@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
 	<title xml:lang="ko">SocialXE 도우미</title>
+	<title xml:lang="en">SocialXE Helper</title>
 	<description xml:lang="ko">
 		SocialXE의 소셜 통합 기능을 지원하기 위한 애드온입니다.
 		회원 메뉴에 소셜 아이디 설정 메뉴를 추가하고, 다른 회원의 아이디 클릭 시 소셜 정보 보기를 추가합니다.
@@ -12,5 +13,6 @@
 
 	<author email_address="flysky@flysky.kr" link="http://socialxe.net/">
 		<name xml:lang="ko">난다날아</name>
+		<name xml:lang="en">flysky</name>
 	</author>
 </addon>

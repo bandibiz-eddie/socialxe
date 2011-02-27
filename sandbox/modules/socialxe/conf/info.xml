@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
 	<title xml:lang="ko">SocialXE</title>
+	<title xml:lang="en">SocialXE</title>
 	<description xml:lang="ko">소셜 기능 사용을 지원합니다.</description>
+	<description xml:lang="en">Support SNS function using.</description>
 	<version>1.0.4</version>
 	<date>2011-02-16</date>
 	<category>accessory</category>
@@ -9,5 +11,6 @@
 
 	<author email_address="flysky@flysky.kr" link="http://socialxe.net/">
 		<name xml:lang="ko">난다날아</name>
+		<name xml:lang="en">flysky</name>
 	</author>
 </module>
