@@ -136,7 +136,7 @@ class socialxeCommunicator{
 		}
 
 		// 데이터 준비
-		$comment->content = strip_tags($args->content);
+		$comment->content = $args->content;
 		$comment->content_link = $args->content_link;
 		$comment->hashtag = $config->hashtag;
 		$comment->content_title = $args->content_title;
