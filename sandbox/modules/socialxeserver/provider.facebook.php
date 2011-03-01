@@ -39,7 +39,7 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
 		// URL 생성
 		try{
 			$loginUrl = $fb->getLoginUrl(array(
-				"req_perms" => "publish_stream,offline_access",
+				"req_perms" => "publish_stream,offline_access,email",
 				"display" => $display,
 				"next" => $this->callback,
 				"cancel_url" => $this->callback
@@ -128,12 +128,12 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
 		// 1x1 투명 gif 파일...
 		$image = Context::getRequestUri() . 'modules/socialxeserver/tpl/images/blank.gif';
 
-		// 부모 댓글이 페이스북이면 댓글 처리
+		// 부모 댓글이 페이스북이면 메일로 댓글 알림
 		if ($comment->parent && $comment->parent->provider == 'facebook'){
 			$reply_id = $comment->parent->comment_id;
 
 			try{
-				$output = $fb->api($comment->parent->id . '/feed', 'POST', array('message' => $content, 'link' => $comment->content_link, 'picture' => $image));
+				$output = $fb->api(array('method' => 'notifications.sendEmail', 'recipients' => $comment->parent->id, 'subject' => $title, 'text' => $content . ' ' . $comment->content_link));
 			}catch(FacebookApiException $e){
 				$output->error = $e->__toString();
 			}
