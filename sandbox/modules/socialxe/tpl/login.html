@@ -1,5 +1,8 @@
 {@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
 
+<!--//window.location.href='{$url}'; -->
+<!--%import("js/submit_login.js")-->
+
 <!--%import("css/style.css")-->
 
 <div id="login_info">{$lang->msg_login} <img src="./images/spinner.gif" /></div>
@@ -20,10 +23,3 @@
 	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="vid" value="{$vid}" />
 </form>
-
-<script type="text/javascript">
-//    window.location.href='{$url}';
-	jQuery(window).load(function() {
-		jQuery("#move").submit();
-	});
-</script>
