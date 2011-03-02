@@ -45,7 +45,7 @@
 				$this->session->setSession('widget_skin', $widget_skin);
 
 				// 로그인 안내 페이지 표시후 진행할 URL
-				$url = getNotEncodedUrl('js', '', 'skin', '');
+				$url = getUrl('js', '', 'skin', '', 'js2', 1);
 				Context::set('url', $url);
 
 				// 로그인 안내 페이지 표시

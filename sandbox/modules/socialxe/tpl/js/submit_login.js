@@ -1,1 +1,1 @@
-jQuery(document).ready(function() {jQuery("#move").submit();});
+jQuery(document).ready(function($) {$("#move").submit();});

@@ -44,6 +44,7 @@
 	$lang->bitly_info = '정보 페이지';
 
 	$lang->msg_login = '선택하신 서비스로 로그인 요청 중입니다.<br />잠시만 기다려주세요.';
+	$lang->msg_redirect = '오랫동안 응답이 없다면 이곳을 클릭하세요.';
 	$lang->msg_request_error = 'SocialXE 서버에 API 요청이 실패했습니다.';
 	$lang->msg_invalid_provider = '올바른 서비스 제공자가 아닙니다.';
 	$lang->msg_invalid_request_client = '인증된 클라이언트가 아닙니다.';

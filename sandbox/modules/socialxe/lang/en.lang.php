@@ -45,6 +45,7 @@
 	$lang->bitly_info = 'bit.ly information page';
 
 	$lang->msg_login = 'Sending request to selected SNS for sign in.<br />Please wait a moment.';
+	$lang->msg_redirect = 'If your browser doesn\'t work for a long time, click here.';
 	$lang->msg_request_error = 'Fail to send SocialXE API request.';
 	$lang->msg_invalid_provider = 'Invalid service provider.';
 	$lang->msg_invalid_request_client = 'Uncertified client.';
