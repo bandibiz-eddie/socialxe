@@ -117,7 +117,7 @@
 			}
 
 			// 태그 제거 htmlspecialchars 복원
-			$args->content = str_replace(array('&amp;', '&quot;', '&#039;', '&lt;', '&gt;'), array('&', '"', '\'', '<', '>'), strip_tags($args->content));
+			$args->content = $this->htmlEntityDecode(strip_tags($args->content));
 
 			// 소셜 서비스로 댓글 전송
 			$output = $this->sendSocialComment($args, $comment_srl, $msg);
@@ -733,11 +733,20 @@
 
 		// 글을 소셜 전송
 		function sendDocumentToSocial($document, $module_info){
+			// 파일 첨부 시 이미 생성된 전역 변수로 인해 제대로 가져오기 못한다.
+			// 전역 변수를 없애버린다!
+			unset($GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl]);
+
+			// 글을 가져온다.
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument($document->document_srl);
+
 			// 데이터 준비
 			$args->module_srl = $document->module_srl;
 			$args->content = '';
 			$args->content_link = getNotEncodedFullUrl('', 'document_srl', $document->document_srl);
-			$args->content_title = $document->title;
+			$args->content_title = $this->htmlEntityDecode($document->title);
+			$args->content_thumbnail = $oDocument->getThumbnail(250, 250);
 
 			// 플래닛은 따로 처리
 			if ($module_info->module == "planet"){
@@ -777,8 +786,9 @@
 
 			// 데이터 준비
 			$args->module_srl = $comment->module_srl;
-			$args->content = cut_str(strip_tags($comment->content), 400, '');
+			$args->content = $this->htmlEntityDecode(cut_str(strip_tags($comment->content), 400, ''));
 			$args->content_link = getFullUrl('', 'document_srl', $comment->document_srl) . '#comment_' . $comment->comment_srl;
+			$args->content_thumbnail = $oDocument->getThumbnail(250, 250);
 
 			// 댓글의 최고 부모 댓글을 구한다.
 			$output = executeQuery('comment.getCommentListItem', $comment);
@@ -816,7 +826,7 @@
 			}
 
 			if (!$args->parent_srl){
-				$args->content_title = $oDocument->getTitleText();
+				$args->content_title = $this->htmlEntityDecode($oDocument->getTitleText());
 			}
 
 			// 소셜 서비스로 전송

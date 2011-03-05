@@ -1,8 +1,11 @@
 {@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
 
+<!--//window.location.href='{$url}'; -->
+<!--%import("js/submit_login.js")-->
+
 <!--%import("css/style.css")-->
 
-<div id="login_info">{$lang->msg_login} <img src="./images/spinner.gif" /></div>
+<div id="login_info"><p>{$lang->msg_login} <img src="./images/spinner.gif" /></p><p><a href="{$url}">{$lang->msg_redirect}</a></p></div>
 
 <!--//
 	meta reflash, window.location 모두 리퍼러에 문제가 있다 ㅡㅡ
@@ -20,10 +23,3 @@
 	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="vid" value="{$vid}" />
 </form>
-
-<script type="text/javascript">
-//    window.location.href='{$url}';
-	jQuery(window).load(function() {
-		jQuery("#move").submit();
-	});
-</script>

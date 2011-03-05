@@ -64,7 +64,7 @@
 							'$oSocialxeModel = &getModel("socialxe");' .
 							'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id, $social_info->social_nick_name);' .
 							'$lang_provider = Context::getLang("provider");' .
-							'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;">\' . Context::getLang("prefix_social_info") . \'<a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div>\';'
+							'return \'<div class="socialxe_helper_info" style="text-align: right;"><a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div>\' . $matches[0];'
 						), $output);
 
 			// 문서의 소셜 정보 출력
@@ -75,7 +75,7 @@
 							'$oSocialxeModel = &getModel("socialxe");' .
 							'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id, $social_info->social_nick_name);' .
 							'$lang_provider = Context::getLang("provider");' .
-							'return $matches[0] . \'<div class="socialxe_helper_info" style="float: right;">\' . Context::getLang("prefix_social_info") . \'<a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div><div style="clear:both;"></div>\';'
+							'return \'<div class="socialxe_helper_info" style="text-align: right;"><a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div>\' . $matches[0];'
 						), $output);
 		}
 	}

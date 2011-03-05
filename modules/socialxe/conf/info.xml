@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
 	<title xml:lang="ko">SocialXE</title>
+	<title xml:lang="en">SocialXE</title>
+	<title xml:lang="jp">SocialXE</title>
 	<description xml:lang="ko">소셜 기능 사용을 지원합니다.</description>
-	<version>1.0.4</version>
-	<date>2011-02-16</date>
+	<description xml:lang="en">Support SNS function using.(transltated by misol)</description>
+	<description xml:lang="jp">ソーシャル機能使用をサポートします。(translated by SeklutZ)</description>
+	<version>1.0.5</version>
+	<date>2011-03-05</date>
 	<category>accessory</category>
 	<license link="http://www.opensource.org/licenses/mit-license.php">MIT</license>
 
 	<author email_address="flysky@flysky.kr" link="http://socialxe.net/">
 		<name xml:lang="ko">난다날아</name>
+		<name xml:lang="en">flysky</name>
+		<name xml:lang="jp">flysky</name>
 	</author>
 </module>

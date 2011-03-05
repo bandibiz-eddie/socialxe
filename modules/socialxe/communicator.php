@@ -136,10 +136,11 @@ class socialxeCommunicator{
 		}
 
 		// 데이터 준비
-		$comment->content = strip_tags($args->content);
+		$comment->content = $args->content;
 		$comment->content_link = $args->content_link;
 		$comment->hashtag = $config->hashtag;
 		$comment->content_title = $args->content_title;
+		$comment->content_thumbnail = $args->content_thumbnail;
 
 		// 대댓글이면 부모 댓글의 정보를 준비
 		if ($args->parent_srl){
