@@ -733,11 +733,20 @@
 
 		// 글을 소셜 전송
 		function sendDocumentToSocial($document, $module_info){
+			// 파일 첨부 시 이미 생성된 전역 변수로 인해 제대로 가져오기 못한다.
+			// 전역 변수를 없애버린다!
+			unset($GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl]);
+
+			// 글을 가져온다.
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument($document->document_srl);
+
 			// 데이터 준비
 			$args->module_srl = $document->module_srl;
 			$args->content = '';
 			$args->content_link = getNotEncodedFullUrl('', 'document_srl', $document->document_srl);
 			$args->content_title = $this->htmlEntityDecode($document->title);
+			$args->content_thumbnail = $oDocument->getThumbnail(250, 250);
 
 			// 플래닛은 따로 처리
 			if ($module_info->module == "planet"){
@@ -779,6 +788,7 @@
 			$args->module_srl = $comment->module_srl;
 			$args->content = $this->htmlEntityDecode(cut_str(strip_tags($comment->content), 400, ''));
 			$args->content_link = getFullUrl('', 'document_srl', $comment->document_srl) . '#comment_' . $comment->comment_srl;
+			$args->content_thumbnail = $oDocument->getThumbnail(250, 250);
 
 			// 댓글의 최고 부모 댓글을 구한다.
 			$output = executeQuery('comment.getCommentListItem', $comment);
