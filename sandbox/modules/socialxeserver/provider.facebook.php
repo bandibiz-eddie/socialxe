@@ -125,8 +125,15 @@ class socialxeServerProviderFacebook extends socialxeServerProvider{
 		// 내용 길이가 최대 길이를 넘는지 확인
 		$content = $this->cut_str($content2, $max_length-3, '...');
 
-		// 1x1 투명 gif 파일...
-		$image = Context::getRequestUri() . 'modules/socialxeserver/tpl/images/blank.gif';
+		// 썸네일이 제공되면 그것을 사용
+		if ($comment->content_thumbnail){
+			$image = $comment->content_thumbnail;
+		}
+
+		// 썸네일 없으면 1x1 투명 gif 파일...
+		else{
+			$image = Context::getRequestUri() . 'modules/socialxeserver/tpl/images/blank.gif';
+		}
 
 		// 부모 댓글이 페이스북이면 메일로 댓글 알림
 		if ($comment->parent && $comment->parent->provider == 'facebook'){
