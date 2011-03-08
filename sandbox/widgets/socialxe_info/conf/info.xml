@@ -2,8 +2,10 @@
 <widget version="0.2">
 	<title xml:lang="ko">SocialXE 정보</title>
 	<title xml:lang="en">SocialXE Information</title>
+	<title xml:lang="zh-TW">SocialXE 資料</title>
 	<description xml:lang="ko">현재 자신의 소셜 로그인 상태를 출력해줍니다.</description>
 	<description xml:lang="en">Display his(or her) current status of SNS sign in.</description>
+	<description xml:lang="zh-TW">顯示目前的社交服務登入狀態。</description>
 	<version>1.0.3</version>
 	<date>2011-03-05</date>
 	<license>MIT</license>
@@ -11,5 +13,6 @@
 	<author email_address="flysky@flysky.kr" link="http://socialxe.net">
 		<name xml:lang="ko">난다날아</name>
 		<name xml:lang="en">flysky</name>
+		<name xml:lang="zh-TW">flysky</name>
 	</author>
 </widget>
