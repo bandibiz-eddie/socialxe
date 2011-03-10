@@ -6,8 +6,8 @@
 	<description xml:lang="ko">SocialXE 서버</description>
 	<description xml:lang="jp">SocialXEサーバ</description>
 	<description xml:lang="en">SocialXE Server</description>
-	<version>1.0.7</version>
-	<date>2011-03-05</date>
+	<version>1.0.8</version>
+	<date>2011-03-10</date>
 	<category>accessory</category>
 	<license link="http://www.opensource.org/licenses/mit-license.php">MIT</license>
 
