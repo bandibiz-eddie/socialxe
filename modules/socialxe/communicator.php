@@ -33,7 +33,8 @@ class socialxeCommunicator{
 		// 제공하는 서비스인지 확인
 		if (!$this->providerManager->inProvider($provider)){
 			$result->setError(-1);
-			return $result->setMessage('msg_invalid_provider');
+			$result->setMessage('msg_invalid_provider');
+			return $result;
 		}
 
 		// 요청 토큰을 얻는다.

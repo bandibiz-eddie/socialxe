@@ -703,6 +703,14 @@
 		function triggerBeforeUpdateDocument(&$obj){
 			// 게시물 관리 때는 실행하지 않는다.
 			if (Context::get('act') == 'procDocumentManageCheckedDocument') return new Object();
+			
+			// widget, textyle 모듈은 실행하지 않는다.
+			$module_info = Context::get('module_info');
+			if (!$module_info->module){
+				$oModuleModel = &getModel('module');
+				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_info->module_srl);
+			}
+			if (in_array($module_info->module, array('widget', 'textyle'))) return new Object();
 
 			// 글을 가져온다.
 			$oDocumentModel = &getModel('document');
