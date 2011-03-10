@@ -50,7 +50,7 @@
 
 		if ($res->data){
 			// CSS 파일 불러오기
-			Context::addCssFile($addon_path . 'css/css.css');
+			Context::addCssFile('./addons/socialxe_helper/css/css.css');
 
 			// 소셜 정보를 가공
 			foreach($res->data as $val){
