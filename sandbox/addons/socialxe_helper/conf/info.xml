@@ -14,6 +14,12 @@
 		Textyleには発行画面下段にSocialXE Infoウィジェットをロードされて、ソーシャルサイトへの同時発行が出来ます。
 		(translated by SeklutZ)
 	</description>
+	<description xml:lang="en">
+		This addon support Social information integrating function of SocialXE.
+		Add the 'SNS Configuration' item on a member's menu.
+		Add 'View SNS information' menu, when you click the other member's ID.
+		On Textyle module, it will display SocialXE Info widget, and post a new document to SNS at the same time.
+	</description>
 	<license>MIT</license>
 	<version>1.0.3</version>
 	<date>2011-03-05</date>
@@ -23,4 +29,24 @@
 		<name xml:lang="en">flysky</name>
 		<name xml:lang="jp">flysky</name>
 	</author>
+	<extra_vars>
+		<var name="is_view_info" type="select">
+			<title xml:lang="ko">전송 정보 표시</title>
+			<title xml:lang="en">Display, posted or not</title>
+			<title xml:lang="jp">Display, posted or not</title>
+			<options value="0">
+				<title xml:lang="ko">표시</title>
+				<title xml:lang="en">Display</title>
+				<title xml:lang="jp">Display</title>
+			</options>
+			<options value="1">
+				<title xml:lang="ko">표시 안함</title>
+				<title xml:lang="en">Do not display</title>
+				<title xml:lang="jp">Do not display</title>
+			</options>
+			<description xml:lang="ko">글과 댓글에 소셜 전송 정보를 표시하거나 표시 않을 수 있습니다. (기본값: 표시)</description>
+			<description xml:lang="en">You can select whether to display SNS posted information or not on a document or comments in a page. (default value: Display)</description>
+			<description xml:lang="jp">You can select whether to display SNS posted information or not on a document or comments in a page. (default value: Display)</description>
+		</var>
+	</extra_vars>
 </addon>

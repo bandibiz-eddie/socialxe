@@ -29,6 +29,9 @@
 
 	// 현재 화면의 글, 댓글 번호를 수집하여 소셜 전송 정보를 출력해준다.
 	if($called_position == 'before_display_content' && Context::getResponseMethod() == 'HTML'){
+		// 소셜 전송 정보를 출력하지 않게 설정 되어 있는지 확인
+		if($addon_info->is_view_info == 1) return;
+
 		// 댓글
 		$pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
 		unset($matches);
