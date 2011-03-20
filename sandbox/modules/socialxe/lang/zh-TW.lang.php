@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Traditional Chinese for SocialXE Client Module was translated by royallin <royallin11@gmail.com>.
 	$lang->socialxe = 'SocialXE';
 	$lang->client_token = 'Client Token';
@@ -25,7 +25,7 @@
 	$lang->title_social_info = '社交資料';
 	$lang->about_social_info = '在此可設定網站主要設定。 當您登入網站時將會套用該設定，並可輕鬆地登入或登出社交服務。';
 	$lang->title_social_login = '社交登入';
-	$lang->about_social_login = '使用 SNS帳號登入不用再網站註冊帳號。 如果使用 SNS帳號登入，該站將會要求基本資料像是 E-mail並儲存在我們的主機上，但其他資料及社交登入步驟 be handled by SNS site.';
+	$lang->about_social_login = '使用社交帳號登入不用再網站註冊帳號。 如果使用社交帳號登入，該站將會要求並儲存 E-mail等基本資料，但其他資料還是歸社交網站所管。';
 
 	$lang->cmd_unlink_social_info = '取消連線';
 	$lang->cmd_link_social_info = '連線';
