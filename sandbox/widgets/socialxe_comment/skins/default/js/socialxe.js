@@ -74,6 +74,9 @@ function replaceList(ret_obj){
 
 	// 오토링크
 	runAutoLink();
+
+	// 대댓글 펼치기 초기 수행
+	autoViewSubComment();
 }
 
 // 목록 더보기
@@ -194,8 +197,12 @@ function getAutoLoginKey(url, skin){
 		params['auto_login_key'] = json.auto_login_key;
 		params['skin'] = skin;
 		var response_tags = new Array('error','message','output');
-		exec_xml('socialxe', 'procSocialxeSetAutoLoginKey', params, replaceInput, response_tags);
+		exec_xml('socialxe', 'procSocialxeSetAutoLoginKey', params, completeAutoLogin, response_tags);
 	});
+}
+function completeAutoLogin(ret_obj){
+	replaceInput(ret_obj);
+	socialxe_auto_login_key = 'Y';
 }
 
 // 등록 시작하면 등록 비활성
@@ -248,6 +255,7 @@ function enterSend(){
 // 대댓글 자동 펼침
 function autoViewSubComment(){
 	if (socialxe_auto_view_sub != 'Y') return;
+	if (socialxe_auto_login_key != 'Y') return;
 
 	// 대댓글 영역의 위치를 확인
 	jQuery(".socialxe_comment .sub_comment").each(function(){
