@@ -69,5 +69,26 @@
 				<name xml:lang="zh-TW">停用</name>
 			</options>
 		</var>
+		<var id="auto_view_sub">
+			<type>select</type>
+			<name xml:lang="ko">대댓글 자동 펼침</name>
+			<name xml:lang="en">대댓글 자동 펼침</name>
+			<name xml:lang="jp">대댓글 자동 펼침</name>
+			<name xml:lang="zh-TW">대댓글 자동 펼침</name>
+			<options>
+				<value>N</value>
+				<name xml:lang="ko">사용안함</name>
+				<name xml:lang="en">Deactivate</name>
+				<name xml:lang="jp">使わない</name>
+				<name xml:lang="zh-TW">停用</name>
+			</options>
+			<options>
+				<value>Y</value>
+				<name xml:lang="ko">사용</name>
+				<name xml:lang="en">Activate</name>
+				<name xml:lang="jp">使う</name>
+				<name xml:lang="zh-TW">啟用</name>
+			</options>
+		</var>
 	</extra_vars>
 </widget>

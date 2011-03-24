@@ -110,6 +110,9 @@ function moreList(ret_obj){
 
 	// 오토링크
 	runAutoLink();
+
+	// 대댓글 펼치기 초기 수행
+	autoViewSubComment();
 }
 
 // 대댓글보기
@@ -242,6 +245,26 @@ function enterSend(){
 	});
 }
 
+// 대댓글 자동 펼침
+function autoViewSubComment(){
+	if (socialxe_auto_view_sub != 'Y') return;
+
+	// 대댓글 영역의 위치를 확인
+	jQuery(".socialxe_comment .sub_comment").each(function(){
+		var obj = jQuery(this);
+		var w_obj = jQuery(window);
+
+		// 화면 영역에 있으면 펼친다!
+		if (obj.offset().top < w_obj.scrollTop() + w_obj.height() && obj.offset().top + obj.height() > w_obj.scrollTop()){
+			if (obj.attr('auto_view')) return;
+
+			var comment_srl = this.id.split("_")[2];
+			viewSubComment(socialxe_skin, socialxe_document_srl, comment_srl, socialxe_content_link);
+			obj.attr('auto_view', true);
+		}
+	});
+}
+
 jQuery(window).ready(function($){
 	// exec_xml의 onerror 지정
 	exec_xml.onerror = function(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj){
@@ -260,5 +283,15 @@ jQuery(window).ready(function($){
 	var oValidator = xe.getApp('Validator')[0];
 	if (oValidator){
 		oValidator.registerPlugin(new AlertStub);
+	}
+
+	if (socialxe_auto_view_sub == 'Y'){
+		// 스크롤 이벤트를 등록
+		jQuery(window).bind("scroll", function(event) {
+			autoViewSubComment();
+		});
+
+		// 대댓글 펼치기 초기 수행
+		autoViewSubComment();
 	}
 });
