@@ -29,6 +29,9 @@
 
 	// 현재 화면의 글, 댓글 번호를 수집하여 소셜 전송 정보를 출력해준다.
 	if($called_position == 'before_display_content' && Context::getResponseMethod() == 'HTML'){
+		// 소셜 전송 정보를 출력하지 않게 설정 되어 있는지 확인
+		if($addon_info->is_view_info == 1) return;
+
 		// 댓글
 		$pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
 		unset($matches);
@@ -49,6 +52,9 @@
 		$res = executeQueryArray('addons.socialxe_helper.getSocialxes', $args);
 
 		if ($res->data){
+			// CSS 파일 불러오기
+			Context::addCssFile('./addons/socialxe_helper/css/css.css');
+
 			// 소셜 정보를 가공
 			foreach($res->data as $val){
 				$GLOBALS['social_info'][$val->comment_srl]->provider = $val->provider;
@@ -64,7 +70,7 @@
 							'$oSocialxeModel = &getModel("socialxe");' .
 							'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id, $social_info->social_nick_name);' .
 							'$lang_provider = Context::getLang("provider");' .
-							'return \'<div class="socialxe_helper_info" style="text-align: right;"><a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div>\' . $matches[0];'
+							'return \'<div class="socialxe_helper_info" style="text-align: right;"><a href="\' . $link . \'" target="_blank" class="socialxe_helper \' . $social_info->provider . \'" title="\' . Context::getLang("prefix_social_info") . $lang_provider[$social_info->provider] . \'">\' . $lang_provider[$social_info->provider] . \'</a></div>\' . $matches[0];'
 						), $output);
 
 			// 문서의 소셜 정보 출력
@@ -75,7 +81,7 @@
 							'$oSocialxeModel = &getModel("socialxe");' .
 							'$link = $oSocialxeModel->getAuthorLink($social_info->provider, $social_info->id, $social_info->social_nick_name);' .
 							'$lang_provider = Context::getLang("provider");' .
-							'return \'<div class="socialxe_helper_info" style="text-align: right;"><a href="\' . $link . \'" target="_blank"><img style="vertical-align: middle" src="./addons/socialxe_helper/images/\' . $social_info->provider . \'_small.png" class="iePngFix" alt="\' . $lang_provider[$social_info->provider] . \'" /></a></div>\' . $matches[0];'
+							'return \'<div class="socialxe_helper_info" style="text-align: right;"><a href="\' . $link . \'" target="_blank" class="socialxe_helper \' . $social_info->provider . \'" title="\' . Context::getLang("prefix_social_info") . $lang_provider[$social_info->provider] . \'">\' . $lang_provider[$social_info->provider] . \'</a></div>\' . $matches[0];'
 						), $output);
 		}
 	}

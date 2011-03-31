@@ -98,6 +98,11 @@
 			if (!$enter_send) $enter_send = 'Y';
 			Context::set('enter_send', $enter_send);
 
+			// 대댓글 자동 펼침 여부
+			$auto_view_sub = $args->auto_view_sub;
+			if (!$auto_view_sub) $auto_view_sub = 'N';
+			Context::set('auto_view_sub', $auto_view_sub);
+
 			// 한번에 볼 댓글 개수
 			$list_count = $args->list_count;
 			if (!$list_count) $list_count = 10;

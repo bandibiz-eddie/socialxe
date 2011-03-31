@@ -8,8 +8,8 @@
 	<description xml:lang="en">Display his(or her) current status of SNS sign in.</description>
 	<description xml:lang="jp">今自分のソーシャルログイン状態を出力します。</description>
 	<description xml:lang="zh-TW">顯示目前的社交服務登入狀態。</description>
-	<version>1.0.4</version>
-	<date>2011-03-10</date>
+	<version>1.0.5</version>
+	<date>2011-03-31</date>
 	<license>MIT</license>
 
 	<author email_address="flysky@flysky.kr" link="http://socialxe.net">
