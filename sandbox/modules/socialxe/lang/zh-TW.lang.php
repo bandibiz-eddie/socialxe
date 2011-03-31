@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Traditional Chinese for SocialXE Client Module was translated by royallin <royallin11@gmail.com>.
 	$lang->socialxe = 'SocialXE';
 	$lang->client_token = 'Client Token';
