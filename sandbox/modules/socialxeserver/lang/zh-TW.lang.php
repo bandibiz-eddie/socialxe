@@ -1,5 +1,5 @@
 <?php
-	$lang->socialxeserver = 'SocialXE ¥D¾÷';
+	$lang->socialxeserver = 'SocialXE ä¸»æ©Ÿ';
 	$lang->twitter_consumer_key = 'Twitter Consumer Key';
 	$lang->twitter_consumer_key_secret = 'Twitter Consumer Key Secret';
 	$lang->twitter_access_token = 'Twitter Access Token';
@@ -16,33 +16,33 @@
 	$lang->get_yozm_access_token ='Get Yozm Access Token';
 	$lang->bitly_username = 'bit.ly Username';
 	$lang->bitly_api_key = 'bit.ly API key';
-	$lang->service_id = '¼Ò²Õ¦WºÙ';
-	$lang->empty_client = '©|¥¼µù¥U«È¤áºÝ';
+	$lang->service_id = 'æ¨¡çµ„åç¨±';
+	$lang->empty_client = 'å°šæœªè¨»å†Šå®¢æˆ¶ç«¯';
 
-	$lang->cmd_client_list = '«È¤áºÝ¦Cªí';
-	$lang->cmd_setting = 'Àô¹Ò³]©w';
-	$lang->cmd_delete_checked = '§R°£©Ò¿ï¶µ¥Ø';
-	$lang->cmd_modify_client = '­×§ï«È¤áºÝ¸ê®Æ';
-	$lang->cmd_service_config = '¿ï¾ÜªA°È¼Ò²Õ';
-	$lang->cmd_insert_service_module = '«Ø¥ßªA°È¼Ò²Õ';
-	$lang->cmd_create_client = '«Ø¥ß«È¤áºÝ';
+	$lang->cmd_client_list = 'å®¢æˆ¶ç«¯åˆ—è¡¨';
+	$lang->cmd_setting = 'ç’°å¢ƒè¨­å®š';
+	$lang->cmd_delete_checked = 'åˆªé™¤æ‰€é¸é …ç›®';
+	$lang->cmd_modify_client = 'ä¿®æ”¹å®¢æˆ¶ç«¯è³‡æ–™';
+	$lang->cmd_service_config = 'é¸æ“‡æœå‹™æ¨¡çµ„';
+	$lang->cmd_insert_service_module = 'å»ºç«‹æœå‹™æ¨¡çµ„';
+	$lang->cmd_create_client = 'å»ºç«‹å®¢æˆ¶ç«¯';
 
-	$lang->about_client_domain = '½Ð¿é¤J«È¤áºÝºô°ì¦WºÙ¡A¦h­Óºô°ì¦WºÙ¶¡¥i¥Î³r¸¹(,)°Ï¤À¡C ½Ð¤Å¿é¤J http:// ©Î www¶}ÀYªººô°ì¦WºÙ¡C';
-	$lang->about_insert_service_module = '«È¤áºÝ¥Î¤á¦b«Ø¥ßªA°È¼Ò²Õ«á¡A¥iµù¥U»PÅÜ§ó©ÒÄÝªººô°ì¦WºÙ¡C';
+	$lang->about_client_domain = 'è«‹è¼¸å…¥å®¢æˆ¶ç«¯ç¶²åŸŸåç¨±ï¼Œå¤šå€‹ç¶²åŸŸåç¨±é–“å¯ç”¨é€—è™Ÿ(,)å€åˆ†ã€‚ è«‹å‹¿è¼¸å…¥ http:// æˆ– wwwé–‹é ­çš„ç¶²åŸŸåç¨±ã€‚';
+	$lang->about_insert_service_module = 'å®¢æˆ¶ç«¯ç”¨æˆ¶åœ¨å»ºç«‹æœå‹™æ¨¡çµ„å¾Œï¼Œå¯è¨»å†Šèˆ‡è®Šæ›´æ‰€å±¬çš„ç¶²åŸŸåç¨±ã€‚';
 
-	$lang->msg_invalid_provider = '¤£¥¿½TªºªA°È´£¨ÑªÌ';
-	$lang->msg_old_token = '¤£¥¿½Tªº token ­È';
-	$lang->msg_error_twitter = 'SocialXE ¥D¾÷µLªk»P Twitter³s½u¡C ½Ð­«¾ã­¶­±©Îµy«á¦A¸Õ¡C';
-	$lang->msg_invalid_request_client = '«È¤áºÝ©|¥¼»{ÃÒ¡C';
-	$lang->msg_invalid_request_domain = '¤£¤¹³\³X°Ýªº°ì¦W¡C';
-	$lang->msg_notconnect_me2day = 'SocialXE ¥D¾÷µLªk»P Me2day³s½u¡C ½Ð­«¾ã­¶­±©Îµy«á¦A¸Õ¡C';
-	$lang->msg_error_me2day = 'Me2day API½Ð¨D¿ù»~<br />(%s)';
-	$lang->msg_error_token = 'Token¨ú±o¥¢±Ñ';
-	$lang->msg_error_yozm = 'SocialXE ¥D¾÷µLªk»P Yozm³s½u¡C ½Ð­«¾ã­¶­±©Îµy«á¦A¸Õ¡C';
-	$lang->msg_error_yozm_not_joined = '¨Ã«D Yozm¥Î¤á¡C';
-	$lang->msg_exsist_domain = '¤wµù¥Uªººô°ì¦WºÙ¡C';
-	$lang->msg_check_input_domain = '½Ð¿é¤J¥¿½Tªººô°ì¦WºÙ¡C';
-	$lang->msg_check_support = 'SocialXEµLªk¦b¥Ø«eªº¦w¸ËÀô¹Ò¤¤¨Ï¥Î¡C ½Ð½T»{¦w¸ËÀô¹Ò¡C';
+	$lang->msg_invalid_provider = 'ä¸æ­£ç¢ºçš„æœå‹™æä¾›è€…';
+	$lang->msg_old_token = 'ä¸æ­£ç¢ºçš„ token å€¼';
+	$lang->msg_error_twitter = 'SocialXE ä¸»æ©Ÿç„¡æ³•èˆ‡ Twitteré€£ç·šã€‚ è«‹é‡æ•´é é¢æˆ–ç¨å¾Œå†è©¦ã€‚';
+	$lang->msg_invalid_request_client = 'å®¢æˆ¶ç«¯å°šæœªèªè­‰ã€‚';
+	$lang->msg_invalid_request_domain = 'ä¸å…è¨±è¨ªå•çš„åŸŸåã€‚';
+	$lang->msg_notconnect_me2day = 'SocialXE ä¸»æ©Ÿç„¡æ³•èˆ‡ Me2dayé€£ç·šã€‚ è«‹é‡æ•´é é¢æˆ–ç¨å¾Œå†è©¦ã€‚';
+	$lang->msg_error_me2day = 'Me2day APIè«‹æ±‚éŒ¯èª¤<br />(%s)';
+	$lang->msg_error_token = 'Tokenå–å¾—å¤±æ•—';
+	$lang->msg_error_yozm = 'SocialXE ä¸»æ©Ÿç„¡æ³•èˆ‡ Yozmé€£ç·šã€‚ è«‹é‡æ•´é é¢æˆ–ç¨å¾Œå†è©¦ã€‚';
+	$lang->msg_error_yozm_not_joined = 'ä¸¦éž Yozmç”¨æˆ¶ã€‚';
+	$lang->msg_exsist_domain = 'å·²è¨»å†Šçš„ç¶²åŸŸåç¨±ã€‚';
+	$lang->msg_check_input_domain = 'è«‹è¼¸å…¥æ­£ç¢ºçš„ç¶²åŸŸåç¨±ã€‚';
+	$lang->msg_check_support = 'SocialXEç„¡æ³•åœ¨ç›®å‰çš„å®‰è£ç’°å¢ƒä¸­ä½¿ç”¨ã€‚ è«‹ç¢ºèªå®‰è£ç’°å¢ƒã€‚';
 
 	$lang->provider['twitter'] = 'Twitter';
 	$lang->provider['me2day'] = 'Me2day';
