@@ -258,7 +258,7 @@ function autoViewSubComment(){
 	if (socialxe_auto_login_key != 'Y') return;
 
 	// 대댓글 영역의 위치를 확인
-	jQuery(".socialxe_comment .socialxe_sub_comment").each(function(){
+	jQuery(".socialxe_comment .socialxe_write_comment").each(function(){
 		var obj = jQuery(this);
 		var w_obj = jQuery(window);
 
@@ -266,7 +266,7 @@ function autoViewSubComment(){
 		if (obj.offset().top < w_obj.scrollTop() + w_obj.height() && obj.offset().top + obj.height() > w_obj.scrollTop()){
 			if (obj.attr('auto_view')) return;
 
-			var comment_srl = this.id.split("_")[2];
+			var comment_srl = this.id.split("_")[3];
 			viewSubComment(socialxe_skin, socialxe_document_srl, comment_srl, socialxe_content_link);
 			obj.attr('auto_view', true);
 		}
