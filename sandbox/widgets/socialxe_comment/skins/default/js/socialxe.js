@@ -108,8 +108,8 @@ function replaceComment(skin, document_srl, list_count, content_link){
 function moreList(ret_obj){
 	if (!ret_obj['output']) return;
 
-	jQuery('.socialxe_comment .comment_list .more').remove();
-	jQuery('.socialxe_comment .comment_list').append(ret_obj['output']);
+	jQuery('.socialxe_comment .socialxe_comment_list .socialxe_more').remove();
+	jQuery('.socialxe_comment .socialxe_comment_list').append(ret_obj['output']);
 
 	// 오토링크
 	runAutoLink();
@@ -258,7 +258,7 @@ function autoViewSubComment(){
 	if (socialxe_auto_login_key != 'Y') return;
 
 	// 대댓글 영역의 위치를 확인
-	jQuery(".socialxe_comment .sub_comment").each(function(){
+	jQuery(".socialxe_comment .socialxe_sub_comment").each(function(){
 		var obj = jQuery(this);
 		var w_obj = jQuery(window);
 

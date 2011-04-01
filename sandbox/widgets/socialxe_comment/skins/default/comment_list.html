@@ -1,5 +1,5 @@
 <!--@if ($total)-->
-<div class="info">Total : {$total}</div>
+<div class="socialxe_info">Total : {$total}</div>
 <!--@end-->
 
 <ul>
@@ -8,7 +8,7 @@
 {@$c++}
 <li id="social_comment_{$oComment->get('comment_srl')}">
 	<a name="comment_{$oComment->get('comment_srl')}"></a>
-	<div class="profile_image">
+	<div class="socialxe_profile_image">
 		<!--@if ($oComment->get('link'))-->
 			<a href="{$oComment->get('link')}" target="_blank">
 		<!--@end-->
@@ -24,7 +24,7 @@
 		<!--@end-->
 	</div>
 	<div class="socialxe_right">
-		<div class="name">
+		<div class="socialxe_name">
 			<!--@if ($oComment->get('member_srl') || !$oComment->get('provider'))-->
 				<img src="./images/xe_small.png" alt="XE" class="iePngFix"/>
 				<a href="#popup_menu_area" class="member_{$oComment->get('member_srl')}" onclick="return false">{$oComment->getNickName()}</a>
@@ -43,18 +43,18 @@
 				)
 			<!--@end-->
 		</div>
-		<div class="content">{$oComment->getContent(false)}</div>
-		<div class="date">{getTimeGap($oComment->get('regdate'), "Y.m.d H:i:s")}</div>
-		<div class="command">
+		<div class="socialxe_content">{$oComment->getContent(false)}</div>
+		<div class="socialxe_date">{getTimeGap($oComment->get('regdate'), "Y.m.d H:i:s")}</div>
+		<div class="socialxe_command">
 			<!--@if($oComment->isGranted())-->
 				<a href="#" onclick="deleteSocialComment({$oComment->get('comment_srl')}); return false;" style="cursor: pointer">{$lang->cmd_delete}</a>,
 			<!--@end-->
 
-			<a href="#" id="socialxe_write_comment_{$oComment->get('comment_srl')}" class="write_comment" onclick="viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}'); return false;">
+			<a href="#" id="socialxe_write_comment_{$oComment->get('comment_srl')}" class="socialxe_write_comment" onclick="viewSubComment('{$skin}', {$document_srl}, {$oComment->get('comment_srl')}, '{$content_link}'); return false;">
 				{$lang->comment} {$oComment->get('sub_comment_count')}
 			</a>
 		</div>
-		<div id="socialxe_comment_{$oComment->get('comment_srl')}" class="sub_comment"></div>
+		<div id="socialxe_comment_{$oComment->get('comment_srl')}" class="socialxe_sub_comment"></div>
 		<!--@if ($use_comment_srl && $auto_login_key)-->
 			<script type="text/javascript">
 			<!--
@@ -68,8 +68,8 @@
 <!--@end-->
 </ul>
 <!--@if ($c && $c == $list_count)-->
-	<div class="more" onclick="moreComment('{$skin}', {$document_srl}, {$last_comment_srl}, {$list_count}, '{$content_link}');">{$lang->more}</div>
+	<div class="socialxe_more" onclick="moreComment('{$skin}', {$document_srl}, {$last_comment_srl}, {$list_count}, '{$content_link}');">{$lang->more}</div>
 <!--@end-->
 <!--@if ($use_comment_srl)-->
-	<div class="more" onclick="replaceComment('{$skin}', {$document_srl}, {$list_count}, '{$content_link}');">{$lang->viewComment}</div>
+	<div class="socialxe_more" onclick="replaceComment('{$skin}', {$document_srl}, {$list_count}, '{$content_link}');">{$lang->viewComment}</div>
 <!--@end-->
