@@ -51,7 +51,7 @@
 .socialxe_comment .socialxe_content_input fieldset { margin: 0; padding: 0; }
 
 .socialxe_comment .socialxe_comment_list { padding: 0 10px; margin-bottom: 10px; }
-.socialxe_comment .socialxe_comment_list .socialxe_info { margin-top: 10px; font-size: 9pt; }
+.socialxe_comment .socialxe_comment_list .socialxe_comment_info { margin-top: 10px; font-size: 9pt; }
 .socialxe_comment .socialxe_comment_list li { display: block; padding: 15px 0; border-bottom: 1px solid #efefef; }
 .socialxe_comment .socialxe_comment_list .socialxe_profile_image { float: left; clear: left; width: 48px; height: 48px; background: white; border: 1px #ccc double; padding: 2px; }
 .socialxe_comment .socialxe_comment_list .socialxe_profile_image img { margin:0; padding: 0; width: 48px; height: 48px; border: 0;}
