@@ -6,7 +6,7 @@
 {@$c = 0}
 <!--@foreach($comment_list as $oComment)-->
 {@$c++}
-<li id="social_comment_{$oComment->get('comment_srl')}">
+<li id="social_comment_{$oComment->get('comment_srl')}" class="socialxe_comment_item">
 	<a name="comment_{$oComment->get('comment_srl')}"></a>
 	<div class="socialxe_profile_image">
 		<!--@if ($oComment->get('link'))-->
