@@ -25,7 +25,7 @@
 			// Get rid of scrollbars and disable WebKit resizing:
 			var textarea = $(this).css({resize:'none','overflow-y':'hidden'}),
 
-			lienHeight = parseInt(textarea.css('line-height'), 10) || parseInt(textarea.css('font-size'), 10),
+			lineHeight = parseInt(textarea.css('line-height'), 10) || parseInt(textarea.css('font-size'), 10),
 
 			// Cache original height, for use later:
 			origHeight = textarea.height(),
@@ -61,7 +61,7 @@
 				var scrollTop = Math.max(clone.scrollTop(), origHeight),
 					toChange = $(this).add(clone);
 
-				if (scrollTop > origHeight) scrollTop += lienHeight + 3;
+				if (scrollTop >= origHeight + lineHeight) scrollTop += lineHeight + 5;
 
 				// Don't do anything if scrollTip hasen't changed:
 				if (lastScrollTop === scrollTop) { return; }
