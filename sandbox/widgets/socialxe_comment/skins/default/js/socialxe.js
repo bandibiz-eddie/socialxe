@@ -296,8 +296,11 @@ function runAutoSize(){
 
 	obj.each(function(){
 		var this_obj = jQuery(this);
-		if (!this_obj.attr("resizable")){
-			this_obj.elastic();
+		if (!this_obj.attr("resizable") && !this_obj.attr("dummy")){
+			this_obj.autoResize({
+				animateDuration : 200,
+				limit : 250
+			});
 			this_obj.attr("resizable", true);
 		}
 	});
@@ -342,7 +345,7 @@ jQuery(window).ready(function($){
 	runAutoSize();
 
 	// 댓글 입력창의 내용을 기억
-	jQuery("#socialxe_main_content").bind("keydown", function(){
+	jQuery("#socialxe_main_content").bind("keydown keyup change", function(){
 		jQuery.cookie("socialxe_content", jQuery(this).val());
 	});
 

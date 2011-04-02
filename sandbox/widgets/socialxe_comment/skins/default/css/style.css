@@ -47,7 +47,7 @@
 .socialxe_comment .socialxe_profile_image img { margin:0; padding: 0; width: 48px; height: 48px; border: 0;}
 
 .socialxe_comment .socialxe_content_input { position: relative; margin-left: 60px; border: 1px #ccc solid; padding: 2px; background: white;}
-.socialxe_comment .socialxe_content_input textarea { margin: 0; padding: 0; border: 0; min-height: 48px; width: 100%; resize: none; outline-style: none; overflow: auto;}
+.socialxe_comment .socialxe_content_input textarea { display:block; margin: 0; padding: 0; border: 0; height: 48px; max-height: 300px; width: 100%; resize: none; outline-style: none; overflow: auto;}
 .socialxe_comment .socialxe_content_input fieldset { margin: 0; padding: 0; }
 
 .socialxe_comment .socialxe_comment_list { padding: 0 10px; margin-bottom: 10px; }
@@ -76,7 +76,7 @@
 .socialxe_comment .socialxe_sub_comment .socialxe_content { padding-top: 5px; }
 
 .socialxe_comment .socialxe_sub_comment_input { position: relative; margin: 5px 0; }
-.socialxe_comment .socialxe_sub_comment_input textarea { margin: 0; padding: 0; border: 0; width: 100%; resize: none; outline-style: none; overflow: auto;}
+.socialxe_comment .socialxe_sub_comment_input textarea { display:block; margin: 0; padding: 0; border: 0; width: 100%; height: 1.2em; resize: none; outline-style: none; overflow: auto;}
 .socialxe_comment .socialxe_sub_comment_input fieldset { margin: 0; padding: 0; }
 .socialxe_comment .socialxe_sub_comment_input .socialxe_left { margin-right: 80px; border: 1px #ccc solid; padding: 2px; }
 .socialxe_comment .socialxe_sub_comment_input .socialxe_right { margin: 0; position: absolute; top: 0; right: 5px; }
