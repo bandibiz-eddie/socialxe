@@ -297,7 +297,7 @@ function runAutoSize(){
 	obj.each(function(){
 		var this_obj = jQuery(this);
 		if (!this_obj.attr("resizable")){
-			this_obj.autoResizeTextAreaQ({"extra_rows":0});
+			this_obj.elastic();
 			this_obj.attr("resizable", true);
 		}
 	});
@@ -347,5 +347,5 @@ jQuery(window).ready(function($){
 	});
 
 	// 댓글 입력창 내용을 복원
-	restoreContent();
+	//restoreContent();
 });
