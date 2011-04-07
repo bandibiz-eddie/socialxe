@@ -35,7 +35,10 @@ function providerLogout(provider, skin){
 function replaceInput(ret_obj){
 	if (!ret_obj['output']) return;
 
-	jQuery('.socialxe_comment .comment_input').html(ret_obj['output']);
+	jQuery('.socialxe_comment .socialxe_comment_input').html(ret_obj['output']);
+
+	// 댓글 입력창 내용을 복원
+	restoreContent();
 
 	var params = new Array();
 	params['skin'] = socialxe_skin;
@@ -55,7 +58,8 @@ function completeInsertSocialComment(ret_obj){
 		alert(ret_obj['msg']);
 	}
 
-	jQuery('.socialxe_comment .content_input textarea').val('');
+	jQuery('.socialxe_comment .socialxe_content_input textarea').val('');
+	jQuery.cookie("socialxe_content", "");
 
 	var params = new Array();
 	params['skin'] = ret_obj['skin'];
@@ -70,7 +74,7 @@ function completeInsertSocialComment(ret_obj){
 function replaceList(ret_obj){
 	if (!ret_obj['output']) return;
 
-	jQuery('.socialxe_comment .comment_list').html(ret_obj['output']);
+	jQuery('.socialxe_comment .socialxe_comment_list').html(ret_obj['output']);
 
 	// 오토링크
 	runAutoLink();
@@ -108,8 +112,8 @@ function replaceComment(skin, document_srl, list_count, content_link){
 function moreList(ret_obj){
 	if (!ret_obj['output']) return;
 
-	jQuery('.socialxe_comment .comment_list .more').remove();
-	jQuery('.socialxe_comment .comment_list').append(ret_obj['output']);
+	jQuery('.socialxe_comment .socialxe_comment_list .socialxe_more').remove();
+	jQuery('.socialxe_comment .socialxe_comment_list').append(ret_obj['output']);
 
 	// 오토링크
 	runAutoLink();
@@ -150,6 +154,12 @@ function _viewSubComment(ret_obj){
 
 	// 오토링크
 	runAutoLink();
+
+	// textarea auto resize
+	runAutoSize();
+
+	// 엔터 입력
+	enterSend();
 }
 
 // 대댓글 삽입 후
@@ -182,12 +192,12 @@ function changeMaster(provider, skin){
 
 // 대댓글의 댓글 쓰기
 function writeSubSubComment(obj, reply_prefix){
-	var input = jQuery(obj).parents(".sub_comment").find('input[name="content"]');
+	var input = jQuery(obj).parents(".socialxe_sub_comment").find('textarea[name="content"]');
+
+	input.focus();
 
 	if (reply_prefix != '')
 		input.val(reply_prefix + ' ' + input.val());
-
-	input.focus();
 }
 
 // 자동 로그인 키 얻기
@@ -244,11 +254,18 @@ function runAutoLink(){
 function enterSend(){
 	if (socialxe_enter_send != 'Y') return;
 
-	jQuery(".socialxe_comment textarea[name='content']").bind('keypress', function(e){
-		if (e.keyCode != 13) return true;
+	var objs = jQuery(".socialxe_comment textarea[name='content']");
+	objs.each(function(){
+		var obj = jQuery(this);
+		if (!obj.attr("bind_enter")){
+			obj.bind('keypress', function(e){
+				if (e.keyCode != 13) return true;
 
-		jQuery(this).parents('form').submit();
-		return false;
+				obj.parents('form').submit();
+				return false;
+			});
+			obj.attr("bind_enter", true);
+		}
 	});
 }
 
@@ -258,7 +275,7 @@ function autoViewSubComment(){
 	if (socialxe_auto_login_key != 'Y') return;
 
 	// 대댓글 영역의 위치를 확인
-	jQuery(".socialxe_comment .sub_comment").each(function(){
+	jQuery(".socialxe_comment .socialxe_comment_item").each(function(){
 		var obj = jQuery(this);
 		var w_obj = jQuery(window);
 
@@ -271,6 +288,27 @@ function autoViewSubComment(){
 			obj.attr('auto_view', true);
 		}
 	});
+}
+
+// textarea 크기 적용
+function runAutoSize(){
+	var obj = jQuery(".socialxe_resizable");
+
+	obj.each(function(){
+		var this_obj = jQuery(this);
+		if (!this_obj.attr("resizable") && !this_obj.attr("dummy")){
+			this_obj.autoResize({
+				animateDuration : 200,
+				limit : 250
+			});
+			this_obj.attr("resizable", true);
+		}
+	});
+}
+
+// 댓글 입력창의 내용을 복원
+function restoreContent(){
+	jQuery("#socialxe_main_content").val(jQuery.cookie("socialxe_content"));
 }
 
 jQuery(window).ready(function($){
@@ -302,4 +340,15 @@ jQuery(window).ready(function($){
 		// 대댓글 펼치기 초기 수행
 		autoViewSubComment();
 	}
+
+	// textarea auto resize
+	runAutoSize();
+
+	// 댓글 입력창의 내용을 기억
+	jQuery("#socialxe_main_content").bind("keydown keyup change", function(){
+		jQuery.cookie("socialxe_content", jQuery(this).val());
+	});
+
+	// 댓글 입력창 내용을 복원
+	//restoreContent();
 });

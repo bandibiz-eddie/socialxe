@@ -3,6 +3,7 @@
 	<grants>
 		<grant name="register" default="member">
 			<title xml:lang="ko">클라이언트 등록</title>
+			<title xml:lang="zh-TW">客戶端註冊</title>
 		</grant>
 	</grants>
 	<permissions>

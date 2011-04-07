@@ -1,4 +1,4 @@
-<fieldset class="service">
+<fieldset class="socialxe_service">
 <legend>{$lang->my_social_info}</legend>
 	<ul>
 		<!--@foreach($provider_list as $provider)-->
@@ -23,7 +23,7 @@
 		</li>
 		<!--@end-->
 	</ul>
-	<div class="command">
+	<div class="socialxe_command">
 		<!--@if($logged_info)-->
 		<a href="#" onclick="resetInfo('{$skin}'); return false;" class="button socialxe_info_button"><span>{$lang->cmd_reset_info}</span></a>
 		<!--@end-->
@@ -31,7 +31,7 @@
 </fieldset>
 
 <!--@if($nick_name)-->
-<div class="name">
+<div class="socialxe_name">
 	<span>
 	<img width="15" height="15" src="./images/{$master_provider}_small.png" alt="{$lang->provider[$master_provider]}" class="iePngFix"/> {$nick_name}
 	<!--@if($slave_provider)-->
@@ -41,10 +41,10 @@
 		{@$logged_count-=1;}
 	<!--@end-->
 	<!--@if($logged_count > 1)-->
-		<a href="#" onclick="return false;" class="master_change_info">
+		<a href="#" onclick="return false;" class="socialxe_master_change_info">
 		{$lang->cmd_master}
 		</a>
-		<span class="master_change_list_info">
+		<span class="socialxe_master_change_list_info">
 			<!--@foreach($logged_provider as $provider)--><!--@if($provider!='xe')-->
 			<a href="#" onclick="changeInfoMaster('{$provider}', '{$skin}'); return false;" style="cursor:pointer;">{$lang->provider[$provider]}</a>
 			<!--@end--><!--@end-->
@@ -52,11 +52,11 @@
 		<script type="text/javascript">
 		<!--
 			// 대표 계정 리스트 숨기기
-			jQuery(".master_change_list_info").hide();
+			jQuery(".socialxe_master_change_list_info").hide();
 
 			// 대표 계정 변경 누르면 리스트 토글
-			jQuery(".master_change_info").bind("click", function(e){
-				jQuery(".master_change_list_info").toggle();
+			jQuery(".socialxe_master_change_info").bind("click", function(e){
+				jQuery(".socialxe_master_change_list_info").toggle();
 				return false;
 			});
 		-->
@@ -67,7 +67,7 @@
 <!--@end-->
 
 
-<div class="poweredby">
+<div class="socialxe_poweredby">
 	<a href="http://socialxe.net/" target="_blank"><img src="./images/poweredby.png" alt="powered by SocialXE" class="iePngFix"/></a>
 </div>
 

@@ -8,6 +8,8 @@
 
 <!--%import("css/style.css")-->
 <!--%import("css/pagination.css")-->
+<!--%import("js/jquery.cookie.js")-->
+<!--%import("js/autoresize.jquery.js")-->
 <!--%import("js/socialxe.js")-->
 <!--@if($colorset == "black")-->
 	<!--%import("css/style.black.css")-->
@@ -38,14 +40,14 @@
 		<input type="hidden" name="list_count" value="{$list_count}" />
 		<input type="hidden" name="content_title" value="{$content_title}" />
 
-		<div class="comment_input">
+		<div class="socialxe_comment_input">
 			<!--#include("comment_input.html")-->
 		</div>
 
 		</form>
 	<!--@end-->
 
-	<div class="comment_list">
+	<div class="socialxe_comment_list">
 		<!--#include("comment_list.html")-->
 	</div>
 </div>
