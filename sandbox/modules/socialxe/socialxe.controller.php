@@ -720,11 +720,6 @@
 			// 즉, 글의 module_srl과 obj의 module_srl이 같으면 글 수정이므로 더 이상 진행하지 않는다.
 			if ($oDocument->get('module_srl') == $obj->module_srl) return new Object();
 
-			// 현재 모듈이 소셜 통합 기능 사용 중인지 확인한다.
-			$oSocialxeModel = &getModel('socialxe');
-			$config = $oSocialxeModel->getModulePartConfig($oDocument->get('module_srl'));
-			if ($config->use_social_info != Y) return new Object();
-
 			// 글 업데이트 후 트리거에서 실행하도록 글로벌 변수를 하나 설정한다.
 			$GLOBALS['socialxe_update_document_flag'] = true;
 
@@ -735,6 +730,11 @@
 		function triggerAfterUpdateDocument(&$obj){
 			// 플래그 설정되었는지 확인
 			if (!$GLOBALS['socialxe_update_document_flag']) return new Object();
+
+			// 현재 모듈이 소셜 통합 기능 사용 중인지 확인한다.
+			$oSocialxeModel = &getModel('socialxe');
+			$config = $oSocialxeModel->getModulePartConfig($obj->module_srl);
+			if ($config->use_social_info != Y) return new Object();
 
 			// 비밀글인지 확인
 			if ($obj->is_secret == 'Y') return new Object();
