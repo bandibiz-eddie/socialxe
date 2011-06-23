@@ -17,6 +17,9 @@ function providerLogin(url, skin){
 function completeSocialxeLogin(skin){
 	var params = new Array();
 	params['skin'] = skin;
+	params['_vid'] = current_url.getQuery('vid');
+	params['_mid'] = current_url.getQuery('mid');
+	params['_document_srl'] = current_url.getQuery('document_srl');
 	var response_tags = new Array('error','message','output');
 	exec_xml('socialxe', 'procCompileInput', params, replaceInput, response_tags);
 }

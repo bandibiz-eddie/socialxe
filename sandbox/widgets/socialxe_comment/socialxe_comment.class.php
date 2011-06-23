@@ -209,6 +209,11 @@
 			if (!$enter_send) $enter_send = 'Y';
 			Context::set('enter_send', $enter_send);
 
+			// vid, mid, document_srl을 복원
+			Context::set('vid', Context::get('_vid'));
+			Context::set('mid', Context::get('_mid'));
+			Context::set('document_srl', Context::get('_document_srl'));
+
 			// 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
 			$tpl_path = sprintf('%sskins/%s', $this->widget_path, $skin);
 			Context::set('skin', $skin);
