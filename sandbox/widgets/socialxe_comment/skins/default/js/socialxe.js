@@ -295,17 +295,19 @@ function autoViewSubComment(){
 
 // textarea 크기 적용
 function runAutoSize(){
-	var obj = jQuery(".socialxe_resizable");
+	jQuery(document).ready(function(){
+		var obj = jQuery(".socialxe_resizable");
 
-	obj.each(function(){
-		var this_obj = jQuery(this);
-		if (!this_obj.attr("resizable") && !this_obj.attr("dummy")){
-			this_obj.autoResize({
-				animateDuration : 200,
-				limit : 250
-			});
-			this_obj.attr("resizable", true);
-		}
+		obj.each(function(){
+			var this_obj = jQuery(this);
+			if (!this_obj.attr("resizable") && !this_obj.attr("dummy")){
+				this_obj.autoResize({
+					animateDuration : 200,
+					limit : 250
+				});
+				this_obj.attr("resizable", true);
+			}
+		});
 	});
 }
 
